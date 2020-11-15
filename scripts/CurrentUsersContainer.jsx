@@ -4,12 +4,12 @@ import CurrentUser from './CurrentUser';
 
 export default function CurrentUsersContainer() {
     const [currentUsers, setCurrentUsers] = React.useState([]);
-    const [currentConnectionStatus, setCurrentConnectionStatus] = React.useState([])
 
     function updateUsersHistory(data) {
-        console.log(data["all_current_user_names"])
-        setCurrentUsers(data["all_current_user_names"])
-        setCurrentConnectionStatus(data["all_current_user_connection_status"])
+        setCurrentUsers(currentUsers => [...currentUsers, {
+            "name": data["name"],
+            "connectionStatus": data["connection_status"]
+        }])
     }
 
     function getUsersHistory() {
@@ -26,7 +26,7 @@ export default function CurrentUsersContainer() {
     return (
         <div>
             { currentUsers.map((currentUser, index) => (
-               <CurrentUser key={index} name={currentUsers[index]} connectionStatus={currentConnectionStatus[index]}/>
+               <CurrentUser key={index} name={currentUser.name} connectionStatus={currentUser.connectionStatus}/>
             ))}
         </div>
     )

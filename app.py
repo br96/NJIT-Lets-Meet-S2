@@ -48,18 +48,24 @@ def emit_all_events(channel):
     })
 
 def emit_all_current_users(channel):
-    all_current_user_names = [db_users.name for db_users in db.session.query(models.CurrentUsers).all()]
-    all_current_user_connection_status = [db_users.connection_status for db_users in db.session.query(models.CurrentUsers).all()]
+    # all_current_user_names = [db_users.name for db_users in db.session.query(models.CurrentUsers).all()]
+    # all_current_user_connection_status = [db_users.connection_status for db_users in db.session.query(models.CurrentUsers).all()]
 
-    socketio.emit(channel, {
-        "all_current_user_names": all_current_user_names,
-        "all_current_user_connection_status": all_current_user_connection_status
-    })
+    for db_user in db.session.query(models.CurrentUsers).all():
+        socketio.emit(channel, {
+            # "all_current_user_names": all_current_user_names,
+            # "all_current_user_connection_status": all_current_user_connection_status
+            "name": db_user.name,
+            "connection_status": db_user.connection_status
+        })
 
-    print(channel)
 
 @app.route('/')
 def index():
+    return flask.render_template('index.html')
+
+@app.route('/home')
+def home():
     return flask.render_template('index.html')
 
 @socketio.on('connect')
