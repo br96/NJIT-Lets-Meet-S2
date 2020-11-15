@@ -58,7 +58,7 @@ def emit_all_current_users(channel):
 
     print(channel)
 
-@app.route('/home')
+@app.route('/')
 def index():
     return flask.render_template('index.html')
 
@@ -96,6 +96,7 @@ def on_google_login(data):
     idinfo = None
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
+    emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
     try:
         idinfo = id_token.verify_oauth2_token(token, google_resquests.Request(), CLIENT_ID)
@@ -135,6 +136,7 @@ def create_event(data):
     db.session.commit()
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
+    emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
 if __name__ == '__main__':
     socketio.run(
