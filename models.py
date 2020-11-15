@@ -31,6 +31,18 @@ class User(db.Model):
         self.bio = bio
         self.profile_picture = profile_picture
 
+class CurrentUsers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128))
+    email = db.Column(db.String(1000))
+    client_socket_id = db.Column(db.String(128))
+    connection_status = db.Column(db.String(7))
+
+    def __init__(self, name, email, client_socket_id, connection_status):
+        self.name = name
+        self.email = email
+        self.client_socket_id = client_socket_id
+        self.connection_status = connection_status
 
 db.create_all()
 db.session.commit()

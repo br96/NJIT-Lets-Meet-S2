@@ -6,6 +6,7 @@ import { ProfileOverlay } from './ProfilePage/ProfileOverlay';
 import NavBar from './NavBar';
 import './App.css';
 import Landing from "./Landing"
+import CurrentUsersContainer from './CurrentUsersContainer';
 
 export function Content() {
   const [showProfile, setShowProfile] = React.useState(false);
@@ -19,6 +20,9 @@ export function Content() {
       <NavBar />
       <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
       {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
+      <div className="currentUsers">
+        <CurrentUsersContainer />
+      </div>
       <div className="event-content-container">
         <EventHistory />
         <EventForm />

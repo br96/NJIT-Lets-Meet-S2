@@ -11,12 +11,6 @@ export default function EventForm() {
   let oauthName = '';
 
   function sendNewEvent(e) {
-    console.log('Sending new event');
-    console.log(eventTypeReference.current.value);
-    console.log(locationReference.current.value);
-    console.log(timeReference.current.value);
-    console.log(descriptionReference.current.value);
-
     Socket.emit('sending new event', {
       owner: oauthName,
       title: titleReference.current.value,
@@ -25,14 +19,11 @@ export default function EventForm() {
       time: timeReference.current.value,
       description: descriptionReference.current.value,
     });
-
-    console.log('Sent new event');
     e.preventDefault();
   }
 
   React.useEffect(() => {
     Socket.on(Socket.id, (data) => {
-      console.log(data.name);
       oauthName = data.name;
     });
   });

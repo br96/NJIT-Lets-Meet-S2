@@ -41,7 +41,6 @@ export default function Login({ userID }) {
       );
     });
   }, []);
-
   return (
     <div className="google-login-page">
       <div className="login-page-upper">
@@ -56,7 +55,7 @@ export default function Login({ userID }) {
             onSuccess={onSuccess}
             cookiePolicy="single_host_origin"
             isSignedIn
-            hostedDomain="njit.edu"
+            // hostedDomain="njit.edu"
           />
         </div>
       </div>

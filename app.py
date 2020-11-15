@@ -8,6 +8,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_resquests
 
 EVENTS_RECEIVED_CHANNEL = "emit all events"
+USERS_RECEIVED_CHANNEL = "emit all users"
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -46,18 +47,47 @@ def emit_all_events(channel):
         "all_event_descriptions": all_event_descriptions
     })
 
-@app.route('/')
+def emit_all_current_users(channel):
+    all_current_user_names = [db_users.name for db_users in db.session.query(models.CurrentUsers).all()]
+    all_current_user_connection_status = [db_users.connection_status for db_users in db.session.query(models.CurrentUsers).all()]
+
+    socketio.emit(channel, {
+        "all_current_user_names": all_current_user_names,
+        "all_current_user_connection_status": all_current_user_connection_status
+    })
+
+    print(channel)
+
+@app.route('/home')
 def index():
     return flask.render_template('index.html')
 
 @socketio.on('connect')
 def on_connect():
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
+    emit_all_current_users(USERS_RECEIVED_CHANNEL)
+
+@socketio.on("disconnect")
+def delete_user():
+    print("DISCONNECTED: " + str(flask.request.sid))
+    db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).update({"connection_status": "offline"})
+    db.session.commit()
 
 @socketio.on("oauth to server")
 def connect_user_id(data):
+    if (db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.email == data["email"]).first()) is not None:
+        check_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.email == data["email"]).first()[0]
+        print(check_email)
+        db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == data["email"]).update({"connection_status": "online"})
+        db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == data["email"]).update({"client_socket_id": flask.request.sid})
+        db.session.commit()
+
+    else:
+        db.session.add(models.CurrentUsers(data["name"], data["email"], data["socketID"], "online"))
+        db.session.commit()
+
     socketio.emit(data["socketID"], {
-        "name": data["name"]})
+            "name": data["name"]})
 
 @socketio.on('google login')
 def on_google_login(data):

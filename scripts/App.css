@@ -269,3 +269,35 @@
     text-align: center;
     color: var(--njit-white);
 }
+
+.current-user-display {
+    display: flex;
+    width: 180px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background-color: black;
+    color: white;
+    transition-duration: .25s;
+}
+
+.current-user-display:hover {
+    background-color: gray;
+    transition-duration: .25s;
+}
+
+#online {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: lime;
+    box-shadow: 0 0 2px lime;
+}
+
+#offline {
+    background-color: red;
+    box-shadow: 0 0 3px orangered;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
