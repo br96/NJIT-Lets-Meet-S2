@@ -76,6 +76,7 @@ def delete_user():
     print("DISCONNECTED: " + str(flask.request.sid))
     db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).update({"connection_status": "offline"})
     db.session.commit()
+    emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
 @socketio.on("oauth to server")
 def connect_user_id(data):

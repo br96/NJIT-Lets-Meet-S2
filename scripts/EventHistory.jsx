@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Socket } from './Socket';
 import EventSession from './EventSession';
+import Login from "./Login";
 
 export default function EventHistory() {
   const [eventOwners, setEventOwners] = React.useState([]);
@@ -30,6 +31,9 @@ export default function EventHistory() {
 
   return (
     <div className="event-history-container">
+      <div className="hidden">
+        <Login />
+      </div>
       { eventTypes.map((eventType, index) => (
         <EventSession
           key={index}
