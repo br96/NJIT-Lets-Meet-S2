@@ -174,6 +174,20 @@ def filter_events(data):
 
     print("sending filtered events to " + str(flask.request.sid))
 
+@socketio.on("retrieve user info")
+def get_info(data):
+    print(data)
+    name = db.session.query(models.User.name).filter(models.User.name == data).first()[0]
+    email = db.session.query(models.User.email).filter(models.User.name == data).first()[0]
+    picture = db.session.query(models.User.profile_picture).filter(models.User.name == data).first()[0]
+    bio = db.session.query(models.User.bio).filter(models.User.name == data).first()[0]
+
+    socketio.emit(flask.request.sid, {
+        "name": name,
+        "email": email,
+        "picture": picture,
+        "bio": bio
+    })
 
 if __name__ == '__main__':
     socketio.run(

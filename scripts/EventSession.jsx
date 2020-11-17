@@ -1,11 +1,16 @@
 import * as React from 'react';
+import { Socket } from './Socket';
 import ExpandedEvent from './ExpandedEvent';
+import ProfileBR from './ProfileBR';
 
 export default function EventSession({
   // eslint-disable-next-line react/prop-types
   owner, title, type, location, time, description,
 }) {
   const [toggle, setToggle] = React.useState(false);
+  const [userClicked, setUserClicked] = React.useState(false);
+
+  const [userInfo, setUserInfo] = React.useState({});
 
   function toggleExpandedEvent() {
     if (toggle) {
@@ -15,26 +20,41 @@ export default function EventSession({
     }
   }
 
-  function toggleKeyDownExpandedEvent(e) {
-    if (e.keyCode === 221) {
-      if (toggle) {
-        setToggle(false);
-      } else {
-        setToggle(true);
-      }
+  function toggleUserClicked(e) {
+    if (userClicked) {
+      setUserClicked(false);
+    } else {
+      setUserClicked(true);
+      Socket.emit("retrieve user info", e.target.innerHTML);
+      getUserInfo();
     }
+  }
+
+  function updateUserInfo(data) {
+    setUserInfo({
+      "name": data["name"],
+      "email": data["email"],
+      "picture": data["picture"],
+      "bio": data["bio"]
+    });
+    console.log(data);
+  }
+
+  function getUserInfo() {
+    Socket.on(Socket.id, updateUserInfo);
+    return () => {
+      Socket.off(Socket.id, updateUserInfo);
+    };
   }
 
   return (
     <div className="event-session-container">
-      <div role="button" tabIndex={0} className="event-session" onClick={toggleExpandedEvent} onKeyDown={toggleKeyDownExpandedEvent}>
-        <p className="owner">
-          Owner:
-          {owner}
-        </p>
-        <p className="title">
-          Title:
+      <div className="event-session" >
+        <p className="title" onClick={toggleExpandedEvent}>
           {title}
+        </p>
+        <p className="owner" onClick={toggleUserClicked}>
+          {owner}
         </p>
       </div>
       {toggle ? (
@@ -45,6 +65,7 @@ export default function EventSession({
           description={description}
         />
       ) : null}
+      {userClicked ? (<ProfileBR name={userInfo.name} email={userInfo.email} picture={userInfo.picture} bio={userInfo.bio} />) : null}
     </div>
   );
 }

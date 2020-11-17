@@ -305,3 +305,33 @@
 .hidden {
     display: none;
 }
+
+.profile-shown {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: black;
+}
+
+.profile-shown:hover {
+    cursor: pointer;
+}
+
+.title {
+    font-size: 2rem;
+}
+
+.owner {
+    font-size: .75rem;
+}
+
+.owner:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+.title:hover {
+    background-color: blue;
+    cursor: pointer;
+}
+
