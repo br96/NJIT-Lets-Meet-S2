@@ -143,6 +143,38 @@ def create_event(data):
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
+@socketio.on("filter events")
+def filter_events(data):
+    print("filtering events")
+    filters = data["filters"]
+    
+    filtered_event_owners = list()
+    filtered_event_titles = list()
+    filtered_event_types = list()
+    filtered_event_locations = list()
+    filtered_event_times = list()
+    filtered_event_descriptions = list()
+    
+    for f in filters:
+        filtered_event_owners += [db_event.event_owner for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
+        filtered_event_titles += [db_event.event_title for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
+        filtered_event_types += [db_event.event_type for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
+        filtered_event_locations += [db_event.event_location for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
+        filtered_event_times += [db_event.event_time for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
+        filtered_event_descriptions += [db_event.event_description for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
+    
+    socketio.emit(EVENTS_RECEIVED_CHANNEL, {
+        "all_event_owners": filtered_event_owners,
+        "all_event_titles": filtered_event_titles,
+        "all_event_types": filtered_event_types,
+        "all_event_locations": filtered_event_locations,
+        "all_event_times": filtered_event_times,
+        "all_event_descriptions": filtered_event_descriptions
+    })
+
+    print("sending filtered events")
+        
+
 if __name__ == '__main__':
     socketio.run(
         app,
