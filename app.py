@@ -22,7 +22,7 @@ sql_pwd = os.environ['SQL_PASSWORD']
 
 database_uri = "postgresql://{}:{}@localhost/postgres".format(sql_user,sql_pwd) # use this for local testing
 
-database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
+# database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
 db = flask_sqlalchemy.SQLAlchemy(app)
