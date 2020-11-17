@@ -16,6 +16,8 @@ export default function FilterForm() {
         Socket.emit("filter events", {
             filters : selected
         });
+        
+        e.preventDefault();
     }
     
     return (
