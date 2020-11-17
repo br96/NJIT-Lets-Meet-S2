@@ -170,9 +170,9 @@ def filter_events(data):
         "all_event_locations": filtered_event_locations,
         "all_event_times": filtered_event_times,
         "all_event_descriptions": filtered_event_descriptions
-    })
+    }, room=flask.request.sid)
 
-    print("sending filtered events")
+    print("sending filtered events to " + str(flask.request.sid))
 
 
 if __name__ == '__main__':
