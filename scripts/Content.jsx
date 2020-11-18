@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Redirect} from 'react-router-dom';
 import EventForm from './EventForm';
 import EventHistory from './EventHistory';
 import { User } from './User';
@@ -15,6 +16,8 @@ export function Content() {
   function onProfileClose() {
     setShowProfile(false);
   }
+
+  if(User.current === null) return <Redirect to="/" />
 
   return (
     <div className="content-container">
