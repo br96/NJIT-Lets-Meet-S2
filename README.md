@@ -1,5 +1,16 @@
 # https://njit-lets-meet.herokuapp.com
 
+# Dependencies
+## pip Packages
+1. python-dotenv
+2. eventlet
+3. flask
+4. flask-socketio
+5. psycopg2-binary
+6. flask-sqlalchemy
+7. google-auth
+8. requests
+
 # Brian
 **Tasks:**
 **Single Event / Sessions**
