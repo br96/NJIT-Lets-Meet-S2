@@ -93,6 +93,12 @@
     font-size: 2rem;
 }
 
+.njit-header > .user-profile-button {
+    font-size: 2.5em;
+    position: absolute;
+    right: 50px;
+}
+
 .content-container {
     background-color: var(--njit-black);
     overflow: hidden;
