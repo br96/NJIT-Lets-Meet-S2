@@ -8,6 +8,7 @@ import './App.css';
 import Landing from "./Landing"
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
+import SearchBar from './SearchBar';
 
 export function Content() {
   const [showProfile, setShowProfile] = React.useState(false);
@@ -21,6 +22,7 @@ export function Content() {
       <NavBar />
       <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
       {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
+      <SearchBar />
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
