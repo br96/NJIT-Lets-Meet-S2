@@ -188,6 +188,44 @@ def get_info(data):
         "picture": picture,
         "bio": bio
     })
+    
+@socketio.on("search query")
+def search_events(data):
+    print("Searching for " + data["query"])
+    
+    queried_event_ids = [db_event.id for db_event in db.session.query(models.EventClass).filter( \
+        (models.EventClass.event_owner.contains(data["query"])) | \
+        (models.EventClass.event_title.contains(data["query"])) | \
+        (models.EventClass.event_location.contains(data["query"])) | \
+        (models.EventClass.event_description.contains(data["query"])))]
+    
+    filtered_event_owners = list()
+    filtered_event_titles = list()
+    filtered_event_types = list()
+    filtered_event_locations = list()
+    filtered_event_times = list()
+    filtered_event_descriptions = list()
+    
+    for event_id in queried_event_ids:
+        event = db.session.query(models.EventClass).get(event_id)
+        
+        filtered_event_owners.append(event.event_owner)
+        filtered_event_titles.append(event.event_title)
+        filtered_event_types.append(event.event_type)
+        filtered_event_times.append(event.event_time)
+        filtered_event_descriptions.append(event.event_description)
+    
+    socketio.emit(EVENTS_RECEIVED_CHANNEL, {
+        "all_event_owners": filtered_event_owners,
+        "all_event_titles": filtered_event_titles,
+        "all_event_types": filtered_event_types,
+        "all_event_locations": filtered_event_locations,
+        "all_event_times": filtered_event_times,
+        "all_event_descriptions": filtered_event_descriptions
+    }, room=flask.request.sid)
+
+    print("sending filtered events to " + str(flask.request.sid))
+    
 
 if __name__ == '__main__':
     socketio.run(
