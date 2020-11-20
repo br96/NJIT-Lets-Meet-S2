@@ -20,9 +20,9 @@ load_dotenv(dotenv_path)
 sql_user = os.environ['SQL_USER']
 sql_pwd = os.environ['SQL_PASSWORD']
 
-database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
-
 database_uri = "postgresql://{}:{}@localhost/postgres".format(sql_user,sql_pwd) # use this for local testing
+
+# database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
 db = flask_sqlalchemy.SQLAlchemy(app)
@@ -147,14 +147,14 @@ def create_event(data):
 def filter_events(data):
     print("filtering events")
     filters = data["filters"]
-    
+
     filtered_event_owners = list()
     filtered_event_titles = list()
     filtered_event_types = list()
     filtered_event_locations = list()
     filtered_event_times = list()
     filtered_event_descriptions = list()
-    
+
     for f in filters:
         filtered_event_owners += [db_event.event_owner for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
         filtered_event_titles += [db_event.event_title for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
@@ -162,7 +162,7 @@ def filter_events(data):
         filtered_event_locations += [db_event.event_location for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
         filtered_event_times += [db_event.event_time for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
         filtered_event_descriptions += [db_event.event_description for db_event in db.session.query(models.EventClass).filter_by(event_type=f['value'])]
-    
+
     socketio.emit(EVENTS_RECEIVED_CHANNEL, {
         "all_event_owners": filtered_event_owners,
         "all_event_titles": filtered_event_titles,
@@ -170,10 +170,83 @@ def filter_events(data):
         "all_event_locations": filtered_event_locations,
         "all_event_times": filtered_event_times,
         "all_event_descriptions": filtered_event_descriptions
+    }, room=flask.request.sid)
+
+    print("sending filtered events to " + str(flask.request.sid))
+
+@socketio.on("retrieve user info")
+def get_info(data):
+    print(data)
+    name = db.session.query(models.User.name).filter(models.User.name == data).first()[0]
+    email = db.session.query(models.User.email).filter(models.User.name == data).first()[0]
+    picture = db.session.query(models.User.profile_picture).filter(models.User.name == data).first()[0]
+    bio = db.session.query(models.User.bio).filter(models.User.name == data).first()[0]
+
+    socketio.emit(flask.request.sid, {
+        "name": name,
+        "email": email,
+        "picture": picture,
+        "bio": bio
     })
 
-    print("sending filtered events")
-        
+@socketio.on("get current info")
+def get_current_info(data):
+    query_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.client_socket_id == data).first()[0]
+    send_name = db.session.query(models.User.name).filter(models.User.email == query_email).first()[0]
+    send_email = db.session.query(models.User.email).filter(models.User.email == query_email).first()[0]
+    send_picture = db.session.query(models.User.profile_picture).filter(models.User.email == query_email).first()[0]
+    send_bio = db.session.query(models.User.bio).filter(models.User.email == query_email).first()[0]
+
+    socketio.emit(flask.request.sid, {
+        "send_name": send_name,
+        "send_email": send_email,
+        "send_picture": send_picture,
+        "send_bio": send_bio
+    })
+
+@socketio.on("send bio")
+def update_new_bio(data):
+    query_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.client_socket_id == data["currentSocket"]).first()[0]
+    db.session.query(models.User).filter(models.User.email == query_email).update({"bio": data["newBio"]})
+    db.session.commit()
+
+@socketio.on("search query")
+def search_events(data):
+    print("Searching for " + data["query"])
+
+    queried_event_ids = [db_event.id for db_event in db.session.query(models.EventClass).filter( \
+        (models.EventClass.event_owner.contains(data["query"])) | \
+        (models.EventClass.event_title.contains(data["query"])) | \
+        (models.EventClass.event_location.contains(data["query"])) | \
+        (models.EventClass.event_description.contains(data["query"])))]
+
+    filtered_event_owners = list()
+    filtered_event_titles = list()
+    filtered_event_types = list()
+    filtered_event_locations = list()
+    filtered_event_times = list()
+    filtered_event_descriptions = list()
+
+    for event_id in queried_event_ids:
+        event = db.session.query(models.EventClass).get(event_id)
+
+        filtered_event_owners.append(event.event_owner)
+        filtered_event_titles.append(event.event_title)
+        filtered_event_types.append(event.event_type)
+        filtered_event_times.append(event.event_time)
+        filtered_event_descriptions.append(event.event_description)
+
+    socketio.emit(EVENTS_RECEIVED_CHANNEL, {
+        "all_event_owners": filtered_event_owners,
+        "all_event_titles": filtered_event_titles,
+        "all_event_types": filtered_event_types,
+        "all_event_locations": filtered_event_locations,
+        "all_event_times": filtered_event_times,
+        "all_event_descriptions": filtered_event_descriptions
+    }, room=flask.request.sid)
+
+    print("sending filtered events to " + str(flask.request.sid))
+
 
 if __name__ == '__main__':
     socketio.run(

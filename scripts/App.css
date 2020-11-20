@@ -311,3 +311,73 @@
 .hidden {
     display: none;
 }
+
+.profile-shown {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: black;
+}
+
+.profile-shown:hover {
+    cursor: pointer;
+}
+
+.title {
+    font-size: 2rem;
+}
+
+.owner {
+    font-size: .75rem;
+}
+
+.owner:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+.title:hover {
+    background-color: blue;
+    cursor: pointer;
+}
+
+.settings-toggle-button {
+    position: fixed;
+    right: 10;
+}
+
+.settings-container {
+    background-color: blue;
+    padding: 10px;
+    position: fixed;
+    top: 60px;
+    right: 0;
+    z-index: 1;
+}
+
+.settings-list {
+    list-style-type: none;
+    font-size: .75rem;
+}
+
+.setting-option {
+    background-color: green;
+    padding: 5px;
+}
+
+.setting-option:hover {
+    background-color: goldenrod;
+    cursor: pointer;
+}
+
+.own-profile-shown {
+    position: fixed;
+    right: 0;
+    top: 200;
+    background-color: gray;
+}
+
+.own-profile-shown:hover {
+    cursor: pointer;
+}
+

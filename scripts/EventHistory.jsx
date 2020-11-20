@@ -36,13 +36,13 @@ export default function EventHistory() {
       </div>
       { eventTypes.map((eventType, index) => (
         <EventSession
-          key={index}
-          owner={eventOwners[index]}
-          title={eventTitles[index]}
+          key={eventOwners.length - index - 1}
+          owner={eventOwners[eventOwners.length - index - 1]}
+          title={eventTitles[eventOwners.length - index - 1]}
           type={eventType}
-          location={eventLocations[index]}
-          time={eventTimes[index]}
-          description={eventDescriptions[index]}
+          location={eventLocations[eventOwners.length - index - 1]}
+          time={eventTimes[eventOwners.length - index - 1]}
+          description={eventDescriptions[eventOwners.length - index - 1]}
         />
       ))}
     </div>

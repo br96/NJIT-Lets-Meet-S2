@@ -8,6 +8,8 @@ import Landing from "./Landing"
 export default function Login({ userID }) {
   const history = useHistory();
 
+  let queryName = "";
+
   const onSuccess = (response) => {
     Socket.emit('oauth to server', {
       userID: { userID }.userID,
