@@ -7,8 +7,7 @@ import NavBar from './NavBar';
 import './App.css';
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
-import SearchBar from './SearchBar';
-import GoogleMapsContainer from "./GoogleMapsContainer";
+import Notification from './Notification';
 
 export function Content() {
   const [showProfile, setShowProfile] = React.useState(false);
@@ -22,10 +21,10 @@ export function Content() {
       <NavBar />
       <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
       {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
-      <SearchBar />
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
+        <Notification />
       </div>
       <div className="event-content-container">
         <EventHistory />
