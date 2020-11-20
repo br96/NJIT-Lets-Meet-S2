@@ -207,10 +207,15 @@
 }
 
 .profile-container {
-    position: absolute;
-    left: 10%;
     display: inline-block;
     z-index: 1;
+}
+
+#navbar-profile-container
+{
+    position: absolute;
+    right: 250px;
+    top: 70px;
 }
 
 .profile-content-container {
