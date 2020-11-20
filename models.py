@@ -1,4 +1,5 @@
 from app import db
+import flask_sqlalchemy
 
 class EventClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,6 +44,15 @@ class CurrentUsers(db.Model):
         self.email = email
         self.client_socket_id = client_socket_id
         self.connection_status = connection_status
+
+class Friends(db.Model):
+    friend_id = db.Column(db.Integer, primary_key=True)
+    user1 = db.Column(db.String(1000), db.ForeignKey("users.email"))
+    user2 = db.Column(db.String(1000), db.ForeignKey("users.email"))
+
+    def __init__(self, user1, user2):
+        self.user1 = user1
+        self.user2 = user2
 
 db.create_all()
 db.session.commit()
