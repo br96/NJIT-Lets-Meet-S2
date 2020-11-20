@@ -111,13 +111,18 @@
     align-items: center;
 }
 
+.content-view {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}
+
 .event-content-container {
     position: relative;
     border-radius: 10px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     width: 960px;
-    margin: auto;
     height: 80vh;
 }
 

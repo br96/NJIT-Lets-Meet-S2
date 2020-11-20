@@ -18,13 +18,15 @@ export function Content() {
     <div className="content-container">
       <NavBar />
       <FilterForm />
-      <div className="currentUsers">
-        <CurrentUsersContainer />
-        <Notification />
-      </div>
-      <div className="event-content-container">
-        <EventHistory />
-        <EventForm />
+      <div className="content-view">
+        <div className="currentUsers">
+          <CurrentUsersContainer />
+          <Notification />
+        </div>
+        <div className="event-content-container">
+          <EventHistory />
+          <EventForm />
+        </div>
       </div>
     </div>
   );
