@@ -17,12 +17,7 @@ export function Content() {
   return (
     <div className="content-container">
       <NavBar />
-<<<<<<< HEAD
       <SearchBar />
-=======
-      <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
-      {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
->>>>>>> master
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
