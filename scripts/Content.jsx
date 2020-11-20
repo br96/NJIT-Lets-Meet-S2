@@ -9,6 +9,7 @@ import Landing from "./Landing"
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
 import SearchBar from './SearchBar';
+import Notification from './Notification';
 
 export function Content() {
   const [showProfile, setShowProfile] = React.useState(false);
@@ -26,6 +27,7 @@ export function Content() {
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
+        <Notification />
       </div>
       <div className="event-content-container">
         <EventHistory />
