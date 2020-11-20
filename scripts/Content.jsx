@@ -5,10 +5,10 @@ import { User } from './User';
 import { ProfileOverlay } from './ProfilePage/ProfileOverlay';
 import NavBar from './NavBar';
 import './App.css';
-import Landing from "./Landing"
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
 import SearchBar from './SearchBar';
+import GoogleMapsContainer from "./GoogleMapsContainer";
 
 export function Content() {
   const [showProfile, setShowProfile] = React.useState(false);
