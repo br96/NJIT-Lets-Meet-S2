@@ -13,19 +13,11 @@ import SearchBar from './SearchBar';
 import Notification from './Notification';
 
 export function Content() {
-  const [showProfile, setShowProfile] = React.useState(false);
-
-  function onProfileClose() {
-    setShowProfile(false);
-  }
-
   if(User.current === null) return <Redirect to="/" />
 
   return (
     <div className="content-container">
       <NavBar />
-      <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
-      {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
       <SearchBar />
       <FilterForm />
       <div className="currentUsers">
