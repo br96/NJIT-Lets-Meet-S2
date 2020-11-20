@@ -23,6 +23,19 @@ export default function CurrentUsersContainer() {
 
     getUsersHistory();
 
+    function updateFriends(data)
+    {
+        console.log("get all friends " + data);
+    }
+
+    function getFriends() {
+        React.useEffect(() => {
+            Socket.on("emit all friends", updateFriends);
+            return () => Socket.off('emit all friends', updateFriends);
+        }, []);
+    }
+    getFriends();
+
     return (
         <div>
             { currentUsers.map((currentUser, index) => (

@@ -9,6 +9,7 @@ from google.auth.transport import requests as google_resquests
 
 EVENTS_RECEIVED_CHANNEL = "emit all events"
 USERS_RECEIVED_CHANNEL = "emit all users"
+FRIENDS_RECEIVED_CHANNEL = "emit all friends"
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -57,6 +58,12 @@ def emit_all_current_users(channel):
     })
 
     print(channel)
+
+def emit_user_friends(channel, email):
+    user_friends = db.session.query(models.Friends.user2).filter(models.Friends.user1 == email).all()
+    user_friends += db.session.query(models.Friends.user1).filter(models.Friends.user2 == email).all()
+    user_friends = set(user_friends)
+    print(user_friends)
 
 @app.route('/')
 def index():
@@ -134,6 +141,8 @@ def on_google_login(data):
         "profile_picture": user.profile_picture
     },
     room=flask.request.sid)
+
+    emit_user_friends(FRIENDS_RECEIVED_CHANNEL, user.email)
 
 @socketio.on("sending new event")
 def create_event(data):
