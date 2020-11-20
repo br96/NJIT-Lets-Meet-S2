@@ -93,10 +93,13 @@
     font-size: 2rem;
 }
 
-.njit-header > .user-profile-button {
+.user-profile-button {
     font-size: 2.5em;
-    position: absolute;
-    right: 50px;
+}
+
+.clickable-icon:hover 
+{
+    cursor: pointer;
 }
 
 .content-container {
@@ -346,9 +349,18 @@
     cursor: pointer;
 }
 
+.navbar-top-buttons
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 1em;
+}
+
 .settings-toggle-button {
-    position: fixed;
-    right: 10;
+    /* position: fixed;
+    right: 10; */
     font-size: 2.5em;
 }
 
