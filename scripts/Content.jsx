@@ -17,7 +17,6 @@ export function Content() {
   return (
     <div className="content-container">
       <NavBar />
-      <SearchBar />
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
