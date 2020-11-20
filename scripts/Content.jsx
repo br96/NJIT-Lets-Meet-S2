@@ -9,7 +9,6 @@ import './App.css';
 import Landing from "./Landing"
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
-import SearchBar from './SearchBar';
 import Notification from './Notification';
 
 export function Content() {
@@ -18,7 +17,12 @@ export function Content() {
   return (
     <div className="content-container">
       <NavBar />
+<<<<<<< HEAD
       <SearchBar />
+=======
+      <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
+      {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
+>>>>>>> master
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
