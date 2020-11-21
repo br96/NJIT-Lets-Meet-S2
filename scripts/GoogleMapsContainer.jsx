@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from "react-google-maps";
+import { useHistory } from "react-router-dom";
 import * as buildingData from "./njit-buildings.json"
 
 function Map() {
