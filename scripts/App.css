@@ -102,6 +102,11 @@
     align-items: center;
 }
 
+.content-room {
+    background-color: var(--njit-blue);
+    text-align: center;
+}
+
 .event-content-container {
     position: relative;
     border-radius: 10px;
@@ -219,6 +224,16 @@
 }
 
 .profile-button {
+    width: 150px;
+    height: 50px;
+    background-color: var(--njit-red);
+    border-radius: 10px;
+    border: 1px solid var(--njit-light-red);
+    transition-duration: .25s;
+    color: var(--njit-white);
+}
+
+.ChatRoom {
     width: 150px;
     height: 50px;
     background-color: var(--njit-red);
