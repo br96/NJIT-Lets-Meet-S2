@@ -7,7 +7,6 @@ import NavBar from './NavBar';
 import './App.css';
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
-import Notification from './Notification';
 
 export function Content() {
   const [showProfile, setShowProfile] = React.useState(false);
@@ -21,10 +20,12 @@ export function Content() {
       <NavBar />
       <button type="button" className="profile-button" onClick={() => setShowProfile(!showProfile)}>Show Profile</button>
       {showProfile && <ProfileOverlay user={User.current} onClose={onProfileClose} />}
+      <a href="/room">
+      <button type="button" className="ChatRoom" onClick="/room">Chat Room</button>
+      </a>
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
-        <Notification />
       </div>
       <div className="event-content-container">
         <EventHistory />
