@@ -66,6 +66,10 @@ def index():
 def home():
     return flask.render_template('index.html')
 
+@app.route('/room')
+def ChatRoom():
+    return flask.render_template('index.html')
+
 @socketio.on('connect')
 def on_connect():
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
