@@ -390,3 +390,22 @@
     cursor: pointer;
 }
 
+.google-map-event-container {
+    display: grid;
+    grid-gap: 5px;
+}
+
+.google-map-event {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background-color: var(--njit-red);
+    padding: 20px;
+    color: white;
+}
+
+.google-location {
+    text-align: center;
+}

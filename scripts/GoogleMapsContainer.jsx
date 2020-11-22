@@ -3,6 +3,7 @@ import {Socket} from "./Socket";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from "react-google-maps";
 import { useHistory } from "react-router-dom";
 import * as buildingData from "./njit-buildings.json"
+import GoogleEvent from "./GoogleEvent";
 
 function Map() {
   const [selectedBuilding, setSelectedBuilding] = useState(null);
@@ -52,8 +53,16 @@ function Map() {
           }}
         >
           <ul className="test-styles">
-            <li>EVENT 1</li>
-            <li>Event 2</li>
+            <h1 className="google-location">{selectedBuilding.name}</h1>
+            <div className="google-map-event-container">
+            {eventLocations.map((location, index) => {
+              if (location == selectedBuilding.name) {
+                return(
+                    <GoogleEvent key={index} title={eventTitles[index]} time={eventTimes[index]} owner={eventOwners[index]}/>
+                )
+              }
+            })}
+            </div>
           </ul>
         </InfoWindow>
       )}
