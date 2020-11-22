@@ -56,8 +56,6 @@ def emit_all_current_users(channel):
         "all_current_user_connection_status": all_current_user_connection_status
     })
 
-    print(channel)
-
 @app.route('/')
 def index():
     return flask.render_template('index.html')
@@ -86,7 +84,6 @@ def delete_user():
 def connect_user_id(data):
     if (db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.email == data["email"]).first()) is not None:
         check_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.email == data["email"]).first()[0]
-        print(check_email)
         db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == data["email"]).update({"connection_status": "online"})
         db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == data["email"]).update({"client_socket_id": flask.request.sid})
         db.session.commit()
@@ -150,7 +147,6 @@ def create_event(data):
 
 @socketio.on("retrieve user info")
 def get_info(data):
-    print(data)
     name = db.session.query(models.User.name).filter(models.User.name == data).first()[0]
     email = db.session.query(models.User.email).filter(models.User.name == data).first()[0]
     picture = db.session.query(models.User.profile_picture).filter(models.User.name == data).first()[0]
@@ -190,7 +186,7 @@ def search_events(data):
     filters = list()
     for f in data["filters"]:
         filters.append(f['value'])
-    
+
     queried_event_ids = [db_event.id for db_event in db.session.query(models.EventClass).filter( \
         (models.EventClass.event_owner.contains(data["query"])) | \
         (models.EventClass.event_title.contains(data["query"])) | \
