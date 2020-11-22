@@ -5,8 +5,72 @@
             "coordinates": [40.74318, -74.17829]
         },
         {
-            "name": "Weston Museum",
-            "coordinates": [40.74199, -74.17870]
+            "name": "Oak Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Laurel Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Cypress Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Redwood Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Greek Row",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Wellness and Events Center",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Warren Street Gym",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Honors College",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Gourmet Dining Services",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Library",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Fenster Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Hillier College of Architecture and Design",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Kupfrian Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Campus Center",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Guttenberg Information Technologies Center",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Cullimore Hall",
+            "coordinates": [0,0]
+        },
+        {
+            "name": "Central King Building",
+            "coordinates": [0,0]
         }
     ]
 }
