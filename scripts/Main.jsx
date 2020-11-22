@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { Home } from './Home';
+import { Routing } from './Routing';
 
-ReactDOM.render(<Home />, document.getElementById('content'));
+ReactDOM.render(<Routing />, document.getElementById('content'));

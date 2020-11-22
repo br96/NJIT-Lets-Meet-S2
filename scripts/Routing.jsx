@@ -5,7 +5,7 @@ import { Room } from './Room';
 import GoogleMapsContainer from "./GoogleMapsContainer";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-export function Home() {
+export function Routing() {
 
     return (
         <Router>
