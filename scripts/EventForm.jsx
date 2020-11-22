@@ -50,7 +50,7 @@ export default function EventForm() {
           <option value="Library">Library</option>
           <option value="Fenster Hall">Fenster Hall</option>
           <option value="Hiller College of Architecture and Design">Hillier College of Architecture and Design</option>
-          <option value="Kupfrian">Kupfrian</option>
+          <option value="Kupfrian Hall">Kupfrian Hall</option>
           <option value="Campus Center">Campus Center</option>
           <option value="Guttenberg Information Technologies Center">Guttenberg Information Technologies Center</option>
           <option value="Cullimore Hall">Cullimore Hall</option>
