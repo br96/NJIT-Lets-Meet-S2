@@ -1,0 +1,12 @@
+{
+    "locations": [
+        {
+            "name": "Campus Center",
+            "coordinates": [40.74318, -74.17829]
+        },
+        {
+            "name": "Weston Museum",
+            "coordinates": [40.74199, -74.17870]
+        }
+    ]
+}
