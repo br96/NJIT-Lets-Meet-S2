@@ -69,6 +69,10 @@ def home():
 @app.route('/room')
 def ChatRoom():
     return flask.render_template('index.html')
+    
+@app.route('/map')
+def GoogleMap():
+    return flask.render_template('index.html')
 
 @socketio.on('connect')
 def on_connect():
