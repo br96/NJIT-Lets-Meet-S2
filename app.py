@@ -240,6 +240,9 @@ def search_events(data):
 
     print("sending filtered events to " + str(flask.request.sid))
 
+@socketio.on('send friend request')
+def on_send_friend_request(data):
+    print(data)
 
 if __name__ == '__main__':
     socketio.run(

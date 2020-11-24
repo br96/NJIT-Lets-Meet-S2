@@ -1,4 +1,5 @@
 import React from 'react';
+import {Socket} from './Socket';
 
 import {User} from './User';
 export function FriendRequestPrompt({userEmail})
@@ -7,7 +8,10 @@ export function FriendRequestPrompt({userEmail})
 
     function sendFriendRequest()
     {
-        
+        Socket.emit('send friend request', {
+            user1: userEmail,
+            user2: User.current.email,
+        });
     }
 
     return (

@@ -1,5 +1,9 @@
+import enum
 from app import db
 import flask_sqlalchemy
+
+class MessageType(enum.Enum):
+    FriendRequest = 1
 
 class EventClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +59,14 @@ class Friends(db.Model):
     def __init__(self, user1, user2):
         self.user1 = user1
         self.user2 = user2
+
+class Message(db.Model):
+    __tablename__ = "messages"
+
+    msg_id = db.Column(db.Integer, primary_key=True)
+    from_user = db.Column(db.String(1000), nullable=False)
+    to_user = db.Column(db.String(1000), nullable=False)
+    msg_type = db.Column(db.Enum(MessageType))
 
 db.create_all()
 db.session.commit()
