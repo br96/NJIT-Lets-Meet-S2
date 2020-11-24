@@ -10,6 +10,7 @@ from google.auth.transport import requests as google_resquests
 EVENTS_RECEIVED_CHANNEL = "emit all events"
 USERS_RECEIVED_CHANNEL = "emit all users"
 FRIENDS_RECEIVED_CHANNEL = "emit all friends"
+FRIEND_REQUESTS_RECEIVED_CHANNEL = "receive friend requests"
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -30,6 +31,14 @@ db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
 import models
+
+def get_received_friend_requests(user1: str):
+    return db.session   .query(models.Message)\
+                        .filter(
+                            models.Message.to_user == user1,
+                            models.Message.msg_type == models.MessageType.FriendRequest
+                        )\
+                        .all()
 
 def emit_all_events(channel):
     all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
@@ -67,6 +76,13 @@ def emit_user_friends(channel, email):
     user_friends += db.session.query(models.Friends.user1).filter(models.Friends.user2 == email).all()
     user_friends = set(user_friends)
     print(user_friends)
+
+def emit_user_friend_requests(channel, email):
+    response = get_received_friend_requests(email)
+    friend_requests = [{"from": msg.from_user} for msg in response]
+    socketio.emit(channel, {
+        'requests': friend_requests
+    }, room=flask.request.sid)
 
 @app.route('/')
 def index():
@@ -153,6 +169,7 @@ def on_google_login(data):
     room=flask.request.sid)
 
     emit_user_friends(FRIENDS_RECEIVED_CHANNEL, user.email)
+    emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, user.email)
 
 @socketio.on("sending new event")
 def create_event(data):
@@ -273,6 +290,12 @@ def on_send_friend_request(data):
             msg_type=models.MessageType.FriendRequest
         ))
         db.session.commit()
+
+@socketio.on('send received friend requests')
+def on_send_received_friend_requests(data):
+    email = data['email']
+    print('send received friend requests')
+    emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, email)
 
 if __name__ == '__main__':
     socketio.run(

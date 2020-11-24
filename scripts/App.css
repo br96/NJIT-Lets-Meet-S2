@@ -132,6 +132,17 @@
     background-color: var(--njit-gold);
 }
 
+.friend-request-inbox-button {
+    display: inline-block;
+}
+
+.friend-request-inbox {
+    position: absolute;
+    z-index: 8;
+    background-color: var(--njit-dark-red);
+    color: white;
+}
+
 .content-room {
     background-color: var(--njit-blue);
     text-align: center;
@@ -279,10 +290,6 @@
 
 .ChatRoom:hover {
     cursor: pointer;
-}
-
-.friend-request-inbox-button {
-    display: inline-block;
 }
 
 .profile-button:hover {
