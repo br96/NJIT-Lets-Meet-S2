@@ -51,10 +51,12 @@ def emit_all_events(channel):
 def emit_all_current_users(channel):
     all_current_user_names = [db_users.name for db_users in db.session.query(models.CurrentUsers).all()]
     all_current_user_connection_status = [db_users.connection_status for db_users in db.session.query(models.CurrentUsers).all()]
+    all_current_user_emails = db.session.query(models.CurrentUsers.email).all()
 
     socketio.emit(channel, {
         "all_current_user_names": all_current_user_names,
-        "all_current_user_connection_status": all_current_user_connection_status
+        "all_current_user_connection_status": all_current_user_connection_status,
+        "all_current_user_emails": all_current_user_emails,
     })
 
     print(channel)

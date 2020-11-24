@@ -1,12 +1,21 @@
 import * as React from 'react';
 
-export default function CurrentUser({name, connectionStatus}) {
+import {FriendRequestPrompt} from './FriendRequestPrompt';
+export default function CurrentUser({name, connectionStatus, email}) {
+    const [showFriendRequestPrompt, setShowFriendRequestPrompt] = React.useState(false);
+
+    function toggleFriendRequestPrompt(event)
+    {
+        setShowFriendRequestPrompt( (show) => !show );
+    }
+
     return (
         <div>
-            <div className="current-user-display">
+            <div className="current-user-display" onClick={toggleFriendRequestPrompt}>
                 <div className="current-user-name">{name}</div>
                 <div id={connectionStatus}></div>
             </div>
+            { showFriendRequestPrompt && <FriendRequestPrompt userEmail={email} /> }
         </div>
     )
 }

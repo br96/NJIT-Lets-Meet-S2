@@ -122,11 +122,10 @@
     background-color: var(--njit-red);
 }
 
-#friend-request-prompt {
-    position: fixed;
+.friend-request-prompt {
     z-index: 10;
     color: white;
-    background-color: var(--njit-dark-red);
+    background-color: var(--njit-gold);
 }
 
 .content-room {

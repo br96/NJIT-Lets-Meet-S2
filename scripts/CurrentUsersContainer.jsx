@@ -5,12 +5,14 @@ import CurrentUser from './CurrentUser';
 import {FriendRequestPrompt} from './FriendRequestPrompt';
 export default function CurrentUsersContainer() {
     const [currentUsers, setCurrentUsers] = React.useState([]);
-    const [currentConnectionStatus, setCurrentConnectionStatus] = React.useState([])
+    const [currentConnectionStatus, setCurrentConnectionStatus] = React.useState([]);
+    const [currentUserEmails, setCurrentUserEmails] = React.useState([]);
 
     function updateUsersHistory(data) {
         console.log(data["all_current_user_names"])
         setCurrentUsers(data["all_current_user_names"])
         setCurrentConnectionStatus(data["all_current_user_connection_status"])
+        setCurrentUserEmails(data["all_current_user_emails"]);
     }
 
     function getUsersHistory() {
@@ -42,9 +44,12 @@ export default function CurrentUsersContainer() {
             <div className="current-user-container-header">Friends</div>
             <div className="current-user-container-header">Users</div>
             { currentUsers.map((currentUser, index) => (
-                <CurrentUser key={index} name={currentUsers[index]} connectionStatus={currentConnectionStatus[index]}/>
+                <CurrentUser 
+                    key={index} 
+                    name={currentUsers[index]} 
+                    connectionStatus={currentConnectionStatus[index]}
+                    email={currentUserEmails[index]}/>
             ))}
-            <FriendRequestPrompt />
         </div>
     )
 }
