@@ -104,7 +104,7 @@
 
 .content-container {
     background-color: var(--njit-black);
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 100%;
     width: 100%;
     justify-content: center;
@@ -115,6 +115,11 @@
     display: flex;
     margin: auto;
     justify-content: center;
+}
+
+.content-room {
+    background-color: var(--njit-blue);
+    text-align: center;
 }
 
 .event-content-container {
@@ -238,6 +243,16 @@
 }
 
 .profile-button {
+    width: 150px;
+    height: 50px;
+    background-color: var(--njit-red);
+    border-radius: 10px;
+    border: 1px solid var(--njit-light-red);
+    transition-duration: .25s;
+    color: var(--njit-white);
+}
+
+.ChatRoom {
     width: 150px;
     height: 50px;
     background-color: var(--njit-red);
@@ -404,3 +419,22 @@
     cursor: pointer;
 }
 
+.google-map-event-container {
+    display: grid;
+    grid-gap: 5px;
+}
+
+.google-map-event {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background-color: var(--njit-red);
+    padding: 20px;
+    color: white;
+}
+
+.google-location {
+    text-align: center;
+}

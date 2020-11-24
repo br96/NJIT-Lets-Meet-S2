@@ -32,20 +32,20 @@ db.app = app
 import models
 
 def emit_all_events(channel):
-    all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all()]
-    all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all()]
-    all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all()]
-    all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all()]
-    all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all()]
-    all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all()]
-
+    all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    
     socketio.emit(channel, {
         "all_event_owners": all_event_owners,
         "all_event_titles": all_event_titles,
         "all_event_types": all_event_types,
         "all_event_locations": all_event_locations,
         "all_event_times": all_event_times,
-        "all_event_descriptions": all_event_descriptions
+        "all_event_descriptions": all_event_descriptions,
     })
 
 def emit_all_current_users(channel):
@@ -73,6 +73,14 @@ def index():
 def home():
     return flask.render_template('index.html')
 
+@app.route('/room')
+def ChatRoom():
+    return flask.render_template('index.html')
+    
+@app.route('/map')
+def GoogleMap():
+    return flask.render_template('index.html')
+
 @socketio.on('connect')
 def on_connect():
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
@@ -89,7 +97,6 @@ def delete_user():
 def connect_user_id(data):
     if (db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.email == data["email"]).first()) is not None:
         check_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.email == data["email"]).first()[0]
-        print(check_email)
         db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == data["email"]).update({"connection_status": "online"})
         db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == data["email"]).update({"client_socket_id": flask.request.sid})
         db.session.commit()
@@ -146,7 +153,7 @@ def on_google_login(data):
 
 @socketio.on("sending new event")
 def create_event(data):
-    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"]))
+    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"]))
     db.session.commit()
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
@@ -155,7 +162,6 @@ def create_event(data):
 
 @socketio.on("retrieve user info")
 def get_info(data):
-    print(data)
     name = db.session.query(models.User.name).filter(models.User.name == data).first()[0]
     email = db.session.query(models.User.email).filter(models.User.name == data).first()[0]
     picture = db.session.query(models.User.profile_picture).filter(models.User.name == data).first()[0]
@@ -195,7 +201,7 @@ def search_events(data):
     filters = list()
     for f in data["filters"]:
         filters.append(f['value'])
-    
+
     queried_event_ids = [db_event.id for db_event in db.session.query(models.EventClass).filter( \
         (models.EventClass.event_owner.contains(data["query"])) | \
         (models.EventClass.event_title.contains(data["query"])) | \
@@ -211,7 +217,7 @@ def search_events(data):
 
     for event_id in queried_event_ids:
         event = db.session.query(models.EventClass).get(event_id)
-        if event.event_type not in filters and len(filters) != 0:
+        if event.event_type not in filters and len(filters) != 0 and event.event_visibility == "Private":
             continue
 
         filtered_event_owners.append(event.event_owner)
