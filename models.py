@@ -8,14 +8,16 @@ class EventClass(db.Model):
     event_location = db.Column(db.String(64))
     event_time = db.Column(db.String(16))
     event_description = db.Column(db.String(300))
+    event_visibility = db.Column(db.String(16))
 
-    def __init__(self, event_owner, event_title, event_type, event_location, event_time, event_description):
+    def __init__(self, event_owner, event_title, event_type, event_location, event_time, event_description, event_visibility):
         self.event_owner = event_owner
         self.event_title = event_title
         self.event_type = event_type
         self.event_location = event_location
         self.event_time = event_time
         self.event_description = event_description
+        self.event_visibility = event_visibility
 
 class User(db.Model):
     __tablename__ = "users"

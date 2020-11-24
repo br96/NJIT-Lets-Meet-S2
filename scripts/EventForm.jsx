@@ -7,6 +7,7 @@ export default function EventForm() {
   const timeReference = React.useRef();
   const descriptionReference = React.useRef();
   const titleReference = React.useRef();
+  const visibilityReference = React.useRef();
 
   let oauthName = '';
 
@@ -18,6 +19,7 @@ export default function EventForm() {
       location: locationReference.current.value,
       time: timeReference.current.value,
       description: descriptionReference.current.value,
+      visibility: visibilityReference.current.value
     });
     e.preventDefault();
   }
@@ -58,6 +60,10 @@ export default function EventForm() {
         </select>
         <input className="time-input-container" placeholder="12:00 PM" type="time" min="00:00" max="23:59" ref={timeReference} />
         <input className="text-area-container" placeholder="Description: Limit to 255 characters" type="text" ref={descriptionReference} />
+        <select className="visibility-input-container" name="event-visibility" placeholder="Public" ref={visibilityReference}>
+          <option value="Public">Public</option>
+          <option value="Private">Private</option>
+        </select>
         <button className="submit-button" type="submit">Submit</button>
       </form>
     </div>
