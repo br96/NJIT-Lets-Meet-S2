@@ -31,14 +31,13 @@ db.app = app
 import models
 
 def emit_all_events(channel):
-    all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all()]
-    all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all()]
-    all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all()]
-    all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all()]
-    all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all()]
-    all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all()]
-    all_event_visibilities = [db_event.event_visibility for db_event in db.session.query(models.EventClass).all()]
-
+    all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    
     socketio.emit(channel, {
         "all_event_owners": all_event_owners,
         "all_event_titles": all_event_titles,
@@ -46,7 +45,6 @@ def emit_all_events(channel):
         "all_event_locations": all_event_locations,
         "all_event_times": all_event_times,
         "all_event_descriptions": all_event_descriptions,
-        "all_event_visibilities": all_event_visibilities
     })
 
 def emit_all_current_users(channel):
