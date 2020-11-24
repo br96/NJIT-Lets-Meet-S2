@@ -117,6 +117,18 @@
     justify-content: center;
 }
 
+.current-user-container-header {
+    color: white;
+    background-color: var(--njit-red);
+}
+
+#friend-request-prompt {
+    position: fixed;
+    z-index: 10;
+    color: white;
+    background-color: var(--njit-dark-red);
+}
+
 .content-room {
     background-color: var(--njit-blue);
     text-align: center;

@@ -2,6 +2,7 @@ import React from 'react'
 import { Socket } from './Socket';
 import CurrentUser from './CurrentUser';
 
+import {FriendRequestPrompt} from './FriendRequestPrompt';
 export default function CurrentUsersContainer() {
     const [currentUsers, setCurrentUsers] = React.useState([]);
     const [currentConnectionStatus, setCurrentConnectionStatus] = React.useState([])
@@ -38,9 +39,12 @@ export default function CurrentUsersContainer() {
 
     return (
         <div>
+            <div className="current-user-container-header">Friends</div>
+            <div className="current-user-container-header">Users</div>
             { currentUsers.map((currentUser, index) => (
-               <CurrentUser key={index} name={currentUsers[index]} connectionStatus={currentConnectionStatus[index]}/>
+                <CurrentUser key={index} name={currentUsers[index]} connectionStatus={currentConnectionStatus[index]}/>
             ))}
+            <FriendRequestPrompt />
         </div>
     )
 }
