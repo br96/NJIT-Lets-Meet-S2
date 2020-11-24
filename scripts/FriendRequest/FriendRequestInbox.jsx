@@ -26,11 +26,12 @@ export function FriendRequestInbox()
         React.useEffect(() => {
             let channel = 'receive friend requests';
             Socket.on(channel, onReceiveFriendRequests);
+            
+            Socket.emit('send received friend requests', {
+                email: User.current.email
+            });
         }, []);
 
-        Socket.emit('send received friend requests', {
-            email: User.current.email
-        });
     }
     getFriendRequests();
 

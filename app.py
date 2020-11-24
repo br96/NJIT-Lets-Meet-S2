@@ -297,6 +297,31 @@ def on_send_received_friend_requests(data):
     print('send received friend requests')
     emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, email)
 
+@socketio.on('reply friend request')
+def on_reply_friend_request(data):
+    from_email = data['from']
+    to_email = data['to']
+    accept = data['accept']
+
+    if accept:
+        db.session.add(models.Friends(
+            user1=from_email,
+            user2=to_email
+        ))
+
+    db.session  .query(models.Message)\
+                .filter(
+                    models.Message.msg_type == models.MessageType.FriendRequest,
+                    models.Message.from_user == from_email,
+                    models.Message.to_user == to_email)\
+                .first()\
+                .delete()
+    db.session.commit()
+
+    emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, to_email)
+    emit_user_friends(FRIENDS_RECEIVED_CHANNEL, to_email)
+    emit_user_friends(FRIENDS_RECEIVED_CHANNEL, from_email)
+
 if __name__ == '__main__':
     socketio.run(
         app,
