@@ -242,7 +242,12 @@ def search_events(data):
 
 @socketio.on('send friend request')
 def on_send_friend_request(data):
-    print(data)
+    db.session.add( models.Message(
+        from_user=data['user1'],
+        to_user=data['user2'],
+        msg_type=models.MessageType.FriendRequest
+    ))
+    db.session.commit()
 
 if __name__ == '__main__':
     socketio.run(

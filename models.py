@@ -68,6 +68,11 @@ class Message(db.Model):
     to_user = db.Column(db.String(1000), nullable=False)
     msg_type = db.Column(db.Enum(MessageType))
 
+    def __init__(self, from_user, to_user, msg_type):
+        self.from_user = from_user
+        self.to_user = to_user
+        self.msg_type = msg_type
+
 db.create_all()
 db.session.commit()
 db.session.close()
