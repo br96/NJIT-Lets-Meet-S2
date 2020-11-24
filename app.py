@@ -240,14 +240,39 @@ def search_events(data):
 
     print("sending filtered events to " + str(flask.request.sid))
 
+def friend_request_exists(user1: str, user2: str) -> bool:
+    friend_requests = []
+    friend_requests += db.session   .query(models.Message.msg_id)\
+                                    .filter(
+                                        models.Message.to_user == user1,
+                                        models.Message.from_user == user2,
+                                        models.Message.msg_type == models.MessageType.FriendRequest
+                                    )\
+                                    .all()
+
+    friend_requests += db.session   .query(models.Message.msg_id)\
+                                    .filter(
+                                        models.Message.to_user == user2,
+                                        models.Message.from_user == user1,
+                                        models.Message.msg_type == models.MessageType.FriendRequest
+                                    )\
+                                    .all()
+
+    return len(friend_requests) > 0
+
 @socketio.on('send friend request')
 def on_send_friend_request(data):
-    db.session.add( models.Message(
-        from_user=data['user1'],
-        to_user=data['user2'],
-        msg_type=models.MessageType.FriendRequest
-    ))
-    db.session.commit()
+    to_user = data['user1']
+    from_user = data['user2']
+    print('on send friend request')
+    
+    if not friend_request_exists(to_user, from_user):
+        db.session.add( models.Message(
+            from_user=from_user,
+            to_user=to_user,
+            msg_type=models.MessageType.FriendRequest
+        ))
+        db.session.commit()
 
 if __name__ == '__main__':
     socketio.run(
