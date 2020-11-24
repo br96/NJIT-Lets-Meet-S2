@@ -309,13 +309,14 @@ def on_reply_friend_request(data):
             user2=to_email
         ))
 
-    db.session  .query(models.Message)\
+    req = db.session  .query(models.Message)\
                 .filter(
                     models.Message.msg_type == models.MessageType.FriendRequest,
                     models.Message.from_user == from_email,
                     models.Message.to_user == to_email)\
-                .first()\
-                .delete()
+                .first()
+    
+    db.session.delete(req)
     db.session.commit()
 
     emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, to_email)
