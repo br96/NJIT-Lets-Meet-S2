@@ -6,6 +6,7 @@ export default function CurrentUsersContainer() {
     const [currentUsers, setCurrentUsers] = React.useState([]);
     const [currentConnectionStatus, setCurrentConnectionStatus] = React.useState([]);
     const [currentUserEmails, setCurrentUserEmails] = React.useState([]);
+    const [friends, setFriends] = React.useState([]);
 
     function updateUsersHistory(data) {
         console.log(data["all_current_user_emails"]);
@@ -22,12 +23,20 @@ export default function CurrentUsersContainer() {
             };
         })
     }
-
     getUsersHistory();
 
     function updateFriends(data)
     {
-        console.log("get all friends " + data);
+        let allFriends = data.friends;
+        setFriends(() => {
+            return allFriends.map((friend, index) => {
+                return <CurrentUser 
+                    key={index} 
+                    name={friend.name} 
+                    connectionStatus={friend.connection_status}
+                    email={friend.email} />;
+            });
+        });
     }
 
     function getFriends() {
@@ -41,6 +50,7 @@ export default function CurrentUsersContainer() {
     return (
         <div>
             <div className="current-user-container-header">Friends</div>
+            {friends}
             <div className="current-user-container-header">Users</div>
             { currentUsers.map((currentUser, index) => (
                 <CurrentUser 

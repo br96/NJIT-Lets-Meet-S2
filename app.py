@@ -72,10 +72,27 @@ def emit_all_current_users(channel):
     print(channel)
 
 def emit_user_friends(channel, email):
-    user_friends = db.session.query(models.Friends.user2).filter(models.Friends.user1 == email).all()
-    user_friends += db.session.query(models.Friends.user1).filter(models.Friends.user2 == email).all()
+    user_friends = [db_friend.user2 for db_friend in db.session .query(models.Friends.user2)\
+                                                                .filter(models.Friends.user1 == email)\
+                                                                .all()]
+    user_friends += [db_friend.user1 for db_friend in db.session.query(models.Friends.user1)\
+                                                                .filter(models.Friends.user2 == email)\
+                                                                .all()]
     user_friends = set(user_friends)
-    print(user_friends)
+    
+    friends_list = []
+    for friend in user_friends:
+        user = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == friend).first()
+        friends_list.append({
+            "name": user.name,
+            "connection_status": user.connection_status,
+            "email": user.email,
+        })
+
+    print(friends_list)
+    socketio.emit(channel, {
+        "friends": friends_list
+    }, room=flask.request.sid)
 
 def emit_user_friend_requests(channel, email):
     response = get_received_friend_requests(email)
