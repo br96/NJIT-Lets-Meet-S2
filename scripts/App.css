@@ -143,6 +143,16 @@
     color: white;
 }
 
+.friend-request {
+    margin: 1em;
+    display: flex;
+}
+
+.friend-request .friend-request-options {
+    align-self: end;
+    margin-left: 1em;
+}
+
 .content-room {
     background-color: var(--njit-blue);
     text-align: center;

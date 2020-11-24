@@ -1,7 +1,8 @@
 import React from 'react';
 import {Socket} from '../Socket';
-import { User } from '../User';
 
+import { User } from '../User';
+import {FriendRequest} from './FriendRequest';
 export function FriendRequestInbox()
 {
     const [friendRequests, setFriendRequests] = React.useState([]);
@@ -10,11 +11,7 @@ export function FriendRequestInbox()
     {
         if(requests.length === 0) return <p>Friend requests inbox is empty</p>;
         return requests.map((req, index) => {
-            return (
-            <div key={index}>
-                {req.from}
-            </div>
-            );
+            return <FriendRequest key={index} fromEmail={req.from} />;
         });
     }
 
