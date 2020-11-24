@@ -12,8 +12,16 @@ export function Content() {
 
   return (
     <div className="content-container">
-      <GoogleMapsContainer />
       <NavBar />
+      
+      <a href="/room">
+      <button type="button" className="ChatRoom" onClick="/room">Chat Room</button>
+      </a>
+      
+      <a href="/map">
+      <button type="button" className="ChatRoom" onClick="/map">Map</button>
+      </a>
+      
       <FilterForm />
       <div className="currentUsers">
         <CurrentUsersContainer />
