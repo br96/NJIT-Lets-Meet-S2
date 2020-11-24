@@ -206,7 +206,7 @@ def search_events(data):
 
     for event_id in queried_event_ids:
         event = db.session.query(models.EventClass).get(event_id)
-        if event.event_type not in filters and len(filters) != 0:
+        if event.event_type not in filters and len(filters) != 0 and event.event_visibility == "Private":
             continue
 
         filtered_event_owners.append(event.event_owner)
