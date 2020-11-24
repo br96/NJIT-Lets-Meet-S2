@@ -2,7 +2,6 @@ import React from 'react'
 import { Socket } from './Socket';
 import CurrentUser from './CurrentUser';
 
-import {FriendRequestPrompt} from './FriendRequestPrompt';
 export default function CurrentUsersContainer() {
     const [currentUsers, setCurrentUsers] = React.useState([]);
     const [currentConnectionStatus, setCurrentConnectionStatus] = React.useState([]);

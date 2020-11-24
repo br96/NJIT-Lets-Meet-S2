@@ -1,7 +1,7 @@
 import React from 'react';
-import {Socket} from './Socket';
+import {Socket} from '../Socket';
 
-import {User} from './User';
+import {User} from '../User';
 export function FriendRequestPrompt({userEmail})
 {
     if(userEmail === User.current.email) return <div />;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {FriendRequestPrompt} from './FriendRequestPrompt';
+import {FriendRequestPrompt} from './FriendRequest/FriendRequestPrompt';
 export default function CurrentUser({name, connectionStatus, email}) {
     const [showFriendRequestPrompt, setShowFriendRequestPrompt] = React.useState(false);
 

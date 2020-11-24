@@ -111,6 +111,10 @@
     align-items: center;
 }
 
+.content-container-buttons {
+    display: flex;
+}
+
 .content-view {
     display: flex;
     margin: auto;
@@ -271,6 +275,14 @@
     border: 1px solid var(--njit-light-red);
     transition-duration: .25s;
     color: var(--njit-white);
+}
+
+.ChatRoom:hover {
+    cursor: pointer;
+}
+
+.friend-request-inbox-button {
+    display: inline-block;
 }
 
 .profile-button:hover {

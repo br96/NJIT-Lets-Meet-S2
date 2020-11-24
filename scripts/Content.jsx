@@ -6,10 +6,9 @@ import NavBar from './NavBar';
 import './App.css';
 import CurrentUsersContainer from './CurrentUsersContainer';
 import FilterForm from './Filter';
-import Notification from './Notification';
-import GoogleMapsContainer from "./GoogleMapsContainer";
 
 import {User} from './User';
+import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
 export function Content() {
   if(User.current === null) return <Redirect to="/" />
 
@@ -17,13 +16,17 @@ export function Content() {
     <div className="content-container">
       <NavBar />
       
-      <a href="/room">
-      <button type="button" className="ChatRoom">Chat Room</button>
-      </a>
-      
-      <a href="/map">
-      <button type="button" className="ChatRoom">Map</button>
-      </a>
+      <div className="content-container-buttons">
+        <a href="/room">
+        <button type="button" className="ChatRoom">Chat Room</button>
+        </a>
+        
+        <a href="/map">
+        <button type="button" className="ChatRoom">Map</button>
+        </a>
+
+        <FriendRequestInboxButton />
+      </div>
       
       <FilterForm />
       <div className="content-view">
