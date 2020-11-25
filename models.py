@@ -13,7 +13,7 @@ class EventClass(db.Model):
     event_location = db.Column(db.String(64))
     event_time = db.Column(db.String(16))
     event_description = db.Column(db.String(300))
-    event_visibility = db.Column(db.String(16))
+    event_visibility = db.Column(db.Boolean())
 
     def __init__(self, event_owner, event_title, event_type, event_location, event_time, event_description, event_visibility):
         self.event_owner = event_owner

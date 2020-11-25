@@ -41,12 +41,12 @@ def get_received_friend_requests(user1: str):
                         .all()
 
 def emit_all_events(channel):
-    all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
-    all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
-    all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
-    all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
-    all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
-    all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility == "Public"]
+    all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     
     socketio.emit(channel, {
         "all_event_owners": all_event_owners,
@@ -190,7 +190,7 @@ def on_google_login(data):
 
 @socketio.on("sending new event")
 def create_event(data):
-    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"]))
+    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"] == "Public"))
     db.session.commit()
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
