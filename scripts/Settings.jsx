@@ -12,9 +12,10 @@ export default function Settings() {
         else {
             setToggleInfo(true);
             Socket.emit("get current info", Socket.id);
-            console.log("sent")
+            console.log("sent");
         }
     }
+    
     return (
         <div className="settings-container">
             <ul className="settings-list">

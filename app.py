@@ -342,6 +342,10 @@ def on_reply_friend_request(data):
     emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, to_email)
     emit_user_friends(FRIENDS_RECEIVED_CHANNEL, to_email)
     emit_user_friends(FRIENDS_RECEIVED_CHANNEL, from_email)
+    
+@socketio.on("send follow")
+def on_send_follow(data):
+    pass
 
 if __name__ == '__main__':
     socketio.run(
