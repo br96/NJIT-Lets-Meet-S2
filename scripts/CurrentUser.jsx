@@ -12,10 +12,12 @@ export default function CurrentUser({name, connectionStatus, email}) {
     return (
         <div>
             <div className="current-user-display" onClick={toggleFriendRequestPrompt}>
-                <div className="current-user-name">{name}</div>
-                <div id={connectionStatus}></div>
+                <div className='current-user-name'>{name}</div>
+                <div className="current-user-options">
+                    <FriendRequestPrompt userEmail={email} />
+                    <div id={connectionStatus}></div>
+                </div>
             </div>
-            { showFriendRequestPrompt && <FriendRequestPrompt userEmail={email} /> }
         </div>
     )
 }

@@ -15,20 +15,6 @@ export function Content() {
   return (
     <div className="content-container">
       <NavBar />
-      
-      <div className="content-container-buttons">
-        <a href="/room">
-        <button type="button" className="ChatRoom">Chat Room</button>
-        </a>
-        
-        <a href="/map">
-        <button type="button" className="ChatRoom">Map</button>
-        </a>
-
-        <FriendRequestInboxButton />
-      </div>
-      
-      <FilterForm />
       <div className="content-view">
         <div className="currentUsers">
           <CurrentUsersContainer />
@@ -38,6 +24,20 @@ export function Content() {
           <EventForm />
         </div>
       </div>
+
+      <div className="content-container-buttons">
+        <a href="/room">
+        <button type="button" className="ChatRoom">Chat Room</button>
+        </a>
+
+        <a href="/map">
+        <button type="button" className="ChatRoom">Map</button>
+        </a>
+
+        <FriendRequestInboxButton />
+      </div>
+
+      <FilterForm />
     </div>
   );
 }

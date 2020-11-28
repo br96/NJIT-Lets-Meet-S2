@@ -30,9 +30,9 @@ export default function CurrentUsersContainer() {
         let allFriends = data.friends;
         setFriends(() => {
             return allFriends.map((friend, index) => {
-                return <CurrentUser 
-                    key={index} 
-                    name={friend.name} 
+                return <CurrentUser
+                    key={index}
+                    name={friend.name}
                     connectionStatus={friend.connection_status}
                     email={friend.email} />;
             });
@@ -48,17 +48,25 @@ export default function CurrentUsersContainer() {
     getFriends();
 
     return (
-        <div>
-            <div className="current-user-container-header">Friends</div>
-            {friends}
-            <div className="current-user-container-header">Users</div>
-            { currentUsers.map((currentUser, index) => (
-                <CurrentUser 
-                    key={index} 
-                    name={currentUsers[index]} 
-                    connectionStatus={currentConnectionStatus[index]}
-                    email={currentUserEmails[index]}/>
-            ))}
+        <div className="all-users-container">
+            <div className="all-friends-container">
+                <div className="current-user-container-header">Friends</div>
+                <div className="all-friends-div">
+                    {friends}
+                </div>
+            </div>
+            <div className="all-current-users-container">
+                <div className="current-user-container-header">Users</div>
+                <div className="current-all-users-container-div">
+                    { currentUsers.map((currentUser, index) => (
+                        <CurrentUser
+                            key={currentUsers.length - index - 1}
+                            name={currentUsers[currentUsers.length - index - 1]}
+                            connectionStatus={currentConnectionStatus[currentUsers.length - index - 1]}
+                            email={currentUserEmails[currentUsers.length - index - 1]}/>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

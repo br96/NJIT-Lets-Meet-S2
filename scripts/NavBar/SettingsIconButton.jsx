@@ -15,7 +15,7 @@ export function SettingsIconButton()
     }
 
     return (
-    <div>
+    <div className="settings-full-icon">
         <i className="fas fa-cog settings-toggle-button clickable-icon" onClick={toggleView}></i>
         { toggleSettings ? <Settings /> : null}
     </div>

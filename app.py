@@ -47,7 +47,7 @@ def emit_all_events(channel):
     all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
-    
+
     socketio.emit(channel, {
         "all_event_owners": all_event_owners,
         "all_event_titles": all_event_titles,
@@ -79,7 +79,7 @@ def emit_user_friends(channel, email):
                                                                 .filter(models.Friends.user2 == email)\
                                                                 .all()]
     user_friends = set(user_friends)
-    
+
     friends_list = []
     for friend in user_friends:
         user = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == friend).first()
@@ -112,7 +112,7 @@ def home():
 @app.route('/room')
 def ChatRoom():
     return flask.render_template('index.html')
-    
+
 @app.route('/map')
 def GoogleMap():
     return flask.render_template('index.html')
@@ -257,7 +257,7 @@ def search_events(data):
         event = db.session.query(models.EventClass).get(event_id)
         if event.event_type not in filters and len(filters) != 0:
             continue
-        
+
         if not event.event_visibility:
             continue
 
@@ -303,7 +303,7 @@ def on_send_friend_request(data):
     to_user = data['user1']
     from_user = data['user2']
     print('on send friend request')
-    
+
     if not friend_request_exists(to_user, from_user):
         db.session.add( models.Message(
             from_user=from_user,
@@ -336,23 +336,23 @@ def on_reply_friend_request(data):
                     models.Message.from_user == from_email,
                     models.Message.to_user == to_email)\
                 .first()
-    
+
     db.session.delete(req)
     db.session.commit()
 
     emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, to_email)
     emit_user_friends(FRIENDS_RECEIVED_CHANNEL, to_email)
     emit_user_friends(FRIENDS_RECEIVED_CHANNEL, from_email)
-    
+
 @socketio.on("send follow")
 def on_send_follow(data):
     print(data["followedEvents"])
     query_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.client_socket_id == data["currentSocket"]).first()[0]
-   
+
     followed_events = list()
     for event_type in data["followedEvents"]:
         followed_events.append(event_type["value"])
-        
+
     db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
     db.session.commit()
 
