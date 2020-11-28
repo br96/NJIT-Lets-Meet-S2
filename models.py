@@ -31,12 +31,14 @@ class User(db.Model):
     name = db.Column(db.String(128), nullable=False)
     bio = db.Column(db.String(1024))
     profile_picture = db.Column(db.String(256))
+    followed_events = db.Column(db.ARRAY(db.String(16)))
 
-    def __init__(self, email, name, bio, profile_picture):
+    def __init__(self, email, name, bio, profile_picture, followed_events):
         self.email = email
         self.name = name
         self.bio = bio
         self.profile_picture = profile_picture
+        self.followed_events = followed_events
 
 class CurrentUsers(db.Model):
     id = db.Column(db.Integer, primary_key=True)

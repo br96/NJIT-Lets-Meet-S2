@@ -172,7 +172,8 @@ def on_google_login(data):
             email=email,
             name=name,
             bio="",
-            profile_picture=profile_picture
+            profile_picture=profile_picture,
+            followed_events=[]
         )
         db.session.add(user)
         db.session.commit()
@@ -345,7 +346,15 @@ def on_reply_friend_request(data):
     
 @socketio.on("send follow")
 def on_send_follow(data):
-    pass
+    print(data["followedEvents"])
+    query_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.client_socket_id == data["currentSocket"]).first()[0]
+   
+    followed_events = list()
+    for event_type in data["followedEvents"]:
+        followed_events.append(event_type["value"])
+        
+    db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
+    db.session.commit()
 
 if __name__ == '__main__':
     socketio.run(
