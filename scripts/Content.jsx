@@ -9,12 +9,13 @@ import FilterForm from './Filter';
 import {User} from './User';
 import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
 import EventFormInitButton from './EventFormInitButton';
-import GoogleMapsContainer from './GoogleMapsContainer';
+
 export function Content() {
   if(User.current === null) return <Redirect to="/" />
 
   return (
     <div className="content-container">
+
       <NavBar />
       <div className="content-view">
         <div className="currentUsers">
