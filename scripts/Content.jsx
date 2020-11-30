@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Redirect} from 'react-router-dom';
-import EventForm from './EventForm';
 import EventHistory from './EventHistory';
 import NavBar from './NavBar';
 import './App.css';
@@ -9,6 +8,8 @@ import FilterForm from './Filter';
 
 import {User} from './User';
 import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
+import EventFormInitButton from './EventFormInitButton';
+import GoogleMapsContainer from './GoogleMapsContainer';
 export function Content() {
   if(User.current === null) return <Redirect to="/" />
 
@@ -19,24 +20,29 @@ export function Content() {
         <div className="currentUsers">
           <CurrentUsersContainer />
         </div>
-        <div className="event-content-container">
-          <EventHistory />
-          <EventForm />
+        <div className="event-container-container">
+          <div className="button-mapping-container">
+            <div className="content-container-buttons">
+              <a href="/home">
+              <button type="button" className="mapping-button">Events</button>
+              </a>
+
+              <a href="/room">
+              <button type="button" className="mapping-button">Chat Room</button>
+              </a>
+
+              <a href="/map">
+              <button type="button" className="mapping-button">Map</button>
+              </a>
+            {/* <FriendRequestInboxButton /> */}
+          </div>
+          <EventFormInitButton />
+          </div>
+          <div className="event-content-container">
+            <EventHistory />
+          </div>
         </div>
       </div>
-
-      <div className="content-container-buttons">
-        <a href="/room">
-        <button type="button" className="ChatRoom">Chat Room</button>
-        </a>
-
-        <a href="/map">
-        <button type="button" className="ChatRoom">Map</button>
-        </a>
-
-        <FriendRequestInboxButton />
-      </div>
-
       <FilterForm />
     </div>
   );

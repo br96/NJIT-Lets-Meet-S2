@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Socket} from "./Socket";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from "react-google-maps";
-import { useHistory } from "react-router-dom";
 import * as buildingData from "./njit-buildings.json"
 import GoogleEvent from "./GoogleEvent";
 
@@ -35,7 +34,7 @@ function Map() {
   getEventHistory();
 
   return <GoogleMap
-    defaultZoom={16}
+    defaultZoom={32}
     defaultCenter={{lat: 40.74312, lng: -74.17783 }}
     >
       {buildingData.default.locations.map((location, index) => (

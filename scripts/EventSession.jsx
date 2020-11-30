@@ -51,7 +51,7 @@ export default function EventSession({
     <div className="event-session-container">
       <div className="event-session" >
         <p className="title" onClick={toggleExpandedEvent}>
-          {title}
+          {title.toUpperCase()}
         </p>
         <p className="owner" onClick={toggleUserClicked}>
           {owner}
