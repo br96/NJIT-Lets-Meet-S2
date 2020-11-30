@@ -4,7 +4,7 @@ import {Socket} from '../Socket';
 import {User, UserFlags} from '../User';
 export function ProfileInfo({user})
 {
-    const showInterests = user.flags & UserFlags.ShowInterests;
+    const showInterests = (user.flags & UserFlags.ShowInterests) === UserFlags.ShowInterests;
     let interestsList = "Hidden";
 
     if(showInterests)
@@ -34,7 +34,7 @@ export function ProfileInfo({user})
                     type="checkbox" 
                     name="show-interests" 
                     id="show-interests" 
-                    value={showInterests}
+                    defaultChecked={showInterests}
                     onClick={onShowInterestsClick} /> 
             }
         </p>

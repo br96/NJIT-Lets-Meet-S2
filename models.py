@@ -12,6 +12,11 @@ class UserPreferenceFlags(enum.IntEnum):
     AllOff = 0
     ShowInterests = 1
 
+    @staticmethod
+    def toggle_flag(original: int, flag, turn_on: bool) -> int:
+        if turn_on: return original | flag.value
+        return original & ~flag.value
+
 class EventClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_owner = db.Column(db.String(64))
@@ -40,7 +45,7 @@ class User(db.Model):
     bio = db.Column(db.String(1024))
     profile_picture = db.Column(db.String(256))
     followed_events = db.Column(db.ARRAY(db.String(16)))
-    flags = db.Column(db.Enum(UserPreferenceFlags), default=UserPreferenceFlags.AllOff)
+    flags = db.Column(db.Integer, default=UserPreferenceFlags.AllOff.value)
     interests = db.Column(db.String(1024)) #will be stored as comma separated values
 
     def __init__(self, email, name, bio, profile_picture, followed_events, flags, interests):

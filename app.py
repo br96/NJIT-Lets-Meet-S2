@@ -174,7 +174,7 @@ def on_google_login(data):
             bio="",
             profile_picture=profile_picture,
             followed_events=[],
-            flags=models.UserPreferenceFlags.AllOff,
+            flags=models.UserPreferenceFlags.AllOff.value,
             interests=""
         )
         db.session.add(user)
@@ -185,7 +185,7 @@ def on_google_login(data):
         "name": user.name,
         "bio": user.bio,
         "profile_picture": user.profile_picture,
-        "flags": user.flags.value,
+        "flags": user.flags,
         "interests": user.interests
     },
     room=flask.request.sid)
@@ -362,7 +362,22 @@ def on_send_follow(data):
 
 @socketio.on("show interests changed")
 def on_show_interests_changed(data):
-    print(data)
+    email = data['email']
+    show_interests = data['showInterests']
+
+    user = db.session.query(models.User).get(email)
+    print(user.flags)
+    user.flags = models.UserPreferenceFlags.toggle_flag(
+        user.flags, 
+        models.UserPreferenceFlags.ShowInterests,
+        show_interests
+    )
+    db.session.commit()
+
+    socketio.emit('on show interests changed', {
+        "email": email,
+        "showInterests": show_interests,
+    })
 
 if __name__ == '__main__':
     socketio.run(
