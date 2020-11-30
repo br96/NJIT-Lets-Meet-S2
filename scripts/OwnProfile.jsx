@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Socket } from './Socket';
 import MultiSelect from "react-multi-select-component";
 
+import {UpdateInterestsUI} from './UpdateInterestsUI';
 export default function OwnProfile() {
 
     const [userInfo, setUserInfo] = React.useState({});
     const [shouldUpdateBio, setShouldUpdateBio] = React.useState(false);
     const [shouldUpdateFollow, setShouldUpdateFollow] = React.useState(false);
+    const [shouldUpdateInterests, setShouldUpdateInterests] = React.useState(false);
 
     const bioReference = React.useRef();
     
@@ -21,7 +23,7 @@ export default function OwnProfile() {
           "name": data["send_name"],
           "email": data["send_email"],
           "picture": data["send_picture"],
-          "bio": data["send_bio"]
+          "bio": data["send_bio"],
         },
         console.log(data));
       }
@@ -72,6 +74,12 @@ export default function OwnProfile() {
         });
     }
 
+    // ========================= INTERESTS ====================
+    function onUpdateInterestsClicked()
+    {
+        setShouldUpdateInterests((show) => !show);
+    }
+
     return (
         <div className="own-profile-shown">
             <img src={userInfo.picture} alt="profile-picture"/>
@@ -81,6 +89,8 @@ export default function OwnProfile() {
             { shouldUpdateBio ? <div className="update-bio-container"><input className="new-bio" type="text" placeholder="enter new bio info..." ref={bioReference}></input><button onClick={sendBio}>Submit Bio</button></div> : null}
             <div className="follow-container"><button onClick={updateFollow}>Update Followed Events</button></div>
             { shouldUpdateFollow ? <div className="update-follow-container"><form className="follow-form" onSubmit={sendFollow}><MultiSelect options={options} value={selected} onChange={setSelected} hasSelectAll={ false } /><button type="submit">Submit</button></form></div> : null}
+            <button onClick={onUpdateInterestsClicked}>Update Interests</button>
+            { shouldUpdateInterests && <UpdateInterestsUI email={userInfo.email} /> }
         </div>
     );
 }

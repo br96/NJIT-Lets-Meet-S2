@@ -378,6 +378,15 @@ def on_show_interests_changed(data):
         "showInterests": show_interests,
     })
 
+@socketio.on("send interests")
+def on_send_interests(data):
+    email = data['email']
+    interests = db.session.query(models.User).get(email)
+    interests = interests.interests.split(",")
+    socketio.emit("get interests", {
+        "interests": interests
+    })
+
 if __name__ == '__main__':
     socketio.run(
         app,
