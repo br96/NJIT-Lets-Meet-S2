@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* overflow: hidden; */
 }
 
 :root {
@@ -15,6 +16,7 @@
     --njit-white: rgb(240, 240, 240);
     --njit-gray: rgb(40, 40, 40);
     --njit-black-underline: rgb(20, 20, 20);
+    scrollbar-color: transparent transparent;
 }
 
 .hidden {
@@ -27,20 +29,21 @@
 }
 
 .njit-header {
-    background-color: var(--njit-meteorite);
+    background-image: linear-gradient(rgb(29, 32, 37),rgb(28, 30, 35), rgb(20, 22, 25));
     position: relative;
     display: flex;
     height: 5vh;
     justify-content: center;
     align-items: center;
     z-index: 10;
+    box-shadow: 0 2px 5px black;
 }
 
 .njit-banner {
     color: var(--njit-white);
     font-family: 'Roboto', sans-serif;
     position: absolute;
-    left: 20;
+    left: 20px;
     font-size: 1.25rem;
     border: 1px solid var(--njit-white);
     padding: 5px 10px 5px 10px;
@@ -75,7 +78,7 @@
 }
 
 .content-view {
-    background-color: red;
+    background: url("https://i.imgur.com/HMpfRVq.png");
     display: grid;
     grid-template-columns: 300px auto;
 }
@@ -165,6 +168,96 @@
 
 .friend-request-icon:hover {
     cursor: pointer;
+}
+
+.event-container-container {
+    display: grid;
+    width: 60%;
+    height: 95vh;
+    padding: 25px;
+}
+
+.content-container-buttons {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.add-button {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    background-color: rgba(0, 0, 0, .6);
+    border-radius: 50%;
+    padding: 20px;
+    border: 2px solid var(--njit-white);
+    width: 75px;
+    transition-duration: .25s;
+}
+
+.add-button:hover {
+    background-color: rgba(0, 255, 0, .4);
+    transform: scale(1.075);
+    transition-duration: .25;
+}
+
+.mapping-button {
+    background-color: rgba(0, 0, 0, .6);
+    padding: 5px 10px 5px 10px;
+    border: none;
+    color: var(--njit-white);
+    font-family: 'Inconsolata', sans-serif;
+    font-size: .9rem;
+}
+
+.mapping-button:hover {
+    background-color: rgba(0, 0, 0, .8);
+    cursor: pointer;
+}
+
+.event-content-container {
+    position: relative;
+    background-color: rgba(0, 0, 0, .6);
+    overflow-y: scroll;
+}
+
+.event-history-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    padding: 20px;
+}
+
+.event-session {
+    background-image: linear-gradient(var(--njit-white), rgb(130, 130, 130));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    height: 150px;
+}
+
+.title {
+    color: var(--njit-black);
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+}
+
+.owner {
+    color: var(--njit-gray);
+    margin-top: 10px;
+    font-family: "Inconsolata", sans-serif;
+    font-size: .9rem;
+}
+
+.expanded-event {
+    background-color: purple;
+}
+
+.profile-shown {
+    background-color: red;
 }
 /* NEW STYLING END*/
 /*
@@ -628,3 +721,22 @@
 .google-location {
     text-align: center;
 } */
+.google-map-event-container {
+    display: grid;
+    grid-gap: 5px;
+}
+
+.google-map-event {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background-color: var(--njit-red);
+    padding: 20px;
+    color: white;
+}
+
+.google-location {
+    text-align: center;
+}
