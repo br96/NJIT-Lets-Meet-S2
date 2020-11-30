@@ -7,7 +7,12 @@ export function UpdateInterestsUI({email})
 
     function updateInterests(data)
     {
-        console.log(data);
+        let interestsList = data.interests;
+        setInterests(() => {
+            return interestsList.map((entry, i) => {
+                return <li key={i}>{entry}</li>
+            });
+        });
     }
 
     function getInterests()
@@ -18,6 +23,9 @@ export function UpdateInterestsUI({email})
             });
             Socket.on("get interests", updateInterests);
             console.log("send the send");
+            return () => {
+                Socket.off("get interests", updateInterests);
+            }
         }, []);
     }
 
