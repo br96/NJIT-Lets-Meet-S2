@@ -360,6 +360,10 @@ def on_send_follow(data):
     db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
     db.session.commit()
 
+@socketio.on("show interests changed")
+def on_show_interests_changed(data):
+    print(data)
+
 if __name__ == '__main__':
     socketio.run(
         app,
