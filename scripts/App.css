@@ -191,12 +191,12 @@
     border-radius: 50%;
     padding: 20px;
     border: 2px solid var(--njit-white);
-    width: 75px;
+    width: 60px;
     transition-duration: .25s;
 }
 
 .add-button:hover {
-    background-color: rgba(0, 255, 0, .4);
+    background-color: rgba(0, 0, 0, .8);
     transform: scale(1.075);
     transition-duration: .25;
 }
@@ -258,6 +258,84 @@
 
 .profile-shown {
     background-color: red;
+}
+
+.event-form {
+    background-color: rgba(0, 0, 0, .6);
+    position: fixed;
+    right: 25px;
+    bottom: 150px;
+    width: 625px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+    grid-gap: 50px;
+}
+
+.event-form:hover {
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.event-form:hover .create-event-header {
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.create-event-header {
+    grid-column: span 2;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: var(--njit-white);
+    position: absolute;
+    background-color: rgba(0, 0, 0, .6);
+    top: -40px;
+    left: -20px;
+    padding: 10px;
+}
+
+.form-main-content {
+    display: grid;
+    grid-gap: 5px;
+}
+
+select {
+    appearance: none;
+    background: none;
+}
+
+.title-container, .type-select-container, .location-input-container, .time-input-container, .visibility-input-container, .text-area-container  {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--njit-white);
+    color: var(--njit-white);
+    font-family: "Montserrat", sans-serif;
+}
+
+.text-area-container {
+    border-bottom: 1px solid var(--njit-white);
+    font-size: .8rem;
+    margin-bottom: 5px;
+}
+
+.text-and-submit {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-area-container {
+    height: 90%;
+}
+
+.submit-button {
+    background: none;
+    border: none;
+    border: 1px solid var(--njit-white);
+    color: var(--njit-white);
+    font-family: "Montserrat", sans-serif;
+    padding: 5px 0 5px 0;
+}
+
+.submit-button:hover {
+    background-color: black;
 }
 /* NEW STYLING END*/
 /*
