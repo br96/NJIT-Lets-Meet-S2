@@ -5,6 +5,13 @@ import flask_sqlalchemy
 class MessageType(enum.Enum):
     FriendRequest = 1
 
+class UserPreferenceFlags(enum.Enum):
+    """ User Preferences Falgs - Each flag should be a power of 2 """
+    """ Check for flags with bitwise operations """
+
+    AllOff = 0
+    ShowPreferences = 1
+
 class EventClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_owner = db.Column(db.String(64))
@@ -26,19 +33,24 @@ class EventClass(db.Model):
 
 class User(db.Model):
     __tablename__ = "users"
+
     id = db.Column(db.Integer)
     email = db.Column(db.String(1000), primary_key=True)
     name = db.Column(db.String(128), nullable=False)
     bio = db.Column(db.String(1024))
     profile_picture = db.Column(db.String(256))
     followed_events = db.Column(db.ARRAY(db.String(16)))
+    flags = db.Column(db.Enum(UserPreferenceFlags), default=UserPreferenceFlags.AllOff)
+    interests = db.Column(db.String(1024)) #will be stored as comma separated values
 
-    def __init__(self, email, name, bio, profile_picture, followed_events):
+    def __init__(self, email, name, bio, profile_picture, followed_events, flags, interests):
         self.email = email
         self.name = name
         self.bio = bio
         self.profile_picture = profile_picture
         self.followed_events = followed_events
+        self.flags = flags
+        self.interests = interests
 
 class CurrentUsers(db.Model):
     id = db.Column(db.Integer, primary_key=True)

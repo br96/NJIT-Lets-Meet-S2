@@ -173,7 +173,9 @@ def on_google_login(data):
             name=name,
             bio="",
             profile_picture=profile_picture,
-            followed_events=[]
+            followed_events=[],
+            flags=models.UserPreferenceFlags.AllOff,
+            interests=""
         )
         db.session.add(user)
         db.session.commit()
