@@ -366,7 +366,6 @@ def on_show_interests_changed(data):
     show_interests = data['showInterests']
 
     user = db.session.query(models.User).get(email)
-    print(user.flags)
     user.flags = models.UserPreferenceFlags.toggle_flag(
         user.flags, 
         models.UserPreferenceFlags.ShowInterests,

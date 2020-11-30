@@ -4,7 +4,8 @@ import {Socket} from '../Socket';
 import {User, UserFlags} from '../User';
 export function ProfileInfo({user})
 {
-    const showInterests = (user.flags & UserFlags.ShowInterests) === UserFlags.ShowInterests;
+    const [showInterests, setShowInterests] = React.useState((user.flags & UserFlags.ShowInterests) === UserFlags.ShowInterests);
+    console.log("show interests " + showInterests);
     let interestsList = "Hidden";
 
     if(showInterests)
@@ -21,6 +22,17 @@ export function ProfileInfo({user})
             showInterests: checkbox.checked,
         });
     }
+
+    function showInterestsToggled()
+    {
+        React.useEffect(() => {
+            Socket.on("on show interests changed", (data) => {
+                if(data.email !== user.email) return;
+                setShowInterests(() => data.showInterests);
+            });
+        }, []);
+    }
+    showInterestsToggled();
 
     return (
     <div className="profile-info">
