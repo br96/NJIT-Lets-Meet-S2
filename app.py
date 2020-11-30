@@ -184,7 +184,9 @@ def on_google_login(data):
         "email": user.email,
         "name": user.name,
         "bio": user.bio,
-        "profile_picture": user.profile_picture
+        "profile_picture": user.profile_picture,
+        "flags": user.flags.value,
+        "interests": user.interests
     },
     room=flask.request.sid)
 

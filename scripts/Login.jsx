@@ -40,6 +40,8 @@ export default function Login({ userID }) {
         data.email,
         data.profile_picture,
         data.bio,
+        data.flags,
+        data.interests
       );
     });
   }, []);

@@ -2,15 +2,15 @@ import enum
 from app import db
 import flask_sqlalchemy
 
-class MessageType(enum.Enum):
+class MessageType(enum.IntEnum):
     FriendRequest = 1
 
-class UserPreferenceFlags(enum.Enum):
+class UserPreferenceFlags(enum.IntEnum):
     """ User Preferences Falgs - Each flag should be a power of 2 """
     """ Check for flags with bitwise operations """
 
     AllOff = 0
-    ShowPreferences = 1
+    ShowInterests = 1
 
 class EventClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
