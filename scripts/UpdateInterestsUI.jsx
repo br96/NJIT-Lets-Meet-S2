@@ -9,11 +9,9 @@ export function UpdateInterestsUI({email})
     function removeTextField(event)
     {
         let id = event.target.id;
-        // a button will have an id btn-interest-<num>
-        // this get the <num>
-        let num = id.substring(id.lastIndexOf('-') + 1, id.length);
-        num = parseInt(num);
-        setInterests((fields) => fields.splice(num, 1));
+        setInterests((fields) => fields.filter((value) => {
+            return value.key !== id;
+        }));
     }
 
     function createTextField(text, i)
@@ -21,8 +19,8 @@ export function UpdateInterestsUI({email})
         let id = "interest-"+i;
         return(
         <li key={id}>
-            <input type="text" id={id} defaultValue={text} />
-            <button onClick={removeTextField} id={"btn-"+id}>Remove</button>
+            <input type="text" defaultValue={text} />
+            <button onClick={removeTextField} id={id}>Remove</button>
         </li>);
     }
 
