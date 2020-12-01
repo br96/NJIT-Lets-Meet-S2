@@ -29,7 +29,9 @@ export function ProfileInfo({user})
         React.useEffect(() => {
             Socket.on("on show interests changed", (data) => {
                 if(data.email !== user.email) return;
-                setShowInterests(() => data.showInterests);
+                let show = data.showInterests;
+                setInterestsList(() => getDefaultInterestsList(show, interestsList));
+                setShowInterests(() => show);
             });
         }, []);
     }
