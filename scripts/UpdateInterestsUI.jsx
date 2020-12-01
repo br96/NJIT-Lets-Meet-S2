@@ -14,12 +14,27 @@ export function UpdateInterestsUI({email})
         }));
     }
 
-    function createTextField(text, i)
+    function createRandomText()
     {
-        let id = "interest-"+i;
+        let text = "";
+        for(let i = 0; i < 5; i++)
+        {
+            text += Math.floor( Math.random() * 10 );
+        }
+        return text;
+    }
+
+    function createTextField(text)
+    {
+        let id = "";
+
+        do{
+            id = createRandomText();
+        } while( document.getElementById(id) !== null )
+
         return(
         <li key={id}>
-            <input type="text" defaultValue={text} />
+            <input type="text" id={"interest-"+id} defaultValue={text} />
             <button onClick={removeTextField} id={id}>Remove</button>
         </li>);
     }
@@ -29,8 +44,8 @@ export function UpdateInterestsUI({email})
         if(data.email !== email) return;
         let interestsList = data.interests;
         setInterests(() => {
-            return interestsList.map((entry, i) => {
-                return createTextField(entry, i);
+            return interestsList.map((entry) => {
+                return createTextField(entry);
             });
         });
     }
@@ -42,7 +57,6 @@ export function UpdateInterestsUI({email})
                 email: email,
             });
             Socket.on("get interests", updateInterests);
-            console.log("send the send");
             return () => {
                 Socket.off("get interests", updateInterests);
             }
@@ -53,15 +67,13 @@ export function UpdateInterestsUI({email})
 
     function submitChanges()
     {
-        let count = interests.length;
         let msg = [];
-        for(let i = 0; i < count; i++)
-        {
-            let textField = document.getElementById("interest-"+i);
+        interests.forEach((element) => {
+            let textField = document.getElementById("interest-" + element.key);
+            if(textField === null) return;
             if(textField.value.length > 0) msg.push(textField.value);
-        }
+        });
         msg = msg.join(",");
-        console.log(msg);
         Socket.emit("update interests", {
             email: email,
             interests: msg,
@@ -70,10 +82,9 @@ export function UpdateInterestsUI({email})
 
     function addField()
     {
-        let count = interests.length;
         let list = [
             ...interests, 
-            createTextField("", count)
+            createTextField("")
         ];
         setInterests(() => list);
     }
