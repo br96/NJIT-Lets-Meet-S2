@@ -2,17 +2,18 @@ import React from 'react';
 import {Socket} from '../Socket';
 
 import {User, UserFlags} from '../User';
+
+function getDefaultInterestsList(showInterests, interests)
+{
+    if(!showInterests) return "Hidden";
+    if(interests.length > 0) return interests;
+    return "No interests";
+}
+
 export function ProfileInfo({user})
 {
     const [showInterests, setShowInterests] = React.useState((user.flags & UserFlags.ShowInterests) === UserFlags.ShowInterests);
-    console.log("show interests " + showInterests);
-    let interestsList = "Hidden";
-
-    if(showInterests)
-    {
-        interestsList = user.interests;
-        if(interestsList.length <= 0) interestsList = "No interests";
-    }
+    const [interestsList, setInterestsList] = React.useState(getDefaultInterestsList(showInterests, user.interests));
 
     function onShowInterestsClick(event)
     {
@@ -34,6 +35,14 @@ export function ProfileInfo({user})
     }
     showInterestsToggled();
 
+    React.useEffect(() => {
+        Socket.on("get interests", (data) => {
+            if(data.email !== user.email) return;
+            user.interests = data.interests.join(",");
+            setInterestsList(user.interests);
+        });
+    }, []);
+
     return (
     <div className="profile-info">
         <p>Name: {user.name}</p>
@@ -49,6 +58,7 @@ export function ProfileInfo({user})
                     defaultChecked={showInterests}
                     onClick={onShowInterestsClick} /> 
             }
+            <br/>
         </p>
         <p>{interestsList}</p>
         <p>Bio</p>

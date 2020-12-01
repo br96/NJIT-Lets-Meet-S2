@@ -378,14 +378,29 @@ def on_show_interests_changed(data):
         "showInterests": show_interests,
     })
 
+def emit_user_interests(channel, email):
+    interests = db.session.query(models.User).get(email)
+    interests = interests.interests.split(",")
+    socketio.emit(channel, {
+        "email": email,
+        "interests": interests,
+    })
+
 @socketio.on("send interests")
 def on_send_interests(data):
     email = data['email']
-    interests = db.session.query(models.User).get(email)
-    interests = interests.interests.split(",")
-    socketio.emit("get interests", {
-        "interests": interests
-    })
+    emit_user_interests("get interests", email)
+
+@socketio.on("update interests")
+def on_update_interests(data):
+    email = data['email']
+    interests = data['interests']
+
+    user = db.session.query(models.User).get(email)
+    user.interests = interests
+    db.session.commit()
+
+    emit_user_interests("get interests", email)
 
 if __name__ == '__main__':
     socketio.run(
