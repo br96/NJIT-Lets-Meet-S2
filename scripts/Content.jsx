@@ -9,6 +9,7 @@ import FilterForm from './Filter';
 import {User} from './User';
 import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
 import EventFormInitButton from './EventFormInitButton';
+import GoogleMapsContainer from './GoogleMapsContainer';
 
 export function Content() {
   if(User.current === null) return <Redirect to="/" />
@@ -31,15 +32,12 @@ export function Content() {
               <a href="/room">
               <button type="button" className="mapping-button">Chat Room</button>
               </a>
-
-              <a href="/map">
-              <button type="button" className="mapping-button">Map</button>
-              </a>
             {/* <FriendRequestInboxButton /> */}
           </div>
           <EventFormInitButton />
           </div>
           <div className="event-content-container">
+            <GoogleMapsContainer />
             <EventHistory />
           </div>
         </div>
