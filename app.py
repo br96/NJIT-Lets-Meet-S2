@@ -109,16 +109,13 @@ def index():
 def home():
     return flask.render_template('index.html')
 
-@app.route('/room')
-def ChatRoom():
-    return flask.render_template('index.html')
-
 @app.route('/map')
 def GoogleMap():
     return flask.render_template('index.html')
 
 @socketio.on('connect')
 def on_connect():
+    print("SID: " +str(flask.request.sid))
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
@@ -198,6 +195,7 @@ def create_event(data):
     db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"] == "Public"))
     db.session.commit()
 
+    print(data)
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
