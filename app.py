@@ -47,6 +47,7 @@ def emit_all_events(channel):
     all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_attendees = [db_event.event_attendees for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
 
     socketio.emit(channel, {
         "all_event_owners": all_event_owners,
@@ -55,6 +56,7 @@ def emit_all_events(channel):
         "all_event_locations": all_event_locations,
         "all_event_times": all_event_times,
         "all_event_descriptions": all_event_descriptions,
+        "all_event_attendees": all_event_attendees
     })
 
 def emit_all_current_users(channel):
@@ -188,10 +190,12 @@ def on_google_login(data):
 
 @socketio.on("sending new event")
 def create_event(data):
-    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"] == "Public"))
+    attendees = list()
+    attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
+    
+    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"] == "Public", attendees))
     db.session.commit()
-
-    print(data)
+    
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
