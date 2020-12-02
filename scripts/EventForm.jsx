@@ -8,6 +8,7 @@ export default function EventForm({oauthName}) {
   const descriptionReference = React.useRef();
   const titleReference = React.useRef();
   const visibilityReference = React.useRef();
+  const joinReference = React.useRef();
 
   function sendNewEvent(e) {
     Socket.emit('sending new event', {
@@ -17,7 +18,8 @@ export default function EventForm({oauthName}) {
       location: locationReference.current.value,
       time: timeReference.current.value,
       description: descriptionReference.current.value,
-      visibility: visibilityReference.current.value
+      visibility: visibilityReference.current.value,
+      join: joinReference.current.value
     });
     e.preventDefault();
   }
@@ -56,6 +58,10 @@ export default function EventForm({oauthName}) {
           <select className="visibility-input-container" name="event-visibility" placeholder="Public" ref={visibilityReference}>
             <option value="Public">Public</option>
             <option value="Private">Private</option>
+          </select>
+          <select className="join-type-input-container" name="join-type" placeholder="Anyone can join" ref={joinReference}>
+            <option value="Anyone can join">Anyone can join</option>
+            <option value="Notify me first">Notify me first</option>
           </select>
         </div>
         <div className="text-and-submit">

@@ -193,7 +193,8 @@ def create_event(data):
     attendees = list()
     attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
     
-    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"] == "Public", attendees))
+    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], \
+                    data["description"], data["visibility"] == "Public", attendees, data["join"] == "Anyone can join"))
     db.session.commit()
     
     emit_all_events(EVENTS_RECEIVED_CHANNEL)

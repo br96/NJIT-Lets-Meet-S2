@@ -302,7 +302,7 @@ select {
     background: none;
 }
 
-.title-container, .type-select-container, .location-input-container, .time-input-container, .visibility-input-container, .text-area-container  {
+.title-container, .type-select-container, .location-input-container, .time-input-container, .visibility-input-container, .text-area-container, .join-type-input-container  {
     background: none;
     border: none;
     border-bottom: 1px solid var(--njit-white);
