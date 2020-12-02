@@ -14,8 +14,9 @@ class EventClass(db.Model):
     event_time = db.Column(db.String(16))
     event_description = db.Column(db.String(300))
     event_visibility = db.Column(db.Boolean())
+    event_attendees = db.Column(db.ARRAY(db.String(1000)))
 
-    def __init__(self, event_owner, event_title, event_type, event_location, event_time, event_description, event_visibility):
+    def __init__(self, event_owner, event_title, event_type, event_location, event_time, event_description, event_visibility, event_attendees):
         self.event_owner = event_owner
         self.event_title = event_title
         self.event_type = event_type
@@ -23,6 +24,7 @@ class EventClass(db.Model):
         self.event_time = event_time
         self.event_description = event_description
         self.event_visibility = event_visibility
+        self.event_attendees = event_attendees
 
 class User(db.Model):
     __tablename__ = "users"
