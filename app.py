@@ -41,6 +41,7 @@ def get_received_friend_requests(user1: str):
                         .all()
 
 def emit_all_events(channel):
+    all_event_ids = [db_event.id for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
@@ -50,6 +51,7 @@ def emit_all_events(channel):
     all_event_attendees = [db_event.event_attendees for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
 
     socketio.emit(channel, {
+        "all_event_ids": all_event_ids,
         "all_event_owners": all_event_owners,
         "all_event_titles": all_event_titles,
         "all_event_types": all_event_types,
@@ -191,6 +193,7 @@ def on_google_login(data):
 @socketio.on("sending new event")
 def create_event(data):
     attendees = list()
+    print(data)
     attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
     
     db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], \
@@ -358,7 +361,23 @@ def on_send_follow(data):
 
     db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
     db.session.commit()
-
+    
+@socketio.on("send attend event")
+def on_send_attend_event(data):
+    owner = db.session.query(models.User).get(data["owner"])
+    user = db.session.query(models.User).get(data["user"])
+    event = db.session.query(models.EventClass)
+    
+    if event.get(data["id"]).event_join_type: #anyone can join
+        curr_attendees = event.get(data["id"]).event_attendees
+        if user.name not in curr_attendees:
+            curr_attendees.append(user.email)
+    
+    event.update({"event_attendees": curr_attendees})
+    db.session.commit()
+    
+    emit_all_events(EVENTS_RECEIVED_CHANNEL)
+    
 if __name__ == '__main__':
     socketio.run(
         app,
