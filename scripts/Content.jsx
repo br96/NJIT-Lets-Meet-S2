@@ -32,7 +32,7 @@ export function Content() {
               <a href="/room">
               <button type="button" className="mapping-button">Chat Room</button>
               </a>
-            {/* <FriendRequestInboxButton /> */}
+            <FriendRequestInboxButton />
           </div>
           <EventFormInitButton />
           </div>

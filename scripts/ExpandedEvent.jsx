@@ -2,8 +2,9 @@ import * as React from 'react';
 
 export default function ExpandedEvent({
   // eslint-disable-next-line react/prop-types
-  type, location, time, description,
+  type, location, time, description, email
 }) {
+  
   return (
     <div className="expanded-event">
       <h1>
