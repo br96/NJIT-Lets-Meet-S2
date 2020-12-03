@@ -79,6 +79,22 @@ class Message(db.Model):
         self.to_user = to_user
         self.msg_type = msg_type
 
+class Chat_Message(db.Model):
+    __tablename__ = "message"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    #msg_id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(1000), nullable=False)
+    message = db.Column(db.String(1000), nullable=False)
+    #msg_type = db.Column(db.Enum(MessageType))
+    #sid = db.Column(db.String(120))
+
+    def __init__(self, sid, user_name, message):
+        self.sid = sid
+        self.user_name = user_name
+        self.message = message
+        #self.msg_type = msg_type
+
 db.create_all()
 db.session.commit()
 db.session.close()
