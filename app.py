@@ -113,6 +113,24 @@ def index():
 def home():
     return flask.render_template('index.html')
 
+@app.route('/room')
+def room():
+    return flask.render_template('index.html')
+
+def get_room(client_sid):
+    models.db.session.add(models.CurrentUsers).filter_by(sid=client_sid).first().user
+    models.db.session.commit()
+
+@socketio.on("new message input")    
+def emit_all_messages(client_sid):
+    all_messages = models.db.session.query(models.Chat_Message).all()
+    all_msg = []
+    
+    for message_row in all_messages:
+        all_msg.append(message_row.Chat_Message)
+    
+    socketio.emit("Sending message", {"all_msg":all_msg})
+
 @app.route('/map')
 def GoogleMap():
     return flask.render_template('index.html')
