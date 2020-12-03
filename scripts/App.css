@@ -337,6 +337,75 @@ select {
 .submit-button:hover {
     background-color: black;
 }
+
+/* Chat Page */
+
+.leave{
+    cursor:pointer;
+    padding: 15px 15px;
+    background: #e6e9ff;
+    color: #667aff;
+    border: 0;
+    font-size: 17px;
+}
+
+.chat-container{
+    background: var(--njit-white);
+    max-width:1100px;
+    text-align: center;
+    /*background: #fff; */
+    margin: 30px auto;
+    overflow: hidden;
+}
+
+.chat-header{
+    background: var(--njit-blue);
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 15px;
+}
+
+.chat-main{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.chat-sidebar{
+    background: #7386ff;
+    padding: 20px 20px 60px;
+    overflow-y: scroll;
+}
+
+.room_name{
+    margin-bottom:15px;
+}
+
+.chat-sidebar h2{
+    font-size:20px;
+    background: rgba(0,0,0,0.1);
+    padding: 10px;
+    margin-bottom:20px;
+    
+}
+
+.chat-sidebar ul li {
+    padding: 10px 0;
+}
+
+.chat-messages{
+    padding: 30px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.chat-messages form{
+    display: flex;
+}
+
 /* NEW STYLING END*/
 /*
 
