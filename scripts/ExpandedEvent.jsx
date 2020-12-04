@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {EventAttendees} from './AttendEvents/EventAttendees';
 
 export default function ExpandedEvent({
   // eslint-disable-next-line react/prop-types
