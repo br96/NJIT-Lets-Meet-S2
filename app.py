@@ -378,6 +378,18 @@ def on_send_attend_event(data):
     
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     
+@socketio.on("retrieve event attendees")
+def on_retrieve_event_attendees(data):
+    event = db.session.query(models.EventClass).get(data["id"])
+    attendees = list()
+    
+    for i in range(1, len(event.event_attendees)):
+        attendees.append(db.session.query(models.User).get(event.event_attendees[i]).name)
+    
+    socketio.emit(flask.request.sid, {
+        "attendees": attendees
+    })
+    
 if __name__ == '__main__':
     socketio.run(
         app,
