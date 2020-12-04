@@ -11,7 +11,7 @@ export default function OwnProfile() {
     const [shouldUpdateInterests, setShouldUpdateInterests] = React.useState(false);
 
     const bioReference = React.useRef();
-    
+
     const options = [
         { label: "Study", value: "Study" },
         { label: "Hangout", value: "Hangout"}
@@ -54,7 +54,7 @@ export default function OwnProfile() {
             "newBio": bioReference.current.value
         });
     }
-    
+
     function updateFollow() {
         if (shouldUpdateFollow) {
             setShouldUpdateFollow(false);
@@ -63,18 +63,17 @@ export default function OwnProfile() {
             setShouldUpdateFollow(true);
         }
     }
-    
+
     function sendFollow(event) {
         event.preventDefault();
         console.log("send follow");
-        
+
         Socket.emit("send follow", {
             "currentSocket": Socket.id,
             "followedEvents": selected
         });
     }
 
-    // ========================= INTERESTS ====================
     function onUpdateInterestsClicked()
     {
         setShouldUpdateInterests((show) => !show);

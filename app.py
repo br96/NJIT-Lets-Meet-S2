@@ -113,7 +113,7 @@ def index():
 def home():
     return flask.render_template('index.html')
 
-@app.route('/map')
+@app.route('/room')
 def GoogleMap():
     return flask.render_template('index.html')
 
@@ -199,11 +199,11 @@ def create_event(data):
     attendees = list()
     print(data)
     attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
-    
+
     db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], \
                     data["description"], data["visibility"] == "Public", attendees, data["join"] == "Anyone can join"))
     db.session.commit()
-    
+
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
@@ -214,7 +214,7 @@ def get_info(data):
     email = db.session.query(models.User.email).filter(models.User.name == data).first()[0]
     picture = db.session.query(models.User.profile_picture).filter(models.User.name == data).first()[0]
     bio = db.session.query(models.User.bio).filter(models.User.name == data).first()[0]
-    
+
     show_interests = db.session.query(models.User.flags).filter(models.User.name == data).first()[0]
     interests = "hidden"
     if models.UserPreferenceFlags.check_flags(show_interests, models.UserPreferenceFlags.ShowInterests):
@@ -371,35 +371,35 @@ def on_send_follow(data):
 
     db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
     db.session.commit()
-    
+
 @socketio.on("send attend event")
 def on_send_attend_event(data):
     owner = db.session.query(models.User).get(data["owner"])
     user = db.session.query(models.User).get(data["user"])
     event = db.session.query(models.EventClass).get(data['id'])
-    
+
     if event.event_join_type: #anyone can join
         curr_attendees = event.event_attendees
         if user.name not in curr_attendees:
             curr_attendees.append(user.email)
-    
+
     db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
     db.session.commit()
-    
+
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
-    
+
 @socketio.on("retrieve event attendees")
 def on_retrieve_event_attendees(data):
     event = db.session.query(models.EventClass).get(data["id"])
     attendees = list()
-    
+
     for i in range(1, len(event.event_attendees)):
         attendees.append(db.session.query(models.User).get(event.event_attendees[i]).name)
-    
+
     socketio.emit("send event attendees", {
         "attendees": attendees
     }, room=flask.request.sid)
-    
+
 
 @socketio.on("show interests changed")
 def on_show_interests_changed(data):
@@ -408,7 +408,7 @@ def on_show_interests_changed(data):
 
     user = db.session.query(models.User).get(email)
     user.flags = models.UserPreferenceFlags.toggle_flag(
-        user.flags, 
+        user.flags,
         models.UserPreferenceFlags.ShowInterests,
         show_interests
     )
