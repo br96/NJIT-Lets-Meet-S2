@@ -22,9 +22,9 @@ load_dotenv(dotenv_path)
 sql_user = os.environ['SQL_USER']
 sql_pwd = os.environ['SQL_PASSWORD']
 
-# database_uri = "postgresql://{}:{}@localhost/postgres".format(sql_user,sql_pwd) # use this for local testing
+database_uri = "postgresql://{}:{}@localhost/postgres".format(sql_user,sql_pwd) # use this for local testing
 
-database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
+# database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
 db = flask_sqlalchemy.SQLAlchemy(app)
@@ -113,24 +113,6 @@ def index():
 def home():
     return flask.render_template('index.html')
 
-@app.route('/room')
-def room():
-    return flask.render_template('index.html')
-
-def get_room(client_sid):
-    models.db.session.add(models.CurrentUsers).filter_by(sid=client_sid).first().user
-    models.db.session.commit()
-
-@socketio.on("new message input")
-def emit_all_messages(client_sid):
-    all_messages = models.db.session.query(models.Chat_Message).all()
-    all_msg = []
-
-    for message_row in all_messages:
-        all_msg.append(message_row.Chat_Message)
-
-    socketio.emit("Sending message", {"all_msg":all_msg})
-
 @app.route('/map')
 def GoogleMap():
     return flask.render_template('index.html')
@@ -213,11 +195,11 @@ def create_event(data):
     attendees = list()
     print(data)
     attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
-
+    
     db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], \
                     data["description"], data["visibility"] == "Public", attendees, data["join"] == "Anyone can join"))
     db.session.commit()
-
+    
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
@@ -379,23 +361,23 @@ def on_send_follow(data):
 
     db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
     db.session.commit()
-
+    
 @socketio.on("send attend event")
 def on_send_attend_event(data):
     owner = db.session.query(models.User).get(data["owner"])
     user = db.session.query(models.User).get(data["user"])
     event = db.session.query(models.EventClass)
-
+    
     if event.get(data["id"]).event_join_type: #anyone can join
         curr_attendees = event.get(data["id"]).event_attendees
         if user.name not in curr_attendees:
             curr_attendees.append(user.email)
-
+    
     event.update({"event_attendees": curr_attendees})
     db.session.commit()
-
+    
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
-
+    
 if __name__ == '__main__':
     socketio.run(
         app,
