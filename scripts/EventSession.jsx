@@ -38,7 +38,8 @@ export default function EventSession({
       "name": data["name"],
       "email": data["email"],
       "picture": data["picture"],
-      "bio": data["bio"]
+      "bio": data["bio"],
+      "interests": data["interests"],
     });
     console.log(data);
   }
@@ -68,7 +69,7 @@ export default function EventSession({
           description={description}
         />
       ) : null}
-      {userClicked ? (<ProfileBR name={userInfo.name} email={userInfo.email} picture={userInfo.picture} bio={userInfo.bio} id={id} />) : null}
+      {userClicked ? (<ProfileBR name={userInfo.name} email={userInfo.email} picture={userInfo.picture} interests={userInfo.interests} bio={userInfo.bio} id={id} />) : null}
     </div>
   );
 }

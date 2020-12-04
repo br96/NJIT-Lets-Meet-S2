@@ -17,6 +17,10 @@ class UserPreferenceFlags(enum.IntEnum):
         if turn_on: return original | flag.value
         return original & ~flag.value
 
+    @staticmethod
+    def check_flags(original: int, flags: int) -> bool:
+        return (original & flags) != 0
+
 class EventClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_owner = db.Column(db.String(64))

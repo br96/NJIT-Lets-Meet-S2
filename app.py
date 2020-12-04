@@ -214,12 +214,18 @@ def get_info(data):
     email = db.session.query(models.User.email).filter(models.User.name == data).first()[0]
     picture = db.session.query(models.User.profile_picture).filter(models.User.name == data).first()[0]
     bio = db.session.query(models.User.bio).filter(models.User.name == data).first()[0]
+    
+    show_interests = db.session.query(models.User.flags).filter(models.User.name == data).first()[0]
+    interests = "hidden"
+    if models.UserPreferenceFlags.check_flags(show_interests, models.UserPreferenceFlags.ShowInterests):
+        interests = db.session.query(models.User.interests).filter(models.User.name == data).first()[0]
 
     socketio.emit(flask.request.sid, {
         "name": name,
         "email": email,
         "picture": picture,
-        "bio": bio
+        "bio": bio,
+        "interests": interests,
     })
 
 @socketio.on("get current info")
@@ -423,6 +429,7 @@ def emit_user_interests(channel, email):
 
 @socketio.on("send interests")
 def on_send_interests(data):
+    print(data)
     email = data['email']
     emit_user_interests("get interests", email)
 
