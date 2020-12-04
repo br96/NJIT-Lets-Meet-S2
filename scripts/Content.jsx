@@ -37,7 +37,7 @@ export function Content() {
           <EventFormInitButton />
           </div>
           <div className="event-content-container">
-            <GoogleMapsContainer />
+            {/*<GoogleMapsContainer />*/}
             <EventHistory />
           </div>
         </div>

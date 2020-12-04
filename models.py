@@ -22,6 +22,7 @@ class UserPreferenceFlags(enum.IntEnum):
         return (original & flags) != 0
 
 class EventClass(db.Model):
+    __table_args__ = {'extend_existing': True} 
     id = db.Column(db.Integer, primary_key=True)
     event_owner = db.Column(db.String(64))
     event_title = db.Column(db.String(32))
@@ -46,6 +47,7 @@ class EventClass(db.Model):
 
 class User(db.Model):
     __tablename__ = "users"
+    __table_args__ = {'extend_existing': True} 
 
     id = db.Column(db.Integer)
     email = db.Column(db.String(1000), primary_key=True)
@@ -66,6 +68,7 @@ class User(db.Model):
         self.interests = interests
 
 class CurrentUsers(db.Model):
+    __table_args__ = {'extend_existing': True} 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
     email = db.Column(db.String(1000))
@@ -79,6 +82,7 @@ class CurrentUsers(db.Model):
         self.connection_status = connection_status
 
 class Friends(db.Model):
+    __table_args__ = {'extend_existing': True} 
     friend_id = db.Column(db.Integer, primary_key=True)
     user1 = db.Column(db.String(1000), db.ForeignKey("users.email"))
     user2 = db.Column(db.String(1000), db.ForeignKey("users.email"))
@@ -89,6 +93,7 @@ class Friends(db.Model):
 
 class Message(db.Model):
     __tablename__ = "messages"
+    __table_args__ = {'extend_existing': True} 
 
     msg_id = db.Column(db.Integer, primary_key=True)
     from_user = db.Column(db.String(1000), nullable=False)
@@ -102,6 +107,7 @@ class Message(db.Model):
 
 class Chat_Message(db.Model):
     __tablename__ = "message"
+    __table_args__ = {'extend_existing': True} 
     
     id = db.Column(db.Integer, primary_key=True)
     #msg_id = db.Column(db.Integer, primary_key=True)
