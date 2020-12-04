@@ -12,7 +12,7 @@ export function FriendRequestInboxButton()
 
     return (
     <div>
-        <button className="ChatRoom friend-request-inbox-button" onClick={toggleInbox}>Received Friend Requests</button>
+        <button className="ChatRoom friend-request-inbox-button mapping-button" onClick={toggleInbox}>Received Friend Requests</button>
         { showInbox && <FriendRequestInbox /> }
     </div>
     );

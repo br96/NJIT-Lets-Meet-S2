@@ -1,9 +1,11 @@
 import * as React from 'react';
+import {EventAttendees} from './AttendEvents/EventAttendees';
 
 export default function ExpandedEvent({
   // eslint-disable-next-line react/prop-types
-  type, location, time, description,
+  type, location, time, description, email
 }) {
+  
   return (
     <div className="expanded-event">
       <h1>
@@ -22,6 +24,8 @@ export default function ExpandedEvent({
         Details:
         {description}
       </h4>
+      <h5>Attendees:</h5>
+      <EventAttendees />
     </div>
   );
 }

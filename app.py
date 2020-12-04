@@ -41,20 +41,24 @@ def get_received_friend_requests(user1: str):
                         .all()
 
 def emit_all_events(channel):
+    all_event_ids = [db_event.id for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_owners = [db_event.event_owner for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_titles = [db_event.event_title for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_types = [db_event.event_type for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_locations = [db_event.event_location for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_times = [db_event.event_time for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
     all_event_descriptions = [db_event.event_description for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
+    all_event_attendees = [db_event.event_attendees for db_event in db.session.query(models.EventClass).all() if db_event.event_visibility]
 
     socketio.emit(channel, {
+        "all_event_ids": all_event_ids,
         "all_event_owners": all_event_owners,
         "all_event_titles": all_event_titles,
         "all_event_types": all_event_types,
         "all_event_locations": all_event_locations,
         "all_event_times": all_event_times,
         "all_event_descriptions": all_event_descriptions,
+        "all_event_attendees": all_event_attendees
     })
 
 def emit_all_current_users(channel):
@@ -192,10 +196,14 @@ def on_google_login(data):
 
 @socketio.on("sending new event")
 def create_event(data):
-    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], data["description"], data["visibility"] == "Public"))
-    db.session.commit()
-
+    attendees = list()
     print(data)
+    attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
+    
+    db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], \
+                    data["description"], data["visibility"] == "Public", attendees, data["join"] == "Anyone can join"))
+    db.session.commit()
+    
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
@@ -357,6 +365,35 @@ def on_send_follow(data):
 
     db.session.query(models.User).filter(models.User.email == query_email).update({"followed_events": followed_events})
     db.session.commit()
+    
+@socketio.on("send attend event")
+def on_send_attend_event(data):
+    owner = db.session.query(models.User).get(data["owner"])
+    user = db.session.query(models.User).get(data["user"])
+    event = db.session.query(models.EventClass).get(data['id'])
+    
+    if event.event_join_type: #anyone can join
+        curr_attendees = event.event_attendees
+        if user.name not in curr_attendees:
+            curr_attendees.append(user.email)
+    
+    db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
+    db.session.commit()
+    
+    emit_all_events(EVENTS_RECEIVED_CHANNEL)
+    
+@socketio.on("retrieve event attendees")
+def on_retrieve_event_attendees(data):
+    event = db.session.query(models.EventClass).get(data["id"])
+    attendees = list()
+    
+    for i in range(1, len(event.event_attendees)):
+        attendees.append(db.session.query(models.User).get(event.event_attendees[i]).name)
+    
+    socketio.emit("send event attendees", {
+        "attendees": attendees
+    }, room=flask.request.sid)
+    
 
 @socketio.on("show interests changed")
 def on_show_interests_changed(data):

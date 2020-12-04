@@ -1,76 +1,72 @@
 {
     "locations": [
         {
-            "name": "Campus Center",
-            "coordinates": [40.74318, -74.17829]
-        },
-        {
             "name": "Oak Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.740177343743994, -74.17937750018139]
         },
         {
             "name": "Laurel Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.74068133926939, -74.17953306831144]
         },
         {
             "name": "Cypress Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.74354469303447, -74.17922729644407]
         },
         {
             "name": "Redwood Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.74364833234049, -74.17971277629822]
         },
         {
             "name": "Greek Row",
-            "coordinates": [0,0]
+            "coordinates": [40.74102349616341, -74.18066528844567]
         },
         {
             "name": "Wellness and Events Center",
-            "coordinates": [0,0]
+            "coordinates": [40.74238913525809, -74.18059018660236]
         },
         {
             "name": "Warren Street Gym",
-            "coordinates": [40.74161, -74.18041]
+            "coordinates": [40.741584267398714, -74.18034370248287]
         },
         {
             "name": "Honors College",
-            "coordinates": [0,0]
+            "coordinates": [40.74143625770181, -74.18012938574829]
         },
         {
             "name": "Gourmet Dining Services",
-            "coordinates": [40.74332, -74.17816]
+            "coordinates": [40.74339241578955, -74.17830216889959]
         },
         {
             "name": "Library",
-            "coordinates": [40.74376, -74.17799]
+            "coordinates": [40.743773483182025, -74.1780879002134]
         },
         {
             "name": "Fenster Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.74252090818752, -74.17720150441768]
         },
         {
             "name": "Hillier College of Architecture and Design",
-            "coordinates": [0,0]
+            "coordinates": [40.74119482764358, -74.17736615298901]
         },
         {
             "name": "Kupfrian Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.7425467324665, -74.17841232524323]
         },
         {
             "name": "Campus Center",
-            "coordinates": [0,0]
+            "coordinates": [40.74302691729921, -74.17829278585474]
         },
         {
             "name": "Guttenberg Information Technologies Center",
-            "coordinates": [0,0]
+            "coordinates": [40.74429657081018, -74.17975206847]
         },
         {
             "name": "Cullimore Hall",
-            "coordinates": [0,0]
+            "coordinates": [40.74290046326484, -74.17733195991218]
         },
         {
             "name": "Central King Building",
-            "coordinates": [0,0]
+            "coordinates": [40.742021757379234, -74.17790790345943]
         }
     ]
 }

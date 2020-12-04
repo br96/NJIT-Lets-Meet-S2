@@ -1,7 +1,7 @@
 node_modules/
 package-lock.json
 sql.env
-static/script.js
+# static/script.js
 .env
 utils/
 .vscode/

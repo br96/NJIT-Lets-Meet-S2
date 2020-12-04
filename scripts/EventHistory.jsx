@@ -4,6 +4,7 @@ import EventSession from './EventSession';
 import Login from "./Login";
 
 export default function EventHistory() {
+  const [eventIds, setEventIds] = React.useState([])
   const [eventOwners, setEventOwners] = React.useState([]);
   const [eventTitles, setEventTitles] = React.useState([]);
   const [eventTypes, setEventTypes] = React.useState([]);
@@ -12,6 +13,7 @@ export default function EventHistory() {
   const [eventDescriptions, setEventDescriptions] = React.useState([]);
 
   function updateEventHistory(data) {
+    setEventIds(data.all_event_ids);
     setEventOwners(data.all_event_owners);
     setEventTitles(data.all_event_titles);
     setEventTypes(data.all_event_types);
@@ -37,6 +39,7 @@ export default function EventHistory() {
       { eventTypes.map((eventType, index) => (
         <EventSession
           key={eventOwners.length - index - 1}
+          id={eventIds[eventOwners.length - index - 1]}
           owner={eventOwners[eventOwners.length - index - 1]}
           title={eventTitles[eventOwners.length - index - 1]}
           type={eventType}

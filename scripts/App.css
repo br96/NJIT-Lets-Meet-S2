@@ -25,7 +25,7 @@
 
 /* NEW STYLING START */
 .content-container {
-    background-color: green;
+    overflow: hidden;
 }
 
 .njit-header {
@@ -264,7 +264,7 @@
     background-color: rgba(0, 0, 0, .6);
     position: fixed;
     right: 25px;
-    bottom: 150px;
+    bottom: 125px;
     width: 625px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -302,7 +302,7 @@ select {
     background: none;
 }
 
-.title-container, .type-select-container, .location-input-container, .time-input-container, .visibility-input-container, .text-area-container  {
+.title-container, .type-select-container, .location-input-container, .time-input-container, .visibility-input-container, .text-area-container, .join-type-input-container  {
     background: none;
     border: none;
     border-bottom: 1px solid var(--njit-white);
@@ -337,6 +337,75 @@ select {
 .submit-button:hover {
     background-color: black;
 }
+
+/* Chat Page */
+
+.leave{
+    cursor:pointer;
+    padding: 15px 15px;
+    background: #e6e9ff;
+    color: #667aff;
+    border: 0;
+    font-size: 17px;
+}
+
+.chat-container{
+    background: var(--njit-white);
+    max-width:1100px;
+    text-align: center;
+    /*background: #fff; */
+    margin: 30px auto;
+    overflow: hidden;
+}
+
+.chat-header{
+    background: var(--njit-blue);
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 15px;
+}
+
+.chat-main{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.chat-sidebar{
+    background: #7386ff;
+    padding: 20px 20px 60px;
+    overflow-y: scroll;
+}
+
+.room_name{
+    margin-bottom:15px;
+}
+
+.chat-sidebar h2{
+    font-size:20px;
+    background: rgba(0,0,0,0.1);
+    padding: 10px;
+    margin-bottom:20px;
+    
+}
+
+.chat-sidebar ul li {
+    padding: 10px 0;
+}
+
+.chat-messages{
+    padding: 30px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.chat-messages form{
+    display: flex;
+}
+
 /* NEW STYLING END*/
 /*
 
@@ -780,6 +849,27 @@ select {
     cursor: pointer;
 }
 
+*/
+.google-map-event-container {
+    display: grid;
+    grid-gap: 5px;
+    background-color: blue;
+}
+
+.google-map-event {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background-color: var(--njit-red);
+    padding: 20px;
+    color: white;
+}
+
+.google-location {
+    text-align: center;
+}
 .google-map-event-container {
     display: grid;
     grid-gap: 5px;
@@ -798,23 +888,12 @@ select {
 
 .google-location {
     text-align: center;
-} */
-.google-map-event-container {
-    display: grid;
-    grid-gap: 5px;
 }
 
-.google-map-event {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    background-color: var(--njit-red);
+.googling-container {
+    background-color: rgba(0, 0, 0, .6);
     padding: 20px;
-    color: white;
-}
-
-.google-location {
-    text-align: center;
+    z-index: 25;
+    position: fixed;
+    right: 75;
 }

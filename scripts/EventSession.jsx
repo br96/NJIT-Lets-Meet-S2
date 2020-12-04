@@ -5,18 +5,21 @@ import ProfileBR from './ProfileBR';
 
 export default function EventSession({
   // eslint-disable-next-line react/prop-types
-  owner, title, type, location, time, description,
+  owner, title, type, location, time, description, id
 }) {
   const [toggle, setToggle] = React.useState(false);
   const [userClicked, setUserClicked] = React.useState(false);
 
   const [userInfo, setUserInfo] = React.useState({});
 
-  function toggleExpandedEvent() {
+  function toggleExpandedEvent(e) {
     if (toggle) {
       setToggle(false);
     } else {
       setToggle(true);
+      Socket.emit("retrieve event attendees", {
+        id: id,
+      });
     }
   }
 
@@ -65,7 +68,7 @@ export default function EventSession({
           description={description}
         />
       ) : null}
-      {userClicked ? (<ProfileBR name={userInfo.name} email={userInfo.email} picture={userInfo.picture} bio={userInfo.bio} />) : null}
+      {userClicked ? (<ProfileBR name={userInfo.name} email={userInfo.email} picture={userInfo.picture} bio={userInfo.bio} id={id} />) : null}
     </div>
   );
 }
