@@ -25,7 +25,7 @@ export default function ExpandedEvent({
         {description}
       </h4>
       <h5>Attendees:</h5>
-      <EventAttendees attendees={attendees} />
+      <EventAttendees />
     </div>
   );
 }

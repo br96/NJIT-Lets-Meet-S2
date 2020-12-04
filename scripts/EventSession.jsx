@@ -11,8 +11,6 @@ export default function EventSession({
   const [userClicked, setUserClicked] = React.useState(false);
 
   const [userInfo, setUserInfo] = React.useState({});
-  
-  const [eventAttendees, setEventAttendees] = React.useState([]);
 
   function toggleExpandedEvent(e) {
     if (toggle) {
@@ -22,7 +20,6 @@ export default function EventSession({
       Socket.emit("retrieve event attendees", {
         id: id,
       });
-      getEventAttendees();
     }
   }
 
@@ -53,18 +50,6 @@ export default function EventSession({
     };
   }
   
-  function updateEventAttendees(data) {
-    setEventAttendees(data.attendees);
-    console.log(data);
-  }
-  
-  function getEventAttendees(){
-    Socket.on(Socket.id, updateEventAttendees);
-    return () => {
-      Socket.off(Socket.id, updateEventAttendees);
-    };
-  }
-  
 
   return (
     <div className="event-session-container">
@@ -82,7 +67,6 @@ export default function EventSession({
           location={location}
           time={time}
           description={description}
-          attendees={eventAttendees}
         />
       ) : null}
       {userClicked ? (<ProfileBR name={userInfo.name} email={userInfo.email} picture={userInfo.picture} bio={userInfo.bio} id={id} />) : null}

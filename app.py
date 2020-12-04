@@ -366,14 +366,14 @@ def on_send_follow(data):
 def on_send_attend_event(data):
     owner = db.session.query(models.User).get(data["owner"])
     user = db.session.query(models.User).get(data["user"])
-    event = db.session.query(models.EventClass)
+    event = db.session.query(models.EventClass).get(data['id'])
     
-    if event.get(data["id"]).event_join_type: #anyone can join
-        curr_attendees = event.get(data["id"]).event_attendees
+    if event.event_join_type: #anyone can join
+        curr_attendees = event.event_attendees
         if user.name not in curr_attendees:
             curr_attendees.append(user.email)
     
-    event.update({"event_attendees": curr_attendees})
+    db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
     db.session.commit()
     
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
@@ -386,9 +386,9 @@ def on_retrieve_event_attendees(data):
     for i in range(1, len(event.event_attendees)):
         attendees.append(db.session.query(models.User).get(event.event_attendees[i]).name)
     
-    socketio.emit(flask.request.sid, {
+    socketio.emit("send event attendees", {
         "attendees": attendees
-    })
+    }, room=flask.request.sid)
     
 if __name__ == '__main__':
     socketio.run(

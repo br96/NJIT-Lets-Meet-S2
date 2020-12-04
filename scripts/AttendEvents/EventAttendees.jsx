@@ -1,7 +1,16 @@
 import * as React from 'react';
+import { Socket } from '../Socket';
 
-export function EventAttendees({attendees}){
-    const attendeeList = attendees.map((attendee, index) => (
+export function EventAttendees(){
+    const [eventAttendees, setEventAttendees] = React.useState([]);
+    
+    function updateEventAttendees(data) {
+        setEventAttendees(data.attendees);
+    }
+  
+    Socket.on("send event attendees", updateEventAttendees);
+    
+    const attendeeList = eventAttendees.map((attendee, index) => (
        <div className="attendee-list">
             <li key={attendee} className="attendee">{attendee}</li>
        </div>
