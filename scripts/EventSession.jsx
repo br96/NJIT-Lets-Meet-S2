@@ -17,6 +17,9 @@ export default function EventSession({
       setToggle(false);
     } else {
       setToggle(true);
+      Socket.emit("retrieve event attendees", {
+        id: id,
+      });
     }
   }
 
