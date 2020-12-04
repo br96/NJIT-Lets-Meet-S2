@@ -390,6 +390,7 @@ def on_retrieve_event_attendees(data):
         "attendees": attendees
     }, room=flask.request.sid)
     
+
 if __name__ == '__main__':
     socketio.run(
         app,

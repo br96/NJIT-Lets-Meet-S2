@@ -17,9 +17,12 @@ export default function EventSession({
       setToggle(false);
     } else {
       setToggle(true);
+<<<<<<< HEAD
       Socket.emit("retrieve event attendees", {
         id: id,
       });
+=======
+>>>>>>> f950c755ef5d5ca4c06503b3045078df39088eae
     }
   }
 
@@ -49,7 +52,6 @@ export default function EventSession({
       Socket.off(Socket.id, updateUserInfo);
     };
   }
-  
 
   return (
     <div className="event-session-container">
