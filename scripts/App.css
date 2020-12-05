@@ -1126,7 +1126,6 @@ select {
 .google-map-event-container {
     display: grid;
     grid-gap: 5px;
-    background-color: blue;
 }
 
 .google-map-event {
@@ -1137,7 +1136,7 @@ select {
     text-align: center;
     background-color: var(--njit-red);
     padding: 20px;
-    color: white;
+    color: var(--njit-white);
 }
 
 .google-location {
@@ -1151,12 +1150,13 @@ select {
 .google-map-event {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    font-size: 20px;
     justify-content: space-around;
     align-items: center;
     text-align: center;
-    background-color: var(--njit-red);
+    background-color: var(--njit-meteorite);
     padding: 20px;
-    color: white;
+    color: var(--njit-white);
 }
 
 .google-location {
