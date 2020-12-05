@@ -314,6 +314,16 @@ def friend_request_exists(user1: str, user2: str) -> bool:
 
     return len(friend_requests) > 0
 
+def attend_request_exists(owner: str, attendee: str, event_id: int):
+    owner_requests = db.session.query(models.Event_Requests).filter(models.Event_Requests.owner_email == owner).all()
+    
+    for request in owner_requests:
+        if request.owner_email == owner and request.attendee_email == attendee and str(request.event_id) == str(event_id):
+            return True
+    
+    return False
+    
+
 @socketio.on('send friend request')
 def on_send_friend_request(data):
     to_user = data['user1']
@@ -382,11 +392,19 @@ def on_send_attend_event(data):
         curr_attendees = event.event_attendees
         if user.name not in curr_attendees:
             curr_attendees.append(user.email)
-    
-    db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
-    db.session.commit()
+        
+        db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
+        db.session.commit()
+    else:
+        if not attend_request_exists(owner.email, user.email, event.id):
+            db.session.add(models.Event_Requests(owner.email, user.email, event.id))
+            db.session.commit()
+       
+        owner_sid = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == owner.email).first().client_socket_id
     
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
+
+# TODO event for retrieving your attend requests
     
 @socketio.on("retrieve event attendees")
 def on_retrieve_event_attendees(data):

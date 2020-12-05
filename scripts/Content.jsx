@@ -10,6 +10,7 @@ import {User} from './User';
 import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
 import EventFormInitButton from './EventFormInitButton';
 import GoogleMapsContainer from './GoogleMapsContainer';
+import {AttendRequestInboxButton} from './AttendEvents/AttendRequestInboxButton';
 
 export function Content() {
   if(User.current === null) return <Redirect to="/" />
@@ -33,6 +34,7 @@ export function Content() {
               <button type="button" className="mapping-button">Chat Room</button>
               </a>
             <FriendRequestInboxButton />
+            <AttendRequestInboxButton />
           </div>
           <EventFormInitButton />
           </div>

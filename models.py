@@ -122,6 +122,20 @@ class Chat_Message(db.Model):
         self.message = message
         #self.msg_type = msg_type
 
+class Event_Requests(db.Model):
+    __tablename__ = "event_requests"
+    __table_args__ = {'extend_existing': True} 
+    
+    id = db.Column(db.Integer, primary_key=True)
+    owner_email = db.Column(db.String(1000))
+    attendee_email = db.Column(db.String(1000))
+    event_id = db.Column(db.String(1000))
+    
+    def __init__(self, owner_email, attendee_email, event_id):
+        self.owner_email = owner_email
+        self.attendee_email = attendee_email
+        self.event_id = event_id
+
 db.create_all()
 db.session.commit()
 db.session.close()
