@@ -389,7 +389,7 @@ select {
     background: rgba(0,0,0,0.1);
     padding: 10px;
     margin-bottom:20px;
-    
+
 }
 
 .chat-sidebar ul li {
@@ -406,6 +406,90 @@ select {
     display: flex;
 }
 
+.google-login-page {
+    background-image: url("https://i.imgur.com/gWZMoWN.jpg");
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.login-page-upper {
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: grid;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 300px;
+    padding: 40px;
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px black;
+}
+
+.highlander {
+    width: 250px;
+    border-radius: 50%;
+    background-color: white;
+    justify-content: center;
+}
+
+.login-button {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 250px;
+    height: 50px;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    transition-duration: .25s;
+    font-family: "Montserrat", sans-serif;
+    color: var(--njit-white);
+}
+
+.login-button:hover{
+    background-color: rgba(0, 0, 0, 1);
+    transition-duration: .25s;
+}
+
+.landing-container {
+    background-color: var(--njit-black);
+    width: 100vw;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.page-container {
+    padding: 50px;
+    width: 960px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.app-description {
+    text-align: left;
+    padding: 40px;
+    font-size: 1.25rem;
+    border-right: 1px solid var(--njit-white);
+    color: var(--njit-white);
+}
+
+.team {
+    padding: 40px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--njit-white);
+}
 /* NEW STYLING END*/
 /*
 
@@ -480,7 +564,37 @@ select {
 
 .njit-banner {
     border-top: 1px solid var(--njit-white);
-    border-bottom: 1px solid var(--njit-white);
+    border-botto.landing-container {
+    background-color: var(--njit-black);
+    width: 100vw;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-container {
+    padding: 50px;
+    width: 960px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.app-description {
+    text-align: left;
+    padding: 40px;
+    font-size: 1.25rem;
+    border-right: 1px solid var(--njit-white);
+    color: var(--njit-white);
+}
+
+.team {
+    padding: 40px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--njit-white);
+}m: 1px solid var(--njit-white);
     position: absolute;
     left: 50px;
     font-size: 2rem;
