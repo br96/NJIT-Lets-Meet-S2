@@ -6,7 +6,7 @@ export function NavBarTopButtons()
     return (
     <div className="navbar-top-buttons">
         <SettingsIconButton />
-        <AccountButton />
+        {/* <AccountButton /> */}
     </div>
     );
 }
