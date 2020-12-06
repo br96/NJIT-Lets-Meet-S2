@@ -10,11 +10,8 @@ import {User} from './User';
 import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
 import EventFormInitButton from './EventFormInitButton';
 import GoogleMapsContainer from './GoogleMapsContainer';
-<<<<<<< HEAD
 import {AttendRequestInboxButton} from './AttendEvents/AttendRequestInboxButton';
-=======
 import GoogleMapsButtonContainer from './GoogleMapsButtonContainer';
->>>>>>> e2603a79079cf45214023db5562217b7d01bb956
 
 export function Content() {
   const [toggleFilter, setToggleFilter] = React.useState("displayOffScreen");
