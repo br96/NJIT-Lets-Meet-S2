@@ -392,7 +392,6 @@ def on_send_attend_event(data):
         curr_attendees = event.event_attendees
         if user.name not in curr_attendees:
             curr_attendees.append(user.email)
-<<<<<<< HEAD
         
         db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
         db.session.commit()
@@ -406,15 +405,12 @@ def on_send_attend_event(data):
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
 
 # TODO event for retrieving your attend requests
-    
-=======
 
     db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
     db.session.commit()
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
 
->>>>>>> 8945cd7b4370ec2fa28118df9d4798fa5b8c58ba
 @socketio.on("retrieve event attendees")
 def on_retrieve_event_attendees(data):
     event = db.session.query(models.EventClass).get(data["id"])
