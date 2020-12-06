@@ -32,10 +32,10 @@ export function AttendRequestInbox()
     }
     getAttendRequests();
 
-    if(attendRequestAttendees.length === 0) return <p>Attend request inbox is empty</p>;
+    if(attendRequestAttendees.length === 0) return <div className="attend-request-inbox"><p>Attend request inbox is empty</p></div>;
         return attendRequestAttendees.map((attendee, index) => {
             return (
-                <div className="attend-requests">
+                <div className="attend-request-inbox">
                     <AttendRequest 
                         key={index} 
                         attendee={attendee} 

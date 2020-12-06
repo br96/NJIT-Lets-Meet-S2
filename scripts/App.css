@@ -640,7 +640,7 @@ select {
     border-radius: 50%;
 }
 
-.friend-request-inbox {
+.friend-request-inbox, .attend-request-inbox {
     background-color: var(--njit-meteorite);
     position: fixed;
     top: 5vh;
