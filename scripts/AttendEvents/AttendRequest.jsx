@@ -2,7 +2,7 @@ import React from 'react';
 import { Socket } from '../Socket';
 import { User } from '../User';
 
-export function AttendRequest({fromEmail})
+export function AttendRequest({attendee, fromEmail, title, id})
 {
     function replyAttendRequest(accept)
     {
@@ -10,6 +10,7 @@ export function AttendRequest({fromEmail})
             from: fromEmail,
             to: User.current.email,
             accept: accept,
+            id: id
         });
     }
 
@@ -27,7 +28,7 @@ export function AttendRequest({fromEmail})
 
     return (
     <div className="attend-request">
-        <span>{fromEmail} wants to attend your event</span>
+        <span>{attendee} wants to attend your event: {title}</span>
         <div className="attend-request-options">
             <button onClick={acceptAttendRequest}>Accept</button>
             <button onClick={declineAttendRequest}>Decline</button>

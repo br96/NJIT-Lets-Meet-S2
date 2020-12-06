@@ -5,20 +5,17 @@ import { User } from '../User';
 import {AttendRequest} from './AttendRequest';
 export function AttendRequestInbox()
 {
-    const [attendRequests, setAttendRequests] = React.useState([]);
-
-    function extractAttendRequestsFromArray(requests)
-    {
-        if(requests.length === 0) return <p>Attend requests inbox is empty</p>;
-        return requests.map((req, index) => {
-            return <AttendRequest key={index} fromEmail={req.from} />;
-        });
-    }
+    const [attendRequestAttendees, setAttendRequestAttendees] = React.useState([]);
+    const [attendRequestEmails, setAttendRequestEmails] = React.useState([]);
+    const [attendRequestEventTitles, setAttendRequestEventTitles] = React.useState([]);
+    const [attendRequestEventIds, setAttendRequestEventIds] = React.useState([]);
 
     function onReceiveAttendRequests(data)
     {
-        let requests = data['requests'];
-        setAttendRequests(() => extractAttendRequestsFromArray(requests));
+        setAttendRequestAttendees(data.all_request_attendees);
+        setAttendRequestEmails(data.all_request_attendees_emails);
+        setAttendRequestEventTitles(data.all_request_event_titles);
+        setAttendRequestEventIds(data.all_request_event_ids);
     }
 
     function getAttendRequests()
@@ -27,7 +24,7 @@ export function AttendRequestInbox()
             let channel = 'receive attend requests';
             Socket.on(channel, onReceiveAttendRequests);
             
-            Socket.emit('send received attend requests', {
+            Socket.emit('get attend requests', {
                 email: User.current.email
             });
         }, []);
@@ -35,9 +32,18 @@ export function AttendRequestInbox()
     }
     getAttendRequests();
 
-    return (
-    <div className="attend-request-inbox">
-        {attendRequests}
-    </div>
-    );
+    if(attendRequestAttendees === 0) return <p>Attend request inbox is empty</p>;
+        return attendRequestAttendees.map((attendee, index) => {
+            return (
+                <div className="attend-requests">
+                    <AttendRequest 
+                        key={index} 
+                        attendee={attendee} 
+                        fromEmail={attendRequestEmails[index]} 
+                        title={attendRequestEventTitles[index]} 
+                        id={attendRequestEventIds[index]} 
+                    />
+                </div>
+            );
+        });
 }
