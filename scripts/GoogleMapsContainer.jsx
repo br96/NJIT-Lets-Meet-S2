@@ -33,7 +33,14 @@ function Map() {
 
   getEventHistory();
 
-  return <GoogleMap
+  function command() {
+    Socket.emit("request all events");
+  }
+
+  return (
+    <div className="temp-container">
+      <button className="refresh-button" onClick={command}>Refresh</button>
+      <GoogleMap
     defaultZoom={17}
     defaultCenter={{lat: 40.74312, lng: -74.17783 }}
     >
@@ -67,6 +74,9 @@ function Map() {
         </InfoWindow>
       )}
     </GoogleMap>
+    </div>
+
+  )
 }
 
 const WrappedMap = withScriptjs(withGoogleMap(Map));

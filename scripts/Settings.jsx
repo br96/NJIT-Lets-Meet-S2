@@ -1,4 +1,5 @@
 import * as React from 'react';
+import FilterForm from './Filter';
 import OwnProfile from './OwnProfile';
 import { Socket } from './Socket';
 
@@ -15,13 +16,14 @@ export default function Settings() {
             console.log("sent");
         }
     }
-    
+
+
+
     return (
         <div className="settings-container">
             <ul className="settings-list">
                 <li onClick={toggleInfoSettings} className="setting-option">Edit Profile</li>
-                <li className="setting-option">Option 2</li>
-                <li className="setting-option">Option 3</li>
+                {/* <li onClick={toggleFilterSettings} className="setting-option">Set Filters</li> */}
             </ul>
             {toggleInfo ? <OwnProfile /> : null}
         </div>
