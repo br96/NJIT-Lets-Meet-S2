@@ -105,22 +105,34 @@ class Message(db.Model):
         self.to_user = to_user
         self.msg_type = msg_type
 
+class ChatUsers(db.Model):
+     
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(1000), unique=True)
+    user = db.Column(db.String(1000), unique=True)
+    
+    def __init__(self, email, user):
+        
+        self.email = email
+        self.user = user
+
 class Chat_Message(db.Model):
     __tablename__ = "message"
     __table_args__ = {'extend_existing': True} 
     
     id = db.Column(db.Integer, primary_key=True)
-    #msg_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(1000), nullable=False)
-    message = db.Column(db.String(1000), nullable=False)
+    username = db.Column(db.String(120))
+    email = db.Column(db.String(1000))
+    message = db.Column(db.String(1000))
+    #message_id = db.Column(db.Integer, db.ForeignKey('Chat_Users.id'))
     #msg_type = db.Column(db.Enum(MessageType))
     #sid = db.Column(db.String(120))
 
-    def __init__(self, sid, user_name, message):
-        self.sid = sid
-        self.user_name = user_name
+    def __init__(self, message):
+        #self.username = username
+        #self.email = email
         self.message = message
-        #self.msg_type = msg_type
+        #self.message_id = message_id
 
 class Event_Requests(db.Model):
     __tablename__ = "event_requests"

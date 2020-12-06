@@ -11,6 +11,7 @@ EVENTS_RECEIVED_CHANNEL = "emit all events"
 USERS_RECEIVED_CHANNEL = "emit all users"
 FRIENDS_RECEIVED_CHANNEL = "emit all friends"
 FRIEND_REQUESTS_RECEIVED_CHANNEL = "receive friend requests"
+MESSAGES_RECEIVED_CHANNEL = "emit all users"
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -105,6 +106,56 @@ def emit_user_friend_requests(channel, email):
         'requests': friend_requests
     }, room=flask.request.sid)
 
+def emit_all_messages(data):
+    all_chat_id = [db_message.id for db_message in db.session.query(models.Chat_Message).all()]
+    all_chat_user = [db_message.username for db_message in db.session.query(models.Chat_Message).all()]
+    all_chat_email = [db_message.email for db_message in db.session.query(models.Chat_Message).all()]
+    all_chat_messages = [db_message.message for db_message in db.session.query(models.Chat_Message).all()]
+    #all_msg = []
+    #for message_row in all_chat_messages:
+    #    all_msg.append(message_row.Chat_Message)
+    
+    socketio.emit(data, {
+        "all_chat_user":all_chat_user,
+        "all_messages":all_chat_messages
+    })
+
+@socketio.on("new message input") 
+def room_messages(data):
+    print("input the data:", data)
+    #print("New login from user:", data["username"])
+    #db_messages = db.session.query(models.Chat_Message).all()
+    #all_current_user_names = [user.name for user in db_messages]
+    #socketio.emit(data, {
+    #    "all_current_user_names": all_current_user_names
+    #})
+
+    #db.session.add(db.seesion.query(models.Chat_Message.message).filter(models.Chat_Message.message == data).first()[0]
+    messages = db.session.add(models.Chat_Message(data['message']))
+    message = db.session.query(models.Chat_Message.message).filter(models.Chat_Message.message == data).first()[0]
+    db.session.commit()
+    #db.session.add(models.Chat_Message(
+    #            "Username" + ": " + "message",
+    #            db.session.query(models.CurrentUsers.id)
+    ##            .filter(models.CurrentUsers.name == lst[request.sid])
+     #           .first()
+    #           .id,
+    #        )
+    #    )
+    #emit_all_messages(MESSAGES_RECEIVED_CHANNEL)
+    
+    socketio.emit(flask.request.sid, {
+            "message":messages
+        })
+         
+#lst = {}
+#all_users = []
+
+#def emit_all_users(channel):
+#    for users in lst:
+#        all_users.append(lst[users])
+#    socketio.emit(channel, {"all_users": all_users})
+
 @app.route('/')
 def index():
     return flask.render_template('index.html')
@@ -114,6 +165,15 @@ def home():
     return flask.render_template('index.html')
 
 @app.route('/room')
+def room():
+    emit_all_messages(MESSAGES_RECEIVED_CHANNEL)
+    return flask.render_template('index.html')
+
+#def get_room(client_sid):
+#    models.db.session.add(models.CurrentUsers).filter_by(sid=client_sid).first().user
+#    models.db.session.commit()
+
+@app.route('/map')
 def GoogleMap():
     return flask.render_template('index.html')
 

@@ -353,7 +353,20 @@ select {
 
 /* Chat Page */
 
+
 .leave{
+    cursor:pointer;
+    padding: 15px 15px;
+    background: #e6e9ff;
+    color: #667aff;
+    border: 0;
+    font-size: 17px;
+    position:absolute;
+    right: 0px;
+    top:9%;
+}
+
+.send{
     cursor:pointer;
     padding: 15px 15px;
     background: #e6e9ff;
@@ -364,19 +377,32 @@ select {
 
 .chat-container{
     background: var(--njit-white);
-    max-width:1100px;
-    text-align: center;
+    /*max-width:1100px;
+    text-align: center; */
     /*background: #fff; */
-    margin: 30px auto;
-    overflow: hidden;
+    /*margin: 30px auto; 
+    overflow: hidden; */
 }
 
+.Roompage{
+    text-align: center;
+    position: relative;
+    left: 500px;
+}
+/*
+.Notification{
+    cursor: pointer;
+    padding: 15px 15px;
+    font-size: 17px;
+}
+*/
 .chat-header{
     background: var(--njit-blue);
     color: white;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    align-items: center;
+    /*align-items: center; */
+    
     justify-content: space-between;
     display: flex;
     padding: 15px;
@@ -385,6 +411,8 @@ select {
 .chat-main{
     display: grid;
     grid-template-columns: 1fr 3fr;
+    width: 900px;
+    height: 800px;
 }
 
 .chat-sidebar{
@@ -394,29 +422,39 @@ select {
 }
 
 .room_name{
-    margin-bottom:15px;
+    margin-bottom:20px;
+    margin-top: -20px;
 }
 
 .chat-sidebar h2{
     font-size:20px;
     background: rgba(0,0,0,0.1);
-    padding: 10px;
-    margin-bottom:20px;
-
+    margin-bottom:100px;
+    
 }
 
 .chat-sidebar ul li {
     padding: 10px 0;
 }
 
-.chat-messages{
+.content-room {
     padding: 30px;
-    max-height: 500px;
-    overflow-y: scroll;
+    background: #7386ff;
 }
 
 .chat-messages form{
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.submitButton{
     display: flex;
+    margin-top: 750px;
+    position:absolute;
+    right: 0px;
+}
+.input{
+    width: 1100px;
 }
 
 .google-login-page {
