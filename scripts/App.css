@@ -41,7 +41,8 @@
 
 .njit-banner {
     color: var(--njit-white);
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
     position: absolute;
     left: 20px;
     font-size: 1.25rem;
@@ -51,7 +52,8 @@
 
 .app-name {
     color: var(--njit-white);
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
     font-size: 1.25rem;
 }
 
@@ -253,9 +255,20 @@
 }
 
 .expanded-event {
-    background-color: purple;
+    color: var(--njit-white);
+    background-color: rgba(0,0, 0, .6);
+    padding: 20px;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
 }
 
+.event-typing-family {
+    font-size: .9rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+
+}
 .profile-shown {
     background-color: red;
 }
@@ -407,7 +420,7 @@ select {
 }
 
 .google-login-page {
-    background-image: url("https://i.imgur.com/gWZMoWN.jpg");
+    background-image: url("https://i.imgur.com/D2JbBmQ.jpg");
     width: 100vw;
     display: grid;
     justify-content: center;
@@ -489,6 +502,152 @@ select {
     justify-content: center;
     text-align: center;
     color: var(--njit-white);
+}
+
+.temp-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.refresh-button {
+    border: none;
+    color: var(--njit-white);
+    font-family: "Montserrat", sans-serif;
+    z-index: 21;
+    background-color: black;
+    padding: 10px;
+    position: relative;
+    bottom: 30px;
+}
+
+.refresh-button:hover {
+    color:limegreen;
+    cursor: pointer;
+}
+
+.settings-container {
+    background-color: var(--njit-meteorite);
+    position: fixed;
+    right: 0;
+    top: 5vh;
+}
+
+.settings-list {
+    font-family: "Montserrat", sans-serif;
+    list-style-type: none;
+}
+
+.setting-option {
+    padding: 10px 20px 10px 20px;
+}
+.setting-option:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.event-filters-styling {
+    position: fixed;
+    background-color: var(--njit-meteorite);
+    right: 0;
+    top: 5vh;
+    z-index: 100;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-form {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.submit-filter-button {
+    border: none;
+}
+
+.own-profile-shown {
+    background-color: var(--njit-meteorite);
+    position: fixed;
+    right: 0;
+    top: 5vh;
+    z-index: 100;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    grid-gap: 10px;
+    font-family: "Montserrat";
+}
+
+.pfp-own-profile {
+    border-radius: 50%;
+    text-align: center;
+}
+
+.pfp-content {
+    font-family: "Montserrat", sans-serif;
+    font-size: .75rem;
+}
+
+.profile-button {
+    display: inline-block;
+    border: none;
+    padding: 10px;
+    background-color: var(--njit-meteorite);
+    color: var(--njit-white);
+}
+
+.profile-button:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.filter-button-toggling {
+    display: flex;
+    z-index: 1000;
+}
+#displayOnScreen {
+    right: 0px;
+}
+
+#displayOffScreen {
+    right: 5000px;
+}
+
+.event-session-container {
+    background-color: none;
+}
+
+.profile-shown {
+    background-color: rgba(0, 0, 0, .6);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: "Montserrat";
+    color: var(--njit-white);
+    font-size: .9rem;
+}
+
+.pfp-for-users {
+    width: 100px;
+    border-radius: 50%;
+}
+
+.friend-request-inbox {
+    background-color: var(--njit-meteorite);
+    position: fixed;
+    top: 5vh;
+    right: 0;
+    padding: 10px;
+    color: var(--njit-white);
+    font-family: "Montserrat", sans-serif;
 }
 /* NEW STYLING END*/
 /*
@@ -967,7 +1126,6 @@ select {
 .google-map-event-container {
     display: grid;
     grid-gap: 5px;
-    background-color: blue;
 }
 
 .google-map-event {
@@ -978,7 +1136,7 @@ select {
     text-align: center;
     background-color: var(--njit-red);
     padding: 20px;
-    color: white;
+    color: var(--njit-white);
 }
 
 .google-location {
@@ -992,12 +1150,13 @@ select {
 .google-map-event {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    font-size: 20px;
     justify-content: space-around;
     align-items: center;
     text-align: center;
-    background-color: var(--njit-red);
+    background-color: var(--njit-meteorite);
     padding: 20px;
-    color: white;
+    color: var(--njit-white);
 }
 
 .google-location {

@@ -471,6 +471,10 @@ def on_update_interests(data):
 
     emit_user_interests("get interests", email)
 
+@socketio.on("request all events")
+def send_events_to_user():
+    emit_all_events(EVENTS_RECEIVED_CHANNEL)
+
 if __name__ == '__main__':
     socketio.run(
         app,
