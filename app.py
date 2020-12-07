@@ -316,6 +316,7 @@ def friend_request_exists(user1: str, user2: str) -> bool:
 
 @socketio.on('send friend request')
 def on_send_friend_request(data):
+    print(data)
     to_user = data['user1']
     from_user = data['user2']
     print('on send friend request')
