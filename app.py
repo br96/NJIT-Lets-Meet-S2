@@ -331,10 +331,23 @@ def search_events(data):
     filtered_event_times = list()
     filtered_event_descriptions = list()
     
-    # requested_user = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).first()
-
+    friends_list = list()
+    
+    requested_user = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).first()
+    
+    if data["owner"] == "Friends Events":
+        friends_list += [db.session.query(models.User).filter(models.User.email == db_friendship.user2).first().name for db_friendship in db.session.query(models.Friends)\
+                                                                .filter(models.Friends.user1 == requested_user.email).all()]
+        friends_list += [db.session.query(models.User).filter(models.User.email == db_friendship.user1).first().name for db_friendship in db.session.query(models.Friends)\
+                                                                .filter(models.Friends.user2 == requested_user.email).all()]
+    
+    print(friends_list)
     for event_id in queried_event_ids:
         event = db.session.query(models.EventClass).get(event_id)
+        if data["owner"] == "My Events" and requested_user.name != event.event_owner:
+            continue
+        elif data["owner"] == "Friends Events" and event.event_owner not in friends_list:
+            continue
         if event.event_type not in filters and len(filters) != 0:
             continue
 
