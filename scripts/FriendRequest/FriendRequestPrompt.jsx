@@ -5,7 +5,6 @@ import {User} from '../User';
 export function FriendRequestPrompt({owner, userEmail})
 {
     if(userEmail === User.current.email) return <div />;
-
     function sendFriendRequest()
     {
         Socket.emit('send friend request', {

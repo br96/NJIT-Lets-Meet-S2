@@ -22,6 +22,7 @@ class UserPreferenceFlags(enum.IntEnum):
         return (original & flags) != 0
 
 class EventClass(db.Model):
+    __table_args__ = {'extend_existing': True} 
     id = db.Column(db.Integer, primary_key=True)
     event_owner = db.Column(db.String(64))
     event_title = db.Column(db.String(32))
@@ -46,6 +47,7 @@ class EventClass(db.Model):
 
 class User(db.Model):
     __tablename__ = "users"
+    __table_args__ = {'extend_existing': True} 
 
     id = db.Column(db.Integer)
     email = db.Column(db.String(1000), primary_key=True)
@@ -66,6 +68,7 @@ class User(db.Model):
         self.interests = interests
 
 class CurrentUsers(db.Model):
+    __table_args__ = {'extend_existing': True} 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
     email = db.Column(db.String(1000))
@@ -79,6 +82,7 @@ class CurrentUsers(db.Model):
         self.connection_status = connection_status
 
 class Friends(db.Model):
+    __table_args__ = {'extend_existing': True} 
     friend_id = db.Column(db.Integer, primary_key=True)
     user1 = db.Column(db.String(1000), db.ForeignKey("users.email"))
     user2 = db.Column(db.String(1000), db.ForeignKey("users.email"))
@@ -89,6 +93,7 @@ class Friends(db.Model):
 
 class Message(db.Model):
     __tablename__ = "messages"
+    __table_args__ = {'extend_existing': True} 
 
     msg_id = db.Column(db.Integer, primary_key=True)
     from_user = db.Column(db.String(1000), nullable=False)
@@ -100,21 +105,48 @@ class Message(db.Model):
         self.to_user = to_user
         self.msg_type = msg_type
 
+class ChatUsers(db.Model):
+     
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(1000), unique=True)
+    user = db.Column(db.String(1000), unique=True)
+    
+    def __init__(self, email, user):
+        
+        self.email = email
+        self.user = user
+
 class Chat_Message(db.Model):
     __tablename__ = "message"
+    __table_args__ = {'extend_existing': True} 
     
     id = db.Column(db.Integer, primary_key=True)
-    #msg_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(1000), nullable=False)
-    message = db.Column(db.String(1000), nullable=False)
+    username = db.Column(db.String(120))
+    email = db.Column(db.String(1000))
+    message = db.Column(db.String(1000))
+    #message_id = db.Column(db.Integer, db.ForeignKey('Chat_Users.id'))
     #msg_type = db.Column(db.Enum(MessageType))
     #sid = db.Column(db.String(120))
 
-    def __init__(self, sid, user_name, message):
-        self.sid = sid
-        self.user_name = user_name
+    def __init__(self, message):
+        #self.username = username
+        #self.email = email
         self.message = message
-        #self.msg_type = msg_type
+        #self.message_id = message_id
+
+class Event_Requests(db.Model):
+    __tablename__ = "event_requests"
+    __table_args__ = {'extend_existing': True} 
+    
+    id = db.Column(db.Integer, primary_key=True)
+    owner_email = db.Column(db.String(1000))
+    attendee_email = db.Column(db.String(1000))
+    event_id = db.Column(db.String(1000))
+    
+    def __init__(self, owner_email, attendee_email, event_id):
+        self.owner_email = owner_email
+        self.attendee_email = attendee_email
+        self.event_id = event_id
 
 db.create_all()
 db.session.commit()

@@ -8,22 +8,22 @@ function Chatbox() {
     
     function getNewMessage() {
         React.useEffect(() => {
-            Socket.on('messages received', (data) => {
-                setMessages(data.allMessages);
-                
-                const chatBox = document.getElementById("chatbox");
-                chatBox.scrollTop = chatBox.scrollHeight;
-            });
-        });
-        
-        React.useEffect(() => {
-           Socket.on('sending message history',(data) => {
-            setMessages(data.allMessages);
-            const chatBox = document.getElementById('chatbox');
-            chatBox.scrollTop = chatBox.scrollHeight;
-            });
+            Socket.on('messages received', updateMessages);
+            return () => {
+                Socket.off('messages received', updateMessages);
+            };
         });
     }
+    
+     function getNewuser() {
+        React.useEffect(() => {
+            Socket.on('users received', updateUsers);
+            return () => {
+                Socket.off('users received', updateUsers);
+            };
+        });
+    }
+
     function updateMessages(data) {
         //console.log("Received messages from server: " + data['allMessages']);
 
@@ -32,23 +32,38 @@ function Chatbox() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
     
-    getNewMessage()
+    function updateUsers(data) {
+        console.log('Received new user: ' + data['all_users']);
+        setUsers(data['all_users']);
+    }
+    
+    getNewMessage();
+    getNewuser();
     
     return (
         <div className="container" id="chatbox">
             <div className="chat_messages">
             <form>
+                    <ul className="userList">
+                        {
+                            users.map((user, index) =>
+                            <li key={index}>User Name: {user}</li>)
+                        }
+                    </ul>
+                    
                     <ul className="box">
                         {
                             messages.map((message, index) =>
                             <li key={index}>{message}</li>)
                         }
                     </ul>
-                    <SendButton />
             </form>
             </div>
+            <div className="input_message">
+            <SendButton />
+            </div>
         </div>
-        )
+        );
 }
 
 export default Chatbox;
