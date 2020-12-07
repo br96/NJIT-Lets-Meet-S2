@@ -14,8 +14,8 @@ export default function CurrentUser({name, connectionStatus, email, showFriendRe
             <div className="current-user-display" onClick={toggleFriendRequestPrompt}>
                 <div className='current-user-name'>{name}</div>
                 <div className="current-user-options">
-                    { showFriendRequest &&
-                        <FriendRequestPrompt userEmail={email} /> 
+                    { showFriendRequest ?
+                        <FriendRequestPrompt userEmail={email} />: <div className="friend-request-icon"></div>
                     }
                     <div id={connectionStatus}></div>
                 </div>
