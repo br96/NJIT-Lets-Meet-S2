@@ -84,7 +84,7 @@ export default function OwnProfile() {
             <img className="pfp-own-profile" src={userInfo.picture} alt="profile-picture"/>
             <h1 className="pfp-content">{userInfo.name}</h1>
             <h3 className="pfp-content">{userInfo.email}</h3>
-            <div className="bio-container"><h3>{userInfo.bio}</h3><button className="profile-button" onClick={updateBio}>Update Bio</button></div>
+            <div className="bio-container"><button className="profile-button" onClick={updateBio}>Update Bio</button></div>
             { shouldUpdateBio ? <div className="update-bio-container"><input className="new-bio" type="text" placeholder="enter new bio info..." ref={bioReference}></input><button className="profile-button" onClick={sendBio}>Submit Bio</button></div> : null}
             <div className="follow-container"><button className="profile-button" onClick={updateFollow}>Update Followed Events</button></div>
             { shouldUpdateFollow ? <div className="update-follow-container"><form className="follow-form" onSubmit={sendFollow}><MultiSelect options={options} value={selected} onChange={setSelected} hasSelectAll={ false } /><button className="profile-button" type="submit">Submit</button></form></div> : null}
