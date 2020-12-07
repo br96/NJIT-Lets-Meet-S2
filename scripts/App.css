@@ -221,6 +221,7 @@
     position: relative;
     background-color: rgba(0, 0, 0, .6);
     overflow-y: scroll;
+    min-height: 87.5vh;
 }
 
 .event-history-container {
@@ -380,7 +381,7 @@ select {
     /*max-width:1100px;
     text-align: center; */
     /*background: #fff; */
-    /*margin: 30px auto; 
+    /*margin: 30px auto;
     overflow: hidden; */
 }
 
@@ -402,7 +403,7 @@ select {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     /*align-items: center; */
-    
+
     justify-content: space-between;
     display: flex;
     padding: 15px;
@@ -430,7 +431,7 @@ select {
     font-size:20px;
     background: rgba(0,0,0,0.1);
     margin-bottom:100px;
-    
+
 }
 
 .chat-sidebar ul li {
@@ -686,6 +687,10 @@ select {
     padding: 10px;
     color: var(--njit-white);
     font-family: "Montserrat", sans-serif;
+}
+
+.attendee {
+    list-style-type: none;
 }
 /* NEW STYLING END*/
 /*
