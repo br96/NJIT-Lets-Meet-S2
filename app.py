@@ -312,6 +312,7 @@ def update_new_bio(data):
 @socketio.on("filter events")
 def search_events(data):
     print("Searching for " + data["query"])
+    print("filters " + str(data["filters"]))
     filters = list()
     for f in data["filters"]:
         filters.append(f['value'])
@@ -321,13 +322,16 @@ def search_events(data):
         (models.EventClass.event_title.contains(data["query"])) | \
         (models.EventClass.event_location.contains(data["query"])) | \
         (models.EventClass.event_description.contains(data["query"])))]
-
+    
+    filtered_event_ids = list()
     filtered_event_owners = list()
     filtered_event_titles = list()
     filtered_event_types = list()
     filtered_event_locations = list()
     filtered_event_times = list()
     filtered_event_descriptions = list()
+    
+    # requested_user = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).first()
 
     for event_id in queried_event_ids:
         event = db.session.query(models.EventClass).get(event_id)
@@ -336,14 +340,17 @@ def search_events(data):
 
         if not event.event_visibility:
             continue
-
+        
+        filtered_event_ids.append(event.id)
         filtered_event_owners.append(event.event_owner)
         filtered_event_titles.append(event.event_title)
         filtered_event_types.append(event.event_type)
+        filtered_event_locations.append(event.event_location)
         filtered_event_times.append(event.event_time)
         filtered_event_descriptions.append(event.event_description)
 
     socketio.emit(EVENTS_RECEIVED_CHANNEL, {
+        "all_event_ids": filtered_event_ids,
         "all_event_owners": filtered_event_owners,
         "all_event_titles": filtered_event_titles,
         "all_event_types": filtered_event_types,
