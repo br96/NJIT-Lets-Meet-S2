@@ -351,7 +351,7 @@ def search_events(data):
         if event.event_type not in filters and len(filters) != 0:
             continue
 
-        if not event.event_visibility:
+        if not event.event_visibility and event.event_owner not in friends_list:
             continue
         
         filtered_event_ids.append(event.id)
