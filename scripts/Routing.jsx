@@ -4,6 +4,7 @@ import { Content } from './Content';
 import { Room } from './Room';
 import GoogleMapsContainer from "./GoogleMapsContainer";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import About from "./About";
 
 export function Routing() {
 
@@ -15,6 +16,7 @@ export function Routing() {
                     <Route path="/home" component={Content} />
                     <Route path="/room" component={Room} />
                     <Route path="/map" component={GoogleMapsContainer} />
+                    <Route path="/about" component={About} />
                 </Switch>
             </div>
         </Router>

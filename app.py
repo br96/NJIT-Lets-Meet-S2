@@ -105,8 +105,7 @@ def emit_user_friend_requests(channel, email):
     socketio.emit(channel, {
         'requests': friend_requests
     }, room=flask.request.sid)
-
-
+        
 def emit_all_messages():
     #all_chat_id = [db_message.id for db_message in db.session.query(models.Chat_Message).all()]
     all_chat_user = [
@@ -153,7 +152,7 @@ def room_messages(data):
     #            db.session.query(models.CurrentUsers.id).filter(models.Chat_Message.username).first().id,
     #    )
     emit_all_messages()
-         
+
 #lst = {}
 #all_users = []
 
@@ -173,6 +172,10 @@ def home():
 @app.route('/room')
 def room():
     emit_all_messages()
+    return flask.render_template('index.html')
+
+@app.route('/about')
+def about():
     return flask.render_template('index.html')
 
 #def get_room(client_sid):
@@ -328,7 +331,7 @@ def search_events(data):
         (models.EventClass.event_title.contains(data["query"])) | \
         (models.EventClass.event_location.contains(data["query"])) | \
         (models.EventClass.event_description.contains(data["query"])))]
-    
+
     filtered_event_ids = list()
     filtered_event_owners = list()
     filtered_event_titles = list()
@@ -336,17 +339,17 @@ def search_events(data):
     filtered_event_locations = list()
     filtered_event_times = list()
     filtered_event_descriptions = list()
-    
+
     friends_list = list()
-    
+
     requested_user = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).first()
-    
+
     if data["owner"] == "Friends Events":
         friends_list += [db.session.query(models.User).filter(models.User.email == db_friendship.user2).first().name for db_friendship in db.session.query(models.Friends)\
                                                                 .filter(models.Friends.user1 == requested_user.email).all()]
         friends_list += [db.session.query(models.User).filter(models.User.email == db_friendship.user1).first().name for db_friendship in db.session.query(models.Friends)\
                                                                 .filter(models.Friends.user2 == requested_user.email).all()]
-    
+
     print(friends_list)
     for event_id in queried_event_ids:
         event = db.session.query(models.EventClass).get(event_id)
@@ -359,7 +362,7 @@ def search_events(data):
 
         if not event.event_visibility and event.event_owner not in friends_list:
             continue
-        
+
         filtered_event_ids.append(event.id)
         filtered_event_owners.append(event.event_owner)
         filtered_event_titles.append(event.event_title)
@@ -402,13 +405,13 @@ def friend_request_exists(user1: str, user2: str) -> bool:
 
 def attend_request_exists(owner: str, attendee: str, event_id: int):
     owner_requests = db.session.query(models.Event_Requests).filter(models.Event_Requests.owner_email == owner).all()
-    
+
     for request in owner_requests:
         if request.owner_email == owner and request.attendee_email == attendee and str(request.event_id) == str(event_id):
             return True
-    
+
     return False
-    
+
 
 @socketio.on('send friend request')
 def on_send_friend_request(data):
@@ -479,16 +482,16 @@ def on_send_attend_event(data):
         curr_attendees = event.event_attendees
         if user.email not in curr_attendees:
             curr_attendees.append(user.email)
-        
+
         print(curr_attendees)
-        
+
         db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
         db.session.commit()
     else:
         if not attend_request_exists(owner.email, user.email, event.id) and user.email not in event.event_attendees:
             db.session.add(models.Event_Requests(owner.email, user.email, event.id))
             db.session.commit()
-       
+
         owner_sid = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == owner.email).first().client_socket_id
         # TODO notify owner?
 
@@ -504,7 +507,7 @@ def on_retrieve_attend_requests(data):
                             .filter(models.Event_Requests.owner_email == data['email']).all()]
     all_request_event_ids = [db_event_request.event_id for db_event_request in db.session.query(models.Event_Requests)\
                             .filter(models.Event_Requests.owner_email == data['email']).all()]
-    
+
     socketio.emit("receive attend requests", {
         "all_request_attendees": all_request_attendees,
         "all_request_attendees_emails": all_request_attendees_emails,
@@ -528,22 +531,22 @@ def on_retrieve_event_attendees(data):
 def on_reply_attend_request(data):
     event = db.session.query(models.EventClass).get(data["id"])
     user = db.session.query(models.User).get(data["from"])
-    
+
     if data["accept"]:
         curr_attendees = event.event_attendees
         if user.email not in curr_attendees:
             curr_attendees.append(user.email)
-        
+
         db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
         db.session.commit()
-    
+
     req = db.session.query(models.Event_Requests).filter(models.Event_Requests.event_id == data["id"] and \
                                                          models.Event_Requests.owner_email == data["to"] and \
                                                          models.Event_Requests.attendee_email == data["from"]).first()
-    
+
     db.session.delete(req)
     db.session.commit()
-    
+
 
 @socketio.on("show interests changed")
 def on_show_interests_changed(data):

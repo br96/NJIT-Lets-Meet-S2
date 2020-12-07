@@ -28,6 +28,11 @@
     overflow: hidden;
 }
 
+.fixed-position {
+    position: fixed;
+    width: 100%;
+}
+
 .njit-header {
     background-image: linear-gradient(rgb(29, 32, 37),rgb(28, 30, 35), rgb(20, 22, 25));
     position: relative;
@@ -1178,6 +1183,12 @@ li{
 }
 
 */
+
+.normal-link {
+    text-decoration: none;
+    color: var(--njit-white);
+}
+
 .google-map-event-container {
     display: grid;
     grid-gap: 5px;
