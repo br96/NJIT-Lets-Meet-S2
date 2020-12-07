@@ -532,17 +532,23 @@ def on_show_interests_changed(data):
     )
     db.session.commit()
 
+    print("show interests ==================", show_interests)
     socketio.emit('on show interests changed', {
         "email": email,
         "showInterests": show_interests,
     })
 
 def emit_user_interests(channel, email):
-    interests = db.session.query(models.User).get(email)
-    interests = interests.interests.split(",")
+    user = db.session.query(models.User).get(email)
+    interests = user.interests.split(",")
+    show_interests = models.UserPreferenceFlags.check_flags(
+        user.flags,
+        models.UserPreferenceFlags.ShowInterests)
+
     socketio.emit(channel, {
         "email": email,
         "interests": interests,
+        "showInterests": show_interests
     })
 
 @socketio.on("send interests")

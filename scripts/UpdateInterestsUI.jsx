@@ -48,6 +48,9 @@ export function UpdateInterestsUI({email})
                 return createTextField(entry);
             });
         });
+
+        let checkbox = document.getElementById("show-interests-check");
+        checkbox.checked = data.showInterests;
     }
 
     function getInterests()
@@ -89,6 +92,16 @@ export function UpdateInterestsUI({email})
         setInterests(() => list);
     }
 
+    function onShowInterestsClick()
+    {
+        if(email === undefined || email === null) return;   
+        let checkbox = document.getElementById("show-interests-check");
+        Socket.emit("show interests changed", {
+            email: email,
+            showInterests: checkbox.checked,
+        });
+    }
+
     return (
     <div>
         <ul>
@@ -96,6 +109,17 @@ export function UpdateInterestsUI({email})
         </ul>
         <button onClick={addField}>Add</button>
         <button onClick={submitChanges}>Submit</button>
+        <div>
+            <span>
+                Show Interests 
+                <input 
+                    type="checkbox" 
+                    name="show-interests-check" 
+                    id="show-interests-check"
+                    defaultChecked={false}
+                    onClick={onShowInterestsClick}/>
+            </span>
+        </div>
     </div>
     );
 }
