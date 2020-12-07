@@ -697,6 +697,28 @@ select {
 .attendee {
     list-style-type: none;
 }
+
+.profile-container {
+    position: fixed;
+    top: 5vh;
+    background-color: var(--njit-meteorite);
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-picture {
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.account-button-container:hover {
+    cursor: pointer;
+}
 /* NEW STYLING END*/
 /*
 

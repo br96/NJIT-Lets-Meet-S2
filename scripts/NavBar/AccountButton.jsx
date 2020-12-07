@@ -12,7 +12,7 @@ export function AccountButton()
     }
 
     return (
-    <div>
+    <div className="account-button-container">
         <i className="fas fa-user-circle user-profile-button clickable-icon" onClick={onProfileClick}></i>
         { showProfile && <ProfileContainer onClose={onProfileClick} user={User.current} compId="navbar-profile-container" /> }
     </div>

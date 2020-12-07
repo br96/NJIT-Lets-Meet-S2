@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {AccountButton} from "./NavBar/AccountButton"
 import {NavBarTopButtons} from './NavBar/NavBarTopButtons';
 export default function NavBar() {
   return (
@@ -7,6 +7,7 @@ export default function NavBar() {
       <h4 className="njit-banner">NJIT</h4>
       <h1 className="app-name">LET&apos;S MEET</h1>
       <div className="navbar-directory">
+      <AccountButton />
         <a className="normal-link" href="/home"><div className="home-directory">HOME</div></a>
         <a className="normal-link" href="/about"><div className="about-directory">ABOUT</div></a>
         <NavBarTopButtons />
