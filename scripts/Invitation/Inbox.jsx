@@ -5,7 +5,7 @@ import { Socket } from '../Socket';
 function Chatbox() {
     const [messages, setMessages] = React.useState([]);
     const [users, setUsers] = React.useState([]);
-    
+
     function getNewMessage() {
         React.useEffect(() => {
             Socket.on('messages received', updateMessages);
@@ -15,7 +15,15 @@ function Chatbox() {
         });
     }
     
-     function getNewuser() {
+    function updateMessages(data) {
+        //console.log("Received messages from server: " + data['allMessages']);
+        console.log("Received messages from server: "+data['message']);
+        setMessages(data['allMessages']);
+        let chatBox = document.getElementById("box");
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  
+    function getNewuser() {
         React.useEffect(() => {
             Socket.on('users received', updateUsers);
             return () => {
@@ -24,14 +32,6 @@ function Chatbox() {
         });
     }
 
-    function updateMessages(data) {
-        //console.log("Received messages from server: " + data['allMessages']);
-
-        setMessages(data['allMessages']);
-        let chatBox = document.getElementById("box");
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-    
     function updateUsers(data) {
         console.log('Received new user: ' + data['all_users']);
         setUsers(data['all_users']);
@@ -44,14 +44,8 @@ function Chatbox() {
         <div className="container" id="chatbox">
             <div className="chat_messages">
             <form>
-                    <ul className="userList">
-                        {
-                            users.map((user, index) =>
-                            <li key={index}>User Name: {user}</li>)
-                        }
-                    </ul>
-                    
-                    <ul className="box">
+            
+                    <ul id="box" className="box">
                         {
                             messages.map((message, index) =>
                             <li key={index}>{message}</li>)
@@ -67,3 +61,9 @@ function Chatbox() {
 }
 
 export default Chatbox;
+// <ul className="userList">
+//                         {
+//                             users.map((user, index) =>
+//                             <li key={index}>User Name: {user}</li>)
+//                         }
+//                     </ul>

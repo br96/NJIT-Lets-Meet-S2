@@ -105,16 +105,16 @@ class Message(db.Model):
         self.to_user = to_user
         self.msg_type = msg_type
 
-class ChatUsers(db.Model):
+#class ChatUsers(db.Model):
      
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(1000), unique=True)
-    user = db.Column(db.String(1000), unique=True)
+#    id = db.Column(db.Integer, primary_key=True)
+#    email = db.Column(db.String(1000), unique=True)
+#    user = db.Column(db.String(1000), unique=True)
     
-    def __init__(self, email, user):
+#    def __init__(self, email, user):
         
-        self.email = email
-        self.user = user
+#        self.email = email
+#        self.user = user
 
 class Chat_Message(db.Model):
     __tablename__ = "message"
@@ -122,17 +122,22 @@ class Chat_Message(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120))
-    email = db.Column(db.String(1000))
+    #email = db.Column(db.String(1000))
     message = db.Column(db.String(1000))
-    #message_id = db.Column(db.Integer, db.ForeignKey('Chat_Users.id'))
-    #msg_type = db.Column(db.Enum(MessageType))
-    #sid = db.Column(db.String(120))
+    #userID = db.Column(db.Integer, db.ForeignKey(CurrentUsers.id), nullable=False)
 
     def __init__(self, message):
         #self.username = username
         #self.email = email
         self.message = message
         #self.message_id = message_id
+    
+    def __repr__(self):
+        return{
+            "username": self.username,
+            "message" : self.message,
+            #'userid' : self.userID
+        }
 
 class Event_Requests(db.Model):
     __tablename__ = "event_requests"

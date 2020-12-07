@@ -354,7 +354,6 @@ select {
 
 /* Chat Page */
 
-
 .leave{
     cursor:pointer;
     padding: 15px 15px;
@@ -367,21 +366,12 @@ select {
     top:9%;
 }
 
-.send{
-    cursor:pointer;
-    padding: 15px 15px;
-    background: #e6e9ff;
-    color: #667aff;
-    border: 0;
-    font-size: 17px;
-}
-
 .chat-container{
     background: var(--njit-white);
     /*max-width:1100px;
     text-align: center; */
     /*background: #fff; */
-    /*margin: 30px auto;
+    /*margin: 30px auto; 
     overflow: hidden; */
 }
 
@@ -400,22 +390,21 @@ select {
 .chat-header{
     background: var(--njit-blue);
     color: white;
-    border-top-left-radius: 5px;
+    /*border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    /*align-items: center; */
-
-    justify-content: space-between;
+    align-items: center; */
+    
+    justify-content: space-between; 
     display: flex;
     padding: 15px;
 }
 
 .chat-main{
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    width: 900px;
-    height: 800px;
+    overflow-y:auto;
+    width: 100%;
+    height: 80%;
 }
-
+/*
 .chat-sidebar{
     background: #7386ff;
     padding: 20px 20px 60px;
@@ -431,31 +420,54 @@ select {
     font-size:20px;
     background: rgba(0,0,0,0.1);
     margin-bottom:100px;
-
+    
 }
 
 .chat-sidebar ul li {
     padding: 10px 0;
 }
-
+*/
 .content-room {
     padding: 30px;
     background: #7386ff;
 }
 
-.chat-messages form{
-    padding: 30px;
+.chat_messages form{
+    padding: 20px 0;
     overflow-y: auto;
+}
+
+.box{
+    font-size: 20px;
+    text-shadow: 5px 5px 10px blue;
+}
+
+li{
+    margin-top: 10px;
+    font-family: Arial;
+    font-size: 15pt;
+    
 }
 
 .submitButton{
     display: flex;
-    margin-top: 750px;
-    position:absolute;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
     right: 0px;
 }
+.send{
+    cursor:pointer;
+    background: #e6e9ff;
+    color: #667aff;
+    /*border: 0; */
+    font-size: 17px;
+    width: 100px;
+}
+
 .input{
-    width: 1100px;
+    width: 100%;
+    height: 50px;
 }
 
 .google-login-page {
