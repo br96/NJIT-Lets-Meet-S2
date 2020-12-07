@@ -34,7 +34,8 @@ export default function CurrentUsersContainer() {
                     key={index}
                     name={friend.name}
                     connectionStatus={friend.connection_status}
-                    email={friend.email} />;
+                    email={friend.email}
+                    showFriendRequest={false} />;
             });
         });
     }
@@ -63,7 +64,8 @@ export default function CurrentUsersContainer() {
                             key={currentUsers.length - index - 1}
                             name={currentUsers[currentUsers.length - index - 1]}
                             connectionStatus={currentConnectionStatus[currentUsers.length - index - 1]}
-                            email={currentUserEmails[currentUsers.length - index - 1]}/>
+                            email={currentUserEmails[currentUsers.length - index - 1]}
+                            showFriendRequest={true}/>
                     ))}
                 </div>
             </div>
