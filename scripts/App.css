@@ -260,6 +260,11 @@
     font-size: .9rem;
 }
 
+.title:hover, .owner:hover {
+    cursor: pointer;
+    color: crimson;
+}
+
 .expanded-event {
     color: var(--njit-white);
     background-color: rgba(0,0, 0, .6);
@@ -273,7 +278,7 @@
     font-size: .9rem;
     font-family: "Roboto", sans-serif;
     font-weight: 100;
-
+    padding: 5px;
 }
 .profile-shown {
     background-color: red;
@@ -381,7 +386,7 @@ select {
     /*max-width:1100px;
     text-align: center; */
     /*background: #fff; */
-    /*margin: 30px auto; 
+    /*margin: 30px auto;
     overflow: hidden; */
 }
 
@@ -400,7 +405,7 @@ select {
     background: #e6e9ff;
     color: #667aff;
     left: 43%;
-    
+
     /*background-color: rgba(0, 0, 0, .6);
     padding: 5px 10px 5px 10px;
     border: none;
@@ -415,8 +420,8 @@ select {
     /*border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     align-items: center; */
-    
-    justify-content: space-between; 
+
+    justify-content: space-between;
     display: flex;
     padding: 15px;
 }
@@ -442,7 +447,7 @@ select {
     font-size:20px;
     background: rgba(0,0,0,0.1);
     margin-bottom:100px;
-    
+
 }
 
 .chat-sidebar ul li {
@@ -460,10 +465,17 @@ select {
     text-shadow: 5px 5px 10px blue;
 }
 
-li{
-    margin-bottom: 15px;
-    font-family: Arial;
-    font-size: 15pt;
+.add-button-field {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.6);
+    margin: 10px;
+    padding: 10px;
+    color: var(--njit-white);
+}
+
+.add-button-field:hover {
+    background-color: black;
+    cursor: pointer;
 }
 
 .submitButton{
