@@ -563,7 +563,6 @@ def on_show_interests_changed(data):
     )
     db.session.commit()
 
-    print("show interests ==================", show_interests)
     socketio.emit('on show interests changed', {
         "email": email,
         "showInterests": show_interests,
@@ -584,7 +583,6 @@ def emit_user_interests(channel, email):
 
 @socketio.on("send interests")
 def on_send_interests(data):
-    print(data)
     email = data['email']
     emit_user_interests("get interests", email)
 
