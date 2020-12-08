@@ -10,7 +10,7 @@ import {User} from './User';
 import {FriendRequestInboxButton} from './FriendRequest/FriendRequestInboxButton';
 import EventFormInitButton from './EventFormInitButton';
 import GoogleMapsContainer from './GoogleMapsContainer';
-import {AttendRequestInboxButton} from './AttendEvents/AttendRequestInboxButton';
+import AttendRequestInboxButton from './AttendEvents/AttendRequestInboxButton';
 import GoogleMapsButtonContainer from './GoogleMapsButtonContainer';
 
 export function Content() {
