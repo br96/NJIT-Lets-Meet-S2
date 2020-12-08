@@ -17,9 +17,9 @@ export function Room() {
         <div className="chat-container">
             <div className="chat-header"> 
             <h1 className="Roompage">Welcome to the Chat Page</h1>
-            <Notification />
             </div>
             <div className="content-room">
+            <Notification />
             <a href="/home">
             <button type="button" className="leave">Leave Room</button>
             </a>
