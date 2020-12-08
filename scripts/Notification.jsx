@@ -6,12 +6,15 @@ toast.configure();
 export default function Notification() {
         
         const invite = () => {
-            toast.success('Check your message inbox', {position: toast.POSITION.RIGHT})
-        }
+            
+            toast.success('Special Chat Room, Any questions about the homeworks and the others', {position: toast.POSITION.RIGHT});
+            toast.error('please refrain from using inappropriate comments', {position: toast.POSITION.CENTER});
+            toast.info("Welcome to the ChatRoom", {position: toast.POSITION.Left});
+        };
     
         return (
-            <div className="Notification">
-                <button onClick={invite}>Send Message!</button>
+            <div className="Notify">
+                <button onClick={invite} className="Notification">Leave Any Message bottom input!</button>
             </div>
         );
 }
