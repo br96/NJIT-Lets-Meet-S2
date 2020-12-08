@@ -516,7 +516,7 @@ select {
 }
 
 .landing-container {
-    background-color: var(--njit-black);
+    background: var(--njit-black);
     width: 100vw;
     display: grid;
     align-items: center;
@@ -529,14 +529,21 @@ select {
     width: 960px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    box-shadow: 0 0 10px black;
 }
 
+.color-crimson {
+    color: crimson;
+    font-style: italic;
+}
 .app-description {
     text-align: left;
     padding: 40px;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    line-height: 2rem;
     border-right: 1px solid var(--njit-white);
     color: var(--njit-white);
+    text-align: center;
 }
 
 .team {
@@ -546,6 +553,26 @@ select {
     justify-content: center;
     text-align: center;
     color: var(--njit-white);
+}
+
+.stack-used, .find-us {
+    color: var(--njit-white);
+    grid-column: span 2;
+    padding: 40px;
+    font-size: 1.1rem;
+    text-align: center;
+    line-height: 2rem;
+}
+
+.link-to-page {
+    text-decoration: none;
+    font-style: italic;
+    color: crimson;
+}
+
+.link-to-page:hover {
+    cursor: pointer;
+    border-bottom: 1px solid var(--njit-white);
 }
 
 .temp-container {
