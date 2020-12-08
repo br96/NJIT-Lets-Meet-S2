@@ -11,7 +11,6 @@ EVENTS_RECEIVED_CHANNEL = "emit all events"
 USERS_RECEIVED_CHANNEL = "emit all users"
 FRIENDS_RECEIVED_CHANNEL = "emit all friends"
 FRIEND_REQUESTS_RECEIVED_CHANNEL = "receive friend requests"
-MESSAGES_RECEIVED_CHANNEL = "emit all users"
 
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
@@ -118,7 +117,10 @@ def emit_all_messages():
     all_message_row = models.db.session.query(models.Chat_Message).all()
     all_messages = []
     for message_row in all_message_row:
-        all_messages.append(message_row.message)
+        if message_row.message:
+            all_messages.append(message_row.message)
+        else:
+            continue
     #messages = lst.append(all_chat_messages)
     #print(messages)
     socketio.emit("messages received", {
@@ -136,9 +138,9 @@ def room_messages(data):
     #    "all_messages": all_chat_messages
     #})
     
-    all_chat_messages = [
-        db_message.message for db_message in db.session.query(models.Chat_Message).all()
-        ]
+    #all_chat_messages = [
+    #    db_message.message for db_message in db.session.query(models.Chat_Message).all()
+    #    ]
     #db.session.add(db.seesion.query(models.Chat_Message.message).filter(models.Chat_Message.message == data).first()[0]
     #print(flask.request.sid)
     #username = models.db.session.query(models.CurrentUsers).filter_by(client_socket_id = flask.request.sid).first()
@@ -217,7 +219,8 @@ def connect_user_id(data):
 @socketio.on('google login')
 def on_google_login(data):
     token = data['token']
-    CLIENT_ID = "163716708396-talgj01aee74s8l35iv4opmpac915v0g.apps.googleusercontent.com"
+    #CLIENT_ID = "163716708396-talgj01aee74s8l35iv4opmpac915v0g.apps.googleusercontent.com"
+    CLIENT_ID="1095618364070-gn12nanh49q9maoagge55j1ijuh369uu.apps.googleusercontent.com"
     idinfo = None
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
