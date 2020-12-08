@@ -35,7 +35,7 @@ export function UpdateInterestsUI({email})
         return(
         <li key={id}>
             <input type="text" id={"interest-"+id} defaultValue={text} />
-            <button onClick={removeTextField} id={id}>Remove</button>
+            <button className='add-button-field' onClick={removeTextField} id={id}>Remove</button>
         </li>);
     }
 
@@ -86,7 +86,7 @@ export function UpdateInterestsUI({email})
     function addField()
     {
         let list = [
-            ...interests, 
+            ...interests,
             createTextField("")
         ];
         setInterests(() => list);
@@ -94,7 +94,7 @@ export function UpdateInterestsUI({email})
 
     function onShowInterestsClick()
     {
-        if(email === undefined || email === null) return;   
+        if(email === undefined || email === null) return;
         let checkbox = document.getElementById("show-interests-check");
         Socket.emit("show interests changed", {
             email: email,
@@ -107,14 +107,14 @@ export function UpdateInterestsUI({email})
         <ul>
             {interests}
         </ul>
-        <button onClick={addField}>Add</button>
-        <button onClick={submitChanges}>Submit</button>
+        <button className='add-button-field' onClick={addField}>Add</button>
+        <button className='add-button-field' onClick={submitChanges}>Submit</button>
         <div>
-            <span>
-                Show Interests 
-                <input 
-                    type="checkbox" 
-                    name="show-interests-check" 
+            <span className='showing-interest'>
+                Show Interests
+                <input
+                    type="checkbox"
+                    name="show-interests-check"
                     id="show-interests-check"
                     defaultChecked={false}
                     onClick={onShowInterestsClick}/>

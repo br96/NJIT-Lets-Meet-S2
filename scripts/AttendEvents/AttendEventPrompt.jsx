@@ -5,7 +5,7 @@ import {User} from '../User';
 export function AttendEventPrompt({email, id})
 {
     if(email === User.current.email) return <div />;
-    
+
     function sendAttendEvent(event){
         event.preventDefault;
 
@@ -15,8 +15,8 @@ export function AttendEventPrompt({email, id})
             id: id
         });
     }
-    
+
     return (
-        <button className="attend-event-button" onClick={sendAttendEvent}>Attend Event</button>
+        <button className="attend-event-button add-button-field" onClick={sendAttendEvent}>Attend Event</button>
     );
 }

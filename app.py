@@ -22,9 +22,9 @@ load_dotenv(dotenv_path)
 sql_user = os.environ['SQL_USER']
 sql_pwd = os.environ['SQL_PASSWORD']
 
-database_uri = "postgresql://{}:{}@localhost/postgres".format(sql_user,sql_pwd) # use this for local testing
+# database_uri = "postgresql://{}:{}@localhost/postgres".format(sql_user,sql_pwd) # use this for local testing
 
-# database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
+database_uri = os.getenv("DATABASE_URL") # use this for heroku launch
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
 db = flask_sqlalchemy.SQLAlchemy(app)
@@ -104,7 +104,7 @@ def emit_user_friend_requests(channel, email):
     socketio.emit(channel, {
         'requests': friend_requests
     }, room=flask.request.sid)
-        
+
 def emit_all_messages():
     #all_chat_id = [db_message.id for db_message in db.session.query(models.Chat_Message).all()]
     all_chat_user = [
@@ -127,7 +127,7 @@ def emit_all_messages():
         "allMessages": all_messages
     })
 
-@socketio.on("new message input") 
+@socketio.on("new message input")
 def room_messages(data):
     print("input the data:", data)
     #print(data['messsage'])
@@ -137,7 +137,7 @@ def room_messages(data):
     #socketio.emit(data, {
     #    "all_messages": all_chat_messages
     #})
-    
+
     #all_chat_messages = [
     #    db_message.message for db_message in db.session.query(models.Chat_Message).all()
     #    ]
@@ -146,7 +146,7 @@ def room_messages(data):
     #username = models.db.session.query(models.CurrentUsers).filter_by(client_socket_id = flask.request.sid).first()
     #print("+", username)
     db.session.add(models.Chat_Message(data['message']))
-    
+
     #message = db.session.query(models.Chat_Message.message).filter(models.Chat_Message.message == data).first()[0]
     db.session.commit()
     #db.session.add(
