@@ -73,8 +73,6 @@ def emit_all_current_users(channel):
         "all_current_user_emails": all_current_user_emails,
     })
 
-    print(channel)
-
 def emit_user_friends(channel, email):
     user_friends = [db_friend.user2 for db_friend in db.session .query(models.Friends.user2)\
                                                                 .filter(models.Friends.user1 == email)\
@@ -93,7 +91,6 @@ def emit_user_friends(channel, email):
             "email": user.email,
         })
 
-    print(friends_list)
     socketio.emit(channel, {
         "friends": friends_list
     }, room=flask.request.sid)
@@ -106,11 +103,9 @@ def emit_user_friend_requests(channel, email):
     }, room=flask.request.sid)
 
 def emit_all_messages():
-    #all_chat_id = [db_message.id for db_message in db.session.query(models.Chat_Message).all()]
     all_chat_user = [
         db_message.username for db_message in db.session.query(models.Chat_Message).all()
         ]
-    #all_chat_email = [db_message.email for db_message in db.session.query(models.Chat_Message).all()]
     all_chat_messages = [
         db_message.message for db_message in db.session.query(models.Chat_Message).all()
         ]
@@ -121,47 +116,16 @@ def emit_all_messages():
             all_messages.append(message_row.message)
         else:
             continue
-    #messages = lst.append(all_chat_messages)
-    #print(messages)
     socketio.emit("messages received", {
         "allMessages": all_messages
     })
 
 @socketio.on("new message input")
 def room_messages(data):
-    print("input the data:", data)
-    #print(data['messsage'])
-    #print("New login from user:", data["username"])
-    #db_messages = db.session.query(models.Chat_Message).all()
-    #all_current_user_names = [user.name for user in db_messages]
-    #socketio.emit(data, {
-    #    "all_messages": all_chat_messages
-    #})
-
-    #all_chat_messages = [
-    #    db_message.message for db_message in db.session.query(models.Chat_Message).all()
-    #    ]
-    #db.session.add(db.seesion.query(models.Chat_Message.message).filter(models.Chat_Message.message == data).first()[0]
-    #print(flask.request.sid)
-    #username = models.db.session.query(models.CurrentUsers).filter_by(client_socket_id = flask.request.sid).first()
-    #print("+", username)
     db.session.add(models.Chat_Message(data['message']))
 
-    #message = db.session.query(models.Chat_Message.message).filter(models.Chat_Message.message == data).first()[0]
     db.session.commit()
-    #db.session.add(
-    #            "Username" + ": " + "message",
-    #            db.session.query(models.CurrentUsers.id).filter(models.Chat_Message.username).first().id,
-    #    )
     emit_all_messages()
-
-#lst = {}
-#all_users = []
-
-#def emit_all_users(channel):
-#    for users in lst:
-#        all_users.append(lst[users])
-#    socketio.emit(channel, {"all_users": all_users})
 
 @app.route('/')
 def index():
@@ -180,23 +144,17 @@ def room():
 def about():
     return flask.render_template('index.html')
 
-#def get_room(client_sid):
-#    models.db.session.add(models.CurrentUsers).filter_by(sid=client_sid).first().user
-#    models.db.session.commit()
-
 @app.route('/map')
 def GoogleMap():
     return flask.render_template('index.html')
 
 @socketio.on('connect')
 def on_connect():
-    print("SID: " +str(flask.request.sid))
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
 
 @socketio.on("disconnect")
 def delete_user():
-    print("DISCONNECTED: " + str(flask.request.sid))
     db.session.query(models.CurrentUsers).filter(models.CurrentUsers.client_socket_id == flask.request.sid).update({"connection_status": "offline"})
     db.session.commit()
     emit_all_current_users(USERS_RECEIVED_CHANNEL)
@@ -228,7 +186,6 @@ def on_google_login(data):
     try:
         idinfo = id_token.verify_oauth2_token(token, google_resquests.Request(), CLIENT_ID)
     except Exception as e:
-        print(e)
         return
 
     if idinfo['aud'] != CLIENT_ID:
@@ -268,7 +225,6 @@ def on_google_login(data):
 @socketio.on("sending new event")
 def create_event(data):
     attendees = list()
-    print(data)
     attendees.append(db.session.query(models.User.email).filter(models.User.name == data["owner"]).first()[0])
 
     db.session.add(models.EventClass(data["owner"], data["title"], data["type"], data["location"], data["time"], \
@@ -322,8 +278,6 @@ def update_new_bio(data):
 
 @socketio.on("filter events")
 def search_events(data):
-    print("Searching for " + data["query"])
-    print("filters " + str(data["filters"]))
     filters = list()
     for f in data["filters"]:
         filters.append(f['value'])
@@ -352,7 +306,6 @@ def search_events(data):
         friends_list += [db.session.query(models.User).filter(models.User.email == db_friendship.user1).first().name for db_friendship in db.session.query(models.Friends)\
                                                                 .filter(models.Friends.user2 == requested_user.email).all()]
 
-    print(friends_list)
     for event_id in queried_event_ids:
         event = db.session.query(models.EventClass).get(event_id)
         if data["owner"] == "My Events" and requested_user.name != event.event_owner:
@@ -382,8 +335,6 @@ def search_events(data):
         "all_event_times": filtered_event_times,
         "all_event_descriptions": filtered_event_descriptions
     }, room=flask.request.sid)
-
-    print("sending filtered events to " + str(flask.request.sid))
 
 def friend_request_exists(user1: str, user2: str) -> bool:
     friend_requests = []
@@ -417,10 +368,8 @@ def attend_request_exists(owner: str, attendee: str, event_id: int):
 
 @socketio.on('send friend request')
 def on_send_friend_request(data):
-    print(data)
     to_user = data['user1']
     from_user = data['user2']
-    print('on send friend request')
 
     if not friend_request_exists(to_user, from_user):
         db.session.add( models.Message(
@@ -433,7 +382,6 @@ def on_send_friend_request(data):
 @socketio.on('send received friend requests')
 def on_send_received_friend_requests(data):
     email = data['email']
-    print('send received friend requests')
     emit_user_friend_requests(FRIEND_REQUESTS_RECEIVED_CHANNEL, email)
 
 @socketio.on('reply friend request')
@@ -464,7 +412,6 @@ def on_reply_friend_request(data):
 
 @socketio.on("send follow")
 def on_send_follow(data):
-    print(data["followedEvents"])
     query_email = db.session.query(models.CurrentUsers.email).filter(models.CurrentUsers.client_socket_id == data["currentSocket"]).first()[0]
 
     followed_events = list()
@@ -485,8 +432,6 @@ def on_send_attend_event(data):
         if user.email not in curr_attendees:
             curr_attendees.append(user.email)
 
-        print(curr_attendees)
-
         db.session.query(models.EventClass).filter(models.EventClass.id == data['id']).update({"event_attendees": curr_attendees})
         db.session.commit()
     else:
@@ -495,7 +440,6 @@ def on_send_attend_event(data):
             db.session.commit()
 
         owner_sid = db.session.query(models.CurrentUsers).filter(models.CurrentUsers.email == owner.email).first().client_socket_id
-        # TODO notify owner?
 
     emit_all_events(EVENTS_RECEIVED_CHANNEL)
 

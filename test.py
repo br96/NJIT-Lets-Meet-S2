@@ -94,6 +94,18 @@ class TestApp(unittest.TestCase):
             }
         ]
 
+        self.search_events_args = [
+            {
+                "input": {
+                    "query": "",
+                    "filters": [],
+                    "owner": ""
+                }
+            }
+        ]
+
+        self.search_events_reps = 0
+
     def db_commit_mock(self):
         pass
 
@@ -136,6 +148,30 @@ class TestApp(unittest.TestCase):
             with patch('sqlalchemy.orm.session.Session.query', self.db_query_mock):
                 with patch('app.flask.request', MockedFlaskRequest):
                     app.get_info(test["input"])
+                    app.get_current_info(test["input"])
+
+    # def mocked_search_events_db_filter(self, *args):
+    #     self.search_events_reps += 1
+    #     if self.search_events_reps == 1:
+    #         return [models.EventClass(
+    #             event_owner="event_owner",
+    #             event_title = "event_title",
+    #             event_type = "event_type",
+    #             event_location = "event_location",
+    #             event_time = "event_time",
+    #             event_description = "event_description",
+    #             event_visibility = "event_visibility",
+    #             event_attendees = "event_attendees",
+    #             event_join_type = "event_join_type"
+    #         )]
+    #     return MockedQuery(models.CurrentUsers)
+
+    # def test_search_events(self):
+    #     for test in self.search_events_args:
+    #         with patch('sqlalchemy.orm.Query.filter', self.mocked_search_events_db_filter):
+    #             with patch('app.flask.request', MockedFlaskRequest):
+    #                 app.search_events(test["input"])
+
 
 if __name__ == "__main__":
     unittest.main()
