@@ -178,6 +178,22 @@ class TestApp(unittest.TestCase):
                     with patch('sqlalchemy.orm.Query.all', self.mocked_emit_messages_all):
                         app.room_messages(test["input"])
 
+    def just_pass(self, *arg):
+        pass
+
+    def test_cover_routes(self):
+        with patch('sqlalchemy.orm.Query.all', self.mocked_emit_messages_all):
+            with patch('flask.render_template', self.just_pass):
+                app.index()
+                app.home()
+                app.about()
+                app.GoogleMap()
+                app.room()
+
+    def test_on_connect(self):
+        with patch('sqlalchemy.orm.session.Session.commit', self.db_commit_mock):
+            with patch('sqlalchemy.orm.session.Session.query', self.db_query_mock):
+                app.on_connect()
 
     # def mocked_search_events_db_filter(self, *args):
     #     self.search_events_reps += 1
