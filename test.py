@@ -106,6 +106,14 @@ class TestApp(unittest.TestCase):
 
         self.search_events_reps = 0
 
+        self.room_messages_args = [
+            {
+                "input": {
+                    "message": ""
+                }
+            }
+        ]
+
     def db_commit_mock(self):
         pass
 
@@ -149,6 +157,27 @@ class TestApp(unittest.TestCase):
                 with patch('app.flask.request', MockedFlaskRequest):
                     app.get_info(test["input"])
                     app.get_current_info(test["input"])
+
+    def mocked_emit_messages_all(self):
+        return [
+            models.Chat_Message(None),
+            models.Chat_Message("hola")
+        ]
+
+    def test_emit_all_messages(self):
+        with patch('sqlalchemy.orm.Query.all', self.mocked_emit_messages_all):
+            self.assertTrue(app.emit_all_messages(), True)
+
+    def db_add_mocked(self, arg):
+        pass
+
+    def test_room_messages(self):
+        for test in self.room_messages_args:
+            with patch('sqlalchemy.orm.session.Session.add', self.db_add_mocked):
+                with patch('sqlalchemy.orm.session.Session.commit', self.db_commit_mock):
+                    with patch('sqlalchemy.orm.Query.all', self.mocked_emit_messages_all):
+                        app.room_messages(test["input"])
+
 
     # def mocked_search_events_db_filter(self, *args):
     #     self.search_events_reps += 1

@@ -119,6 +119,7 @@ def emit_all_messages():
     socketio.emit("messages received", {
         "allMessages": all_messages
     })
+    return True
 
 @socketio.on("new message input")
 def room_messages(data):
