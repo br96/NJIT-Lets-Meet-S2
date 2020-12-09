@@ -11,6 +11,10 @@ with patch('flask_sqlalchemy.SQLAlchemy.create_all', mocked_db_create_all):
     import models
 
 class MockedQuery:
+
+    def __init__(self, data_type):
+        self.data_type = data_type
+
     def all(self):
         return []
 
@@ -21,7 +25,9 @@ class MockedQuery:
         return self
 
     def first(self):
-        return [self]
+        val = (type(self.data_type.type)().python_type)
+        print("type:", val())
+        return [val()]
 
 class MockedFlaskRequest:
     sid = 0
@@ -82,11 +88,17 @@ class TestApp(unittest.TestCase):
             }
         ]
 
+        self.get_info_args = [
+            {
+                "input": "my name"
+            }
+        ]
+
     def db_commit_mock(self):
         pass
 
     def db_query_mock(self, something):
-        return MockedQuery()
+        return MockedQuery(something)
 
     def test_example(self):
         for test in self.create_event_mock_args:
@@ -110,8 +122,6 @@ class TestApp(unittest.TestCase):
             interests=""
         )
 
-
-
     def test_google_login(self):
         for test in self.google_login_mock_args:
             with patch('sqlalchemy.orm.session.Session.commit', self.db_commit_mock):
@@ -121,46 +131,11 @@ class TestApp(unittest.TestCase):
                             with patch('flask.request', MockedFlaskRequest):
                                 app.on_google_login(test["input"])
 
-class TestSocketIO(unittest.TestCase):
-    def setUp(self):
-        self.connect_user_mock = [
-            {
-                "data": {
-                    "socketID": "socketid",
-                    "name": "name"
-                }
-            }
-        ]
-
-    # def test_connect(self):
-    #     client1 = socketio.test_client(app.app)
-    #     client2 = socketio.test_client(app.app)
-    #     self.assertTrue(client1.is_connected())
-    #     self.assertTrue(client2.is_connected())
-    #     self.assertNotEqual(client1.sid, client2.sid)
-
-    # def test_disconnect(self):
-    #     client = socketio.test_client(app.app)
-    #     client.disconnect()
-
-    # def test_emit(self):
-    #     socketio_test_client = socketio.test_client(app.app)
-    #     for test in self.connect_user_mock:
-    #         app.connect_user_id(test["data"])
-    #         self.assertTrue(socketio_test_client.is_connected())
-
-
-class LocationResponse:
-    def __init__(self, location):
-        self.location = location
-
-class TimeResponse:
-    def __init__(self, time):
-        self.time = time
-
-class DescriptionResponse:
-    def __init__(self, description):
-        self.description = description
+    def test_get_info(self):
+        for test in self.get_info_args:
+            with patch('sqlalchemy.orm.session.Session.query', self.db_query_mock):
+                with patch('app.flask.request', MockedFlaskRequest):
+                    app.get_info(test["input"])
 
 if __name__ == "__main__":
     unittest.main()
