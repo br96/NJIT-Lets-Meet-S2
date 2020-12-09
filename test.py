@@ -29,6 +29,9 @@ class MockedQuery:
         print("type:", val())
         return [val()]
 
+    def update(self, *args):
+        return self
+
 class MockedFlaskRequest:
     sid = 0
     def __init__(self):
@@ -194,6 +197,12 @@ class TestApp(unittest.TestCase):
         with patch('sqlalchemy.orm.session.Session.commit', self.db_commit_mock):
             with patch('sqlalchemy.orm.session.Session.query', self.db_query_mock):
                 app.on_connect()
+
+    def test_disconnect(self):
+        with patch('sqlalchemy.orm.session.Session.query', self.db_query_mock):
+            with patch('sqlalchemy.orm.session.Session.commit', self.db_commit_mock):
+                with patch('flask.request', MockedFlaskRequest):
+                    app.delete_user()
 
     # def mocked_search_events_db_filter(self, *args):
     #     self.search_events_reps += 1
