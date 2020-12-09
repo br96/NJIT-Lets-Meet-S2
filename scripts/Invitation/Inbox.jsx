@@ -14,15 +14,14 @@ function Chatbox() {
             };
         });
     }
-    
+
     function updateMessages(data) {
-        //console.log("Received messages from server: " + data['allMessages']);
         console.log("Received messages from server: "+data['message']);
         setMessages(data['allMessages']);
         let chatBox = document.getElementById("box");
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-  
+
     function getNewuser() {
         React.useEffect(() => {
             Socket.on('users received', updateUsers);
@@ -36,15 +35,15 @@ function Chatbox() {
         console.log('Received new user: ' + data['all_users']);
         setUsers(data['all_users']);
     }
-    
+
     getNewMessage();
     getNewuser();
-    
+
     return (
         <div className="container" id="chatbox">
             <div className="chat_messages">
             <form>
-            
+
                     <ul id="box" className="box">
                         {
                             messages.map((message, index) =>
@@ -61,9 +60,3 @@ function Chatbox() {
 }
 
 export default Chatbox;
-// <ul className="userList">
-//                         {
-//                             users.map((user, index) =>
-//                             <li key={index}>User Name: {user}</li>)
-//                         }
-//                     </ul>
