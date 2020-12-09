@@ -1,17 +1,17 @@
 # http://njitletsmeet2.herokuapp.com
 
 # Known Issues
-1. Creating an event will sometimes create it under another user's name
-  a. Steps to reproduce:
-    i. User 1 creates an event
-    ii. User 2 attends the event
-    iii. User 2 tries to create a new event
-    iv. New event owner will be User 1
-2. New user login will resets filter for another to all users
-  a. Steps to reproduce:
-    i. User 1 filters all the events via filter bar
-    ii. User 2 logs in to the page
-    iii. Filters reset for User 1
+* Creating an event will sometimes create it under another user's name
+  * Steps to reproduce:
+    * User 1 creates an event
+    * User 2 attends the event
+    * User 2 tries to create a new event
+    * New event owner will be User 1
+* New user login will resets filter for another to all users
+  * Steps to reproduce:
+    * User 1 filters all the events via filter bar
+    * User 2 logs in to the page
+    * Filters reset for User 1
 
 # Dependencies
 ## pip Packages
