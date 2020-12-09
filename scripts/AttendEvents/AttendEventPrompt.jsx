@@ -1,22 +1,28 @@
 import React from 'react';
-import {Socket} from '../Socket';
+import PropTypes from 'prop-types';
+import { Socket } from '../Socket';
 
-import {User} from '../User';
-export function AttendEventPrompt({email, id})
-{
-    if(email === User.current.email) return <div />;
+import { User } from '../User';
 
-    function sendAttendEvent(event){
-        event.preventDefault;
+export default function AttendEventPrompt({ email, id }) {
+  if (email === User.current.email) return <div />;
 
-        Socket.emit('send attend event', {
-            owner: email,
-            user: User.current.email,
-            id: id
-        });
-    }
+  function sendAttendEvent(event) {
+    event.preventDefault();
 
-    return (
-        <button className="attend-event-button add-button-field" onClick={sendAttendEvent}>Attend Event</button>
-    );
+    Socket.emit('send attend event', {
+      owner: email,
+      user: User.current.email,
+      id,
+    });
+  }
+
+  return (
+    <button className="attend-event-button add-button-field" onClick={sendAttendEvent} type="submit">Attend Event</button>
+  );
 }
+
+AttendEventPrompt.propTypes = {
+  email: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+};

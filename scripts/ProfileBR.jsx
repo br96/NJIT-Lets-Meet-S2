@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AttendEventPrompt} from "./AttendEvents/AttendEventPrompt";
+import AttendEventPrompt from "./AttendEvents/AttendEventPrompt";
 
 export default function ProfileBR({name, email, picture, interests, bio, id}) {
     return (
